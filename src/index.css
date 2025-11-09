@@ -1,0 +1,17 @@
+@theme {
+  --color-brand-primary: #3f236d;
+  --color-brand-secondary: #e9ddf7;
+  --color-brand-accent: #50ba7f;
+}
+
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-brand-secondary);
+}
