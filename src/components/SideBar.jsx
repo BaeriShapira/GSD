@@ -34,7 +34,7 @@ const nav = [
         subItems: [
             { to: "/app/purchase_Orders/all", label: "All Orders" },
             { to: "/app/purchase_Orders/pending", label: "Pending" },
-            { to: "/app/purchase_Orders/vendors", label: "Vendors" },
+            { to: "/app/purchase_Orders/suppliers", label: "Suppliers" },
         ]
     },
     {

@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import ChatWidget from "../components/chat/ChatWidget";
 
 export default function AppLayout() {
     return (
@@ -15,6 +16,11 @@ export default function AppLayout() {
                     </div>
                 </div>
             </main>
+
+            <div className="min-h-screen w-full bg-brand-secondary flex flex-col">
+                <ChatWidget />
+            </div>
+
         </div>
     );
 }

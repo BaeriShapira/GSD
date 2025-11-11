@@ -9,7 +9,7 @@ import AppLayout from "../layouts/AppLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
-import Vendors from "../pages/Vendors";
+import SuppliersPage from "../pages/SuppliersPage";
 
 export const router = createBrowserRouter([
     // 🔓 אזור ציבורי – אם מחובר => יעוף ל-/app
@@ -36,10 +36,7 @@ export const router = createBrowserRouter([
                 element: <AppLayout />,
                 children: [
                     { index: true, element: <Dashboard /> },
-                    { path: "purchase_Orders/vendors", element: <Vendors /> },
-                    // { path: "tasks", element: <Tasks /> },
-                    // { path: "agents", element: <Agents /> },
-                    // { path: "settings", element: <Settings /> },
+                    { path: "purchase_Orders/suppliers", element: <SuppliersPage /> },
                 ],
             },
         ],
