@@ -1,4 +1,4 @@
-import { fetchPublic } from "./apiClient";
+import { fetchPublic, fetchWithAuth } from "./apiClient";
 
 export async function apiLogin(email, password) {
     const res = await fetchPublic("/auth/login", {
@@ -26,4 +26,14 @@ export async function apiRegister(email, password) {
     }
 
     return res.json(); // { user, token }
+}
+
+export async function apiGetMe() {
+    const res = await fetchWithAuth("/auth/me");
+
+    if (!res.ok) {
+        throw new Error("Failed to get user info");
+    }
+
+    return res.json(); // user object
 }

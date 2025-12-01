@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { apiLogin } from "../api/authApi";
+import { apiLogin, apiGetMe } from "../api/authApi";
 import { setLogoutCallback } from "../api/apiClient";
 
 const AuthContext = createContext(null);
@@ -42,6 +42,29 @@ export function AuthProvider({ children }) {
         // Use window.location instead of navigate since AuthProvider is outside Router
         window.location.href = "/login";
     }
+
+    // Refresh user data from server on mount if token exists
+    useEffect(() => {
+        async function refreshUserData() {
+            const storedToken = localStorage.getItem("token");
+
+            if (!storedToken) {
+                return;
+            }
+
+            try {
+                const freshUser = await apiGetMe();
+                setUser(freshUser);
+                localStorage.setItem("user", JSON.stringify(freshUser));
+            } catch (error) {
+                console.error("Failed to refresh user data:", error);
+                // If token is invalid, logout
+                logout();
+            }
+        }
+
+        refreshUserData();
+    }, []);
 
     // Register logout callback with API client for auto-logout on 401
     useEffect(() => {
