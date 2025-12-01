@@ -2,11 +2,24 @@ import { registerUser, loginUser, verifyEmail, resendVerificationEmail } from ".
 import jwt from "jsonwebtoken";
 import { ENV } from "../config/env.js";
 
+// Helper function to normalize user object for client
+function normalizeUser(user) {
+    const { passwordHash, ...userData } = user;
+    return {
+        ...userData,
+        name: user.displayName || user.email?.split('@')[0], // Fallback to email username
+        avatar: user.avatarUrl,
+    };
+}
+
 export async function register(req, res, next) {
     try {
         const { email, password } = req.body;
         const result = await registerUser(email, password);
-        res.status(201).json(result);
+        res.status(201).json({
+            user: normalizeUser(result.user),
+            token: result.token,
+        });
     } catch (err) {
         next(err);
     }
@@ -16,7 +29,10 @@ export async function login(req, res, next) {
     try {
         const { email, password } = req.body;
         const result = await loginUser(email, password);
-        res.json(result);
+        res.json({
+            user: normalizeUser(result.user),
+            token: result.token,
+        });
     } catch (err) {
         next(err);
     }
@@ -50,9 +66,8 @@ export async function me(req, res, next) {
         // req.user is set by authMiddleware
         const user = req.user;
 
-        // Return user without sensitive data
-        const { passwordHash, ...userData } = user;
-        res.json(userData);
+        // Return normalized user without sensitive data
+        res.json(normalizeUser(user));
     } catch (err) {
         next(err);
     }
@@ -63,7 +78,10 @@ export async function verifyEmailHandler(req, res, next) {
     try {
         const { token } = req.params;
         const result = await verifyEmail(token);
-        res.json(result);
+        res.json({
+            user: normalizeUser(result.user),
+            token: result.token,
+        });
     } catch (err) {
         next(err);
     }

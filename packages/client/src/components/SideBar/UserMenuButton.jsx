@@ -7,7 +7,14 @@ export default function UserMenuButton() {
     const menuRef = useRef(null);
     const { user, logout } = useAuth();
 
-    const { name, email, avatar } = user;
+    // Handle null user or missing properties safely
+    if (!user) {
+        return null;
+    }
+
+    const name = user.displayName || user.name;
+    const email = user.email;
+    const avatar = user.avatarUrl || user.avatar;
     // Close menu when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
@@ -40,16 +47,20 @@ export default function UserMenuButton() {
                     onClick={() => setShowMenu(!showMenu)}
                     className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-brand-secondary cursor-pointer"
                 >
-                    {/* <img
-                        src={avatar}
-                        alt="avatar"
-                        className="h-8 w-8 rounded-full object-cover"
-                    /> */}
+                    {avatar && (
+                        <img
+                            src={avatar}
+                            alt="avatar"
+                            className="h-8 w-8 rounded-full object-cover"
+                        />
+                    )}
 
                     <div className="min-w-0 flex-1">
-                        {/* <div className="truncate text-sm font-medium text-black/90">
-                            {name}
-                        </div> */}
+                        {name && (
+                            <div className="truncate text-sm font-medium text-black/90">
+                                {name}
+                            </div>
+                        )}
                         <div className="truncate text-xs text-black/60">
                             {email}
                         </div>
