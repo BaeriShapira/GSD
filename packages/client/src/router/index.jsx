@@ -16,8 +16,15 @@ import WaitingFor from "../pages/WaitingFor";
 import Projects from "../pages/Projects";
 import NextActions from "../pages/NextActions";
 import Dashboard from "../pages/Dashboard";
+import RootRedirect from "../pages/RootRedirect";
 
 export const router = createBrowserRouter([
+    // נתיב ראשי - redirect לפי סטטוס התחברות
+    {
+        path: "/",
+        element: <RootRedirect />,
+    },
+
     // מסך הלוגין – פתוח בלי הגנה
     {
         path: "/login",
