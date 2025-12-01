@@ -1,14 +1,28 @@
 import { useAreas } from "../../hooks/useAreas";
 import { colorClasses400 } from "../../config/areaColors";
+import { Plus, ExternalLink } from "lucide-react";
 
 export default function AreaOfLifeSelector({ value, onChange, label = "Area of Life (optional)" }) {
     const { areas, isLoading } = useAreas();
 
     return (
         <div>
-            <label className="block text-sm font-medium text-black/80 mb-2">
-                {label}
-            </label>
+            <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-black/80">
+                    {label}
+                </label>
+                <a
+                    href="/app/settings"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-brand-primary hover:underline flex items-center gap-1"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <Plus size={12} />
+                    Add New Area
+                    <ExternalLink size={10} />
+                </a>
+            </div>
             {isLoading ? (
                 <div className="text-sm text-black/50">Loading areas...</div>
             ) : (

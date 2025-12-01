@@ -61,9 +61,11 @@ export default function UserMenuButton() {
                                 {name}
                             </div>
                         )}
-                        <div className="truncate text-xs text-black/60">
-                            {email}
-                        </div>
+                        {email && (
+                            <div className="truncate text-xs text-black/60">
+                                {email}
+                            </div>
+                        )}
                     </div>
 
                     <ChevronDown className={`h-4 w-4 text-black/50 transition-transform ${showMenu ? "rotate-180" : ""}`} />
