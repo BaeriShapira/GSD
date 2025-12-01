@@ -1,0 +1,211 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String?  // Nullable for OAuth users
+
+  // OAuth fields
+  googleId     String?  @unique  // Google OAuth user ID
+  authProvider String   @default("local")  // "local" or "google"
+  displayName  String?  // Full name from OAuth provider
+  avatarUrl    String?  // Profile picture URL
+
+  // Email verification
+  emailVerified Boolean  @default(false)  // Whether email is verified
+
+  createdAt    DateTime @default(now())
+  tasks        Task[]
+  referenceFolders ReferenceFolder[]
+  areasOfLife  AreaOfLife[]
+  contexts     Context[]
+  projects     Project[]
+  projectNotes ProjectNote[]
+  dailyOutcomes DailyOutcome[]
+  timeBlocks   TimeBlock[]
+  notebooks    Notebook[]
+  verificationTokens VerificationToken[]
+}
+
+enum TaskStatus {
+  BUCKET
+  NEXT_ACTION
+  PROJECT
+  WAITING_FOR
+  SOMEDAY
+  REFERENCE
+  TRASH
+  COMPLETED
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  text      String
+  status    TaskStatus  @default(BUCKET)
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  folder    ReferenceFolder? @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId  Int?
+  areaOfLife AreaOfLife? @relation(fields: [areaOfLifeId], references: [id])
+  areaOfLifeId Int?
+  labels    String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  attachments TaskAttachment[]
+
+  // Waiting For fields
+  waitingFor     String?          // Who/what you're waiting for
+  expectedDate   DateTime?        // When you expect a response
+  lastNudgedAt   DateTime?        // Last time a reminder was sent
+
+  // Next Action fields
+  project        Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId      Int?              // Parent project
+  context        Context? @relation(fields: [contextId], references: [id])
+  contextId      Int?              // Context (location/tool)
+  urgency        Int?              // Urgency level (1-5)
+  estimatedTime  Int?              // Estimated time in minutes
+  dueDate        DateTime?         // Due date for scheduled actions
+
+  // Task Dependencies - "מחכה בתור"
+  blockedBy      Task?  @relation("TaskDependencies", fields: [blockedByTaskId], references: [id], onDelete: SetNull)
+  blockedByTaskId Int?   // Task that blocks this task
+  blocking       Task[] @relation("TaskDependencies") // Tasks blocked by this task
+}
+
+model ReferenceFolder {
+  id        Int      @id @default(autoincrement())
+  name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  tasks     Task[]
+  createdAt DateTime @default(now())
+}
+
+model TaskAttachment {
+  id           Int      @id @default(autoincrement())
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId       Int
+
+  originalName String   // שם הקובץ המקורי מהמחשב של המשתמש
+  storedName   String   // השם ששמרנו בדיסק (שם ייחודי)
+  mimeType     String   // image/png, application/pdf וכו'
+  size         Int      // בגודל בבתים (bytes)
+  url          String   // /uploads/tasks/xxxxxx.png
+
+  createdAt    DateTime @default(now())
+}
+
+model AreaOfLife {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  color       String   // yellow, green, blue, purple, pink, red, orange, teal, indigo, fuchsia
+  sortOrder   Int      @default(0)
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  tasks       Task[]
+  projects    Project[]
+  timeBlocks  TimeBlock[]
+  createdAt   DateTime @default(now())
+}
+
+model Context {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  type        String   // tool, location
+  icon        String   // phone, whatsapp, email, home, printer, office, shopping, settings, tools, chair, lamp
+  sortOrder   Int      @default(0)
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  tasks       Task[]
+  createdAt   DateTime @default(now())
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  outcome     String?  // Ideal outcome of the project
+  notes       String?  // Legacy project notes (will be migrated to ProjectNote)
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  areaOfLife  AreaOfLife? @relation(fields: [areaOfLifeId], references: [id])
+  areaOfLifeId Int?
+  tasks       Task[]
+  projectNotes ProjectNote[]
+  timeBlocks  TimeBlock[]
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProjectNote {
+  id          Int      @id @default(autoincrement())
+  content     String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   Int
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DailyOutcome {
+  id          Int      @id @default(autoincrement())
+  date        String   // Store as YYYY-MM-DD string for SQLite
+  outcome     String?  // Ideal outcome for the day
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, date])  // One outcome per user per day
+}
+
+model TimeBlock {
+  id          Int      @id @default(autoincrement())
+  title       String
+  startTime   String   // HH:MM format
+  endTime     String   // HH:MM format
+  date        DateTime // Date of the time block
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   Int?
+  areaOfLife  AreaOfLife? @relation(fields: [areaOfLifeId], references: [id])
+  areaOfLifeId Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Notebook {
+  id          Int      @id @default(autoincrement())
+  date        String   // Store as YYYY-MM-DD string for SQLite
+  dailyNotes  String?  // Daily notes
+  weeklyNotes String?  // Weekly notes
+  diary       String?  // Personal diary
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, date])  // One notebook per user per day
+}
+
+model VerificationToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique  // Unique verification token
+  type      String   // "email_verification" or "password_reset"
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  expiresAt DateTime // Token expiration time
+  createdAt DateTime @default(now())
+}

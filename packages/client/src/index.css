@@ -1,0 +1,118 @@
+@theme {
+  --color-brand-primary: #003311;
+  --color-brand-secondary: #e8edf3;
+  --color-brand-accent: #50ba7f;
+  --color-brand-bg: #f8fafc;
+  --color-brand-button1: #e8edf3;
+}
+
+@import "tailwindcss";
+
+/* הסגנון הגלובלי שלך ל-H1 */
+@layer base {
+  h1 {
+    @apply text-3xl font-bold text-brand-primary;
+  }
+
+  h2 {
+    @apply text-xl font-bold text-brand-primary;
+  }
+
+  h3 {
+    @apply text-lg font-bold text-brand-primary;
+  }
+
+  h4 {
+    @apply text-sm font-bold text-brand-primary;
+  }
+
+
+  p {
+    @apply text-base;
+    color: #514e52;
+  }
+
+  p1 {
+    @apply text-xs font-medium;
+    color: #514e52;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-3xl text-sm flex items-center gap-1 transition-colors cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply bg-black hover:bg-black/80 text-white;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-300 hover:bg-gray-200 text-black;
+  }
+
+  .btn-danger {
+    @apply bg-red-500 hover:bg-red-600 text-white;
+  }
+
+  .btn-outline {
+    @apply border border-black/20 hover:bg-black/5;
+  }
+
+  .btn-disabled {
+    @apply cursor-not-allowed;
+  }
+
+  .input {
+    @apply w-full border border-gray-300 rounded-3xl px-4 py-2 text-[14px] text-black/70 bg-[#f9fcff] focus:outline-none focus:ring-1 focus:ring-black/10;
+  }
+
+  .input::placeholder {
+    @apply text-black/50;
+  }
+
+  /* וריאנט אופציונלי אם תרצה */
+  .input-error {
+    @apply border-red-500 focus:ring-red-300;
+  }
+
+  .input-sm {
+    @apply text-xs py-1 px-2;
+  }
+
+  .input-lg {
+    @apply text-base py-3 px-4;
+  }
+}
+
+/* Force date and time inputs to use English locale */
+input[type="date"],
+input[type="time"] {
+  text-align: left;
+  direction: ltr;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+/* Force calendar widget to display in English */
+input[type="date"]::-webkit-datetime-edit,
+input[type="time"]::-webkit-datetime-edit {
+  direction: ltr;
+  text-align: left;
+}
+
+
+
+/* שאר השכבות */
+@tailwind utilities;
+
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-brand-secondary);
+}

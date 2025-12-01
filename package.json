@@ -1,37 +1,22 @@
 {
-  "name": "gsd",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "workspaces": [
+    "packages/client",
+    "packages/server"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "concurrently --names \"client,server\" --prefix-colors \"blue,green\" \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "npm --workspace packages/client run dev",
+    "dev:server": "npm --workspace packages/server run dev",
+    "prepare": "husky"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.16",
-    "lucide-react": "^0.552.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-phone-input-2": "^2.15.1",
-    "react-router-dom": "^7.9.5"
+    "@tanstack/react-query": "^5.90.8",
+    "concurrently": "^9.2.1",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.4",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9.36.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.22",
-    "globals": "^16.4.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.16",
-    "vite": "^7.1.7"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6"
+  }
 }

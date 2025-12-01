@@ -1,0 +1,17 @@
+
+export const STEP1 = {
+    NOT_ACTIONABLE: "NOT_ACTIONABLE",
+    ACTIONABLE: "ACTIONABLE",
+};
+
+export const STEP2_NOT_ACTIONABLE = {
+    REFERENCE: "REFERENCE",
+    SOMEDAY: "SOMEDAY",
+    TRASH: "TRASH",
+};
+
+export const STEP2_ACTIONABLE = {
+    NEXT_ACTION: "NEXT_ACTION",
+    PROJECT: "PROJECT",
+    WAITING: "WAITING",
+};
