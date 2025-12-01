@@ -18,8 +18,22 @@ const app = express();
 // Trust proxy - required for Railway/Vercel deployment
 app.set('trust proxy', 1);
 
+// CORS MUST be first - before helmet and rate limiter
+// This ensures preflight requests (OPTIONS) get proper CORS headers
+app.use(cors({
+    origin: ENV.CLIENT_URL || 'http://localhost:5173',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
+    maxAge: 600, // Cache preflight for 10 minutes
+}));
+
 // Security: Helmet adds various HTTP headers for security
-app.use(helmet());
+// Configure to allow CORS
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
 // Security: Rate limiting to prevent abuse
 const limiter = rateLimit({
@@ -28,16 +42,11 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again later.',
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    skip: (req) => req.method === 'OPTIONS', // Don't rate limit preflight requests
 });
 
 // Apply rate limiting to API routes
 app.use('/api', limiter);
-
-// CORS configuration - only allow requests from the client URL
-app.use(cors({
-    origin: ENV.CLIENT_URL || 'http://localhost:5173',
-    credentials: true,
-}));
 
 app.use(express.json());
 
