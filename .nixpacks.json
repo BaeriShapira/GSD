@@ -1,0 +1,16 @@
+{
+  "phases": {
+    "setup": {
+      "nixPkgs": ["nodejs_22"]
+    },
+    "install": {
+      "cmds": ["cd packages/server && npm install"]
+    },
+    "build": {
+      "cmds": ["cd packages/server && npm run build"]
+    }
+  },
+  "start": {
+    "cmd": "cd packages/server && npm start"
+  }
+}
