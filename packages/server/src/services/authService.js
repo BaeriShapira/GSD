@@ -19,18 +19,16 @@ export async function registerUser(email, password) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await createUser({ email, passwordHash, emailVerified: false });
+    // Create user with emailVerified: true (skip email verification for now)
+    const user = await createUser({ email, passwordHash, emailVerified: true });
 
     // Create default areas and contexts for new user
     await createDefaultAreas(user.id);
     await ensureDefaultContextsExist(user.id);
 
-    // Create verification token and send email
-    const verificationToken = await createVerificationToken(user.id, "email_verification");
-    await sendVerificationEmail(email, verificationToken.token);
-
-    // Don't return JWT token - user needs to verify email first
-    return { user, message: "Please check your email to verify your account" };
+    // Generate JWT token and return immediately (no email verification needed)
+    const token = jwt.sign({ userId: user.id }, ENV.JWT_SECRET, { expiresIn: "7d" });
+    return { user, token };
 }
 
 export async function loginUser(email, password) {
@@ -45,10 +43,7 @@ export async function loginUser(email, password) {
     const match = await bcrypt.compare(password, user.passwordHash);
     if (!match) throw new Error("Invalid credentials");
 
-    // Check if email is verified
-    if (!user.emailVerified) {
-        throw new Error("Please verify your email before logging in");
-    }
+    // Email verification check removed - allow login immediately
 
     const token = jwt.sign(
         { userId: user.id },
