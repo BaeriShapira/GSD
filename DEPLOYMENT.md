@@ -121,27 +121,48 @@ FROM_NAME=GSD App
 - Replace `<app-password-from-1.3>` with the Gmail app password
 - The `DATABASE_URL` uses Railway's variable reference syntax (`${{Postgres.DATABASE_URL}}`)
 - You'll update `CLIENT_URL` after deploying to Vercel
+- **CRITICAL**: Replace `https://your-app.up.railway.app` with your ACTUAL Railway URL (see step 2.6)
 
 ### 2.6 Deploy and Get Railway URL
 
 1. Railway will automatically deploy your server
 2. Once deployed, go to **Settings** → **Networking**
-3. Click **"Generate Domain"** to get a public URL (e.g., `your-app.up.railway.app`)
+3. Click **"Generate Domain"** to get a public URL (e.g., `gsd-production-xxxx.up.railway.app`)
 4. Copy this URL - you'll need it for:
    - Updating `GOOGLE_CALLBACK_URL` environment variable
    - Adding to Google OAuth redirect URIs
    - Configuring the client
 
-### 2.7 Update Google OAuth Redirect URI
+### 2.7 Update Google OAuth Configuration (CRITICAL FOR OAUTH TO WORK)
 
-1. Go back to [Google Cloud Console](https://console.cloud.google.com/)
-2. Go to **APIs & Services** → **Credentials**
-3. Edit your OAuth 2.0 Client ID
-4. Add to **Authorized redirect URIs**:
-   ```
-   https://your-app.up.railway.app/api/auth/google/callback
-   ```
-5. Click **Save**
+⚠️ **This step is REQUIRED for Google Sign-In to work!**
+
+#### A. Update Railway Environment Variable
+
+1. In Railway, go to your server service
+2. Go to **Variables** tab
+3. Find the `GOOGLE_CALLBACK_URL` variable
+4. Update it to: `https://[YOUR-ACTUAL-RAILWAY-URL]/api/auth/google/callback`
+   - Example: `https://gsd-production-xxxx.up.railway.app/api/auth/google/callback`
+5. Railway will automatically redeploy with the new URL
+
+#### B. Update Google Cloud Console
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Navigate to: **APIs & Services** → **Credentials**
+3. Click on your **OAuth 2.0 Client ID** (the one you created in step 1.2)
+4. In the **Authorized redirect URIs** section, click **+ ADD URI**
+5. Add: `https://[YOUR-ACTUAL-RAILWAY-URL]/api/auth/google/callback`
+   - Example: `https://gsd-production-xxxx.up.railway.app/api/auth/google/callback`
+6. Click **Save**
+7. Wait a few minutes for Google's changes to propagate
+
+#### C. Test Google OAuth
+
+1. Go to your deployed client app
+2. Click "Sign in with Google"
+3. You should now be redirected to Google's login page successfully
+4. After authenticating, you'll be redirected back to your app
 
 ### 2.8 Run Database Migration
 
