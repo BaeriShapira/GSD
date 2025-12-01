@@ -7,16 +7,11 @@
   "scripts": {
     "dev": "concurrently --names \"client,server\" --prefix-colors \"blue,green\" \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "npm --workspace packages/client run dev",
-    "dev:server": "npm --workspace packages/server run dev",
-    "prepare": "husky"
+    "dev:server": "npm --workspace packages/server run dev"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.8",
     "concurrently": "^9.2.1",
     "zod": "^3.25.76"
-  },
-  "devDependencies": {
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.6"
   }
 }
