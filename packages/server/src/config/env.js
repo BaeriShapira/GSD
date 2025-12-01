@@ -7,4 +7,5 @@ export const ENV = {
     DATABASE_URL: process.env.DATABASE_URL,
     JWT_SECRET: process.env.JWT_SECRET || "dev_secret_change_me",
     SERVER_BASE_URL: process.env.SERVER_BASE_URL || `http://localhost:${process.env.PORT || 8787}`,
+    CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5173",
 };

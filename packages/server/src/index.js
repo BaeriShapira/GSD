@@ -15,6 +15,9 @@ validateEnv();
 
 const app = express();
 
+// Trust proxy - required for Railway/Vercel deployment
+app.set('trust proxy', 1);
+
 // Security: Helmet adds various HTTP headers for security
 app.use(helmet());
 
