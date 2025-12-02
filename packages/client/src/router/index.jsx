@@ -1,7 +1,9 @@
 // packages/client/src/router/index.jsx
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout";
+import MobileLayout from "../layouts/MobileLayout";
 import Bucket from "../pages/Bucket";
+import BucketMobile from "../pages/BucketMobile";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import OAuthCallback from "../pages/OAuthCallback";
@@ -17,6 +19,7 @@ import Projects from "../pages/Projects";
 import NextActions from "../pages/NextActions";
 import Dashboard from "../pages/Dashboard";
 import RootRedirect from "../pages/RootRedirect";
+import MobileRedirect from "../components/MobileRedirect";
 
 export const router = createBrowserRouter([
     // נתיב ראשי - redirect לפי סטטוס התחברות
@@ -59,20 +62,34 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "/app",
-                element: <AppLayout />,
+                element: <MobileRedirect />,
                 children: [
-                    { index: true, element: <Dashboard /> },
-                    { path: "dashboard", element: <Dashboard /> },
-                    { path: "bucket", element: <Bucket /> },
-                    { path: "process_bucket", element: <ProcessBucket /> },
-                    { path: "reference", element: <Reference /> },
-                    { path: "reference/:folderId", element: <Reference /> },
-                    { path: "projects", element: <Projects /> },
-                    { path: "projects/:projectId", element: <Projects /> },
-                    { path: "next_actions", element: <NextActions /> },
-                    { path: "someday", element: <Someday /> },
-                    { path: "waiting_for", element: <WaitingFor /> },
-                    { path: "settings", element: <Settings /> },
+                    // Desktop routes with AppLayout (sidebar + header)
+                    {
+                        element: <AppLayout />,
+                        children: [
+                            { index: true, element: <Dashboard /> },
+                            { path: "dashboard", element: <Dashboard /> },
+                            { path: "bucket", element: <Bucket /> },
+                            { path: "process_bucket", element: <ProcessBucket /> },
+                            { path: "reference", element: <Reference /> },
+                            { path: "reference/:folderId", element: <Reference /> },
+                            { path: "projects", element: <Projects /> },
+                            { path: "projects/:projectId", element: <Projects /> },
+                            { path: "next_actions", element: <NextActions /> },
+                            { path: "someday", element: <Someday /> },
+                            { path: "waiting_for", element: <WaitingFor /> },
+                            { path: "settings", element: <Settings /> },
+                        ],
+                    },
+                    // Mobile route with MobileLayout (no sidebar, no header)
+                    {
+                        path: "bucket_mobile",
+                        element: <MobileLayout />,
+                        children: [
+                            { index: true, element: <BucketMobile /> },
+                        ],
+                    },
                 ],
             },
         ],
