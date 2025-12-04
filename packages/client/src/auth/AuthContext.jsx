@@ -80,6 +80,8 @@ export function AuthProvider({ children }) {
                 isAuthenticated: !!token,
                 login,
                 logout,
+                setToken,
+                setUser,
             }}
         >
             {children}

@@ -127,10 +127,6 @@ export async function updateTask(req, res, next) {
         if (dueDate !== undefined) updates.dueDate = dueDate;
         if (blockedByTaskId !== undefined) updates.blockedByTaskId = blockedByTaskId;
 
-        // DEBUG: Log what we're receiving
-        console.log("🐛 DEBUG updateTask - blockedByTaskId from req.body:", blockedByTaskId);
-        console.log("🐛 DEBUG updateTask - updates object:", updates);
-
         const files = req.files || [];
 
         const task = await editUserTask(userId, taskId, updates, files);

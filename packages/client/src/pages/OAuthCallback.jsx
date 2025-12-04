@@ -5,7 +5,7 @@ import { useAuth } from "../auth/AuthContext";
 export default function OAuthCallback() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { setToken, setUser } = useAuth();
 
     useEffect(() => {
         const token = searchParams.get("token");
@@ -39,7 +39,11 @@ export default function OAuthCallback() {
 
             const user = await res.json();
 
-            // Store user info
+            // Update AuthContext state
+            setToken(token);
+            setUser(user);
+
+            // Store in localStorage
             localStorage.setItem("user", JSON.stringify(user));
 
             // Redirect to main app

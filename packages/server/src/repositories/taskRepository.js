@@ -5,16 +5,19 @@ import path from "path";
 /**
  * איפוס dueDate למשימות שהתאריך שלהן עבר
  * עובד רק על משימות בסטטוס NEXT_ACTION
+ * מאפס רק משימות שהתאריך שלהן עבר (לפני תחילת היום הנוכחי)
  */
 async function resetPastDueDates(userId) {
-    const now = new Date();
+    // Get start of today in UTC
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
 
     await prisma.task.updateMany({
         where: {
             userId,
             status: "NEXT_ACTION",
             dueDate: {
-                lt: now,
+                lt: today,  // Only reset dates before start of today
             },
         },
         data: {
