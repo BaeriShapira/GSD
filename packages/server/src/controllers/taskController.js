@@ -5,6 +5,7 @@ import {
     removeUserTask,
     bulkUpdateTasksSortOrder,
 } from "../services/taskService.js";
+import { syncTaskToGoogle, handleEntityDeletion } from "../services/calendarSyncService.js";
 
 export async function getTasks(req, res, next) {
     try {
@@ -74,6 +75,11 @@ export async function createTask(req, res, next) {
 
         const task = await addUserTask(userId, taskData, files);
 
+        // Trigger Google Calendar sync (async, non-blocking)
+        syncTaskToGoogle(userId, task.id).catch(err =>
+            console.error('Calendar sync error:', err)
+        );
+
         res.status(201).json(task);
     } catch (err) {
         next(err);
@@ -130,6 +136,12 @@ export async function updateTask(req, res, next) {
         const files = req.files || [];
 
         const task = await editUserTask(userId, taskId, updates, files);
+
+        // Trigger Google Calendar sync (async, non-blocking)
+        syncTaskToGoogle(userId, task.id).catch(err =>
+            console.error('Calendar sync error:', err)
+        );
+
         res.json(task);
     } catch (err) {
         next(err);
@@ -140,9 +152,15 @@ export async function updateTask(req, res, next) {
 export async function deleteTask(req, res, next) {
     try {
         const userId = req.user.id;
-        const taskId = req.params.id;
+        const taskId = Number(req.params.id);
 
         await removeUserTask(userId, taskId);
+
+        // Trigger Google Calendar deletion (async, non-blocking)
+        handleEntityDeletion(userId, 'task', taskId).catch(err =>
+            console.error('Calendar sync error:', err)
+        );
+
         res.json({ success: true });
     } catch (err) {
         next(err);

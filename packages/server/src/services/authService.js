@@ -7,11 +7,14 @@ import {
     findUserByGoogleId,
     createGoogleUser,
     updateUserGoogleInfo,
+    updateUserGoogleTokens,
+    linkGoogleAccountToUser,
 } from "../repositories/userRepository.js";
 import { createDefaultAreas } from "../repositories/areaRepository.js";
 import { ensureDefaultContextsExist } from "../repositories/contextRepository.js";
 import { createVerificationToken, findVerificationToken, deleteVerificationToken, deleteUserTokensByType } from "../repositories/verificationTokenRepository.js";
 import { sendVerificationEmail } from "./emailService.js";
+import { encrypt } from "../utils/encryption.js";
 
 export async function registerUser(email, password) {
     const existing = await findUserByEmail(email);
@@ -54,7 +57,7 @@ export async function loginUser(email, password) {
     return { user, token };
 }
 
-export async function findOrCreateGoogleUser({ googleId, email, displayName, avatarUrl }) {
+export async function findOrCreateGoogleUser({ googleId, email, displayName, avatarUrl, accessToken, refreshToken, expiryDate }) {
     // Try to find existing user by Google ID
     let user = await findUserByGoogleId(googleId);
 
@@ -63,17 +66,31 @@ export async function findOrCreateGoogleUser({ googleId, email, displayName, ava
         if (user.displayName !== displayName || user.avatarUrl !== avatarUrl) {
             user = await updateUserGoogleInfo(user.id, { displayName, avatarUrl });
         }
+
+        // Save/update tokens if provided
+        if (accessToken || refreshToken) {
+            await saveGoogleTokens(user.id, { accessToken, refreshToken, expiryDate });
+        }
+
         return user;
     }
 
     // Check if email already exists (user registered with email/password)
     const existingEmailUser = await findUserByEmail(email);
     if (existingEmailUser) {
-        // Email exists but with local auth - we could handle this differently:
-        // Option 1: Link accounts (update existing user with googleId)
-        // Option 2: Throw error
-        // For now, we'll throw an error to prevent account confusion
-        throw new Error("An account with this email already exists. Please sign in with email and password.");
+        // Link Google account to existing user
+        user = await linkGoogleAccountToUser(existingEmailUser.id, {
+            googleId,
+            displayName,
+            avatarUrl,
+        });
+
+        // Save tokens
+        if (accessToken || refreshToken) {
+            await saveGoogleTokens(user.id, { accessToken, refreshToken, expiryDate });
+        }
+
+        return user;
     }
 
     // Create new Google user (Google users are auto-verified)
@@ -83,7 +100,27 @@ export async function findOrCreateGoogleUser({ googleId, email, displayName, ava
     await createDefaultAreas(user.id);
     await ensureDefaultContextsExist(user.id);
 
+    // Save tokens if provided
+    if (accessToken || refreshToken) {
+        await saveGoogleTokens(user.id, { accessToken, refreshToken, expiryDate });
+    }
+
     return user;
+}
+
+/**
+ * Save encrypted Google tokens to database
+ */
+async function saveGoogleTokens(userId, { accessToken, refreshToken, expiryDate }) {
+    const encryptedRefreshToken = refreshToken ? encrypt(refreshToken) : null;
+    const encryptedAccessToken = accessToken ? encrypt(accessToken) : null;
+
+    await updateUserGoogleTokens(userId, {
+        googleRefreshToken: encryptedRefreshToken,
+        googleAccessToken: encryptedAccessToken,
+        googleTokenExpiry: expiryDate,
+        googleCalendarId: 'primary', // Default to primary calendar
+    });
 }
 
 /**

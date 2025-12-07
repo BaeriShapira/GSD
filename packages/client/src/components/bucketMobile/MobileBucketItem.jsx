@@ -43,13 +43,13 @@ export default function MobileBucketItem({ task, onEdit, onUpload, onDelete }) {
     };
 
     return (
-        <div className="bg-white border border-black/10 rounded-xl p-2 shadow-sm flex items-center gap-3">
+        <div className="bg-white border border-black/10 rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-sm flex items-center gap-2 sm:gap-3">
             <div className="flex-1 flex items-center">
                 {!isEditing ? (
                     <>
-                        <h4 className="leading-tight pl-2">{task.text}</h4>
+                        <h4 className="leading-tight pl-1 sm:pl-2 text-sm sm:text-base">{task.text}</h4>
                         {task.attachments?.length > 0 && (
-                            <div className="ml-2 text-xs text-black/50">
+                            <div className="ml-1 sm:ml-2 text-[10px] sm:text-xs text-black/50">
                                 📎 {task.attachments.length} attachment
                                 {task.attachments.length > 1 ? "s" : ""}
                             </div>
@@ -61,12 +61,12 @@ export default function MobileBucketItem({ task, onEdit, onUpload, onDelete }) {
                             value={editText}
                             onChange={(e) => setEditText(e.target.value)}
                             onKeyDown={handleKeyDown}
-                            className="input w-full min-h-[60px] resize-none"
+                            className="input w-full min-h-[50px] sm:min-h-[60px] resize-none text-sm sm:text-base"
                             autoFocus
                         />
-                        <div className="flex gap-2">
-                            <button onClick={handleSave} className="btn btn-primary text-xs">Save</button>
-                            <button onClick={handleCancel} className="btn btn-secondary text-xs">Cancel</button>
+                        <div className="flex gap-1.5 sm:gap-2">
+                            <button onClick={handleSave} className="btn btn-primary text-xs px-3 sm:px-4 py-1.5 sm:py-2">Save</button>
+                            <button onClick={handleCancel} className="btn btn-secondary text-xs px-3 sm:px-4 py-1.5 sm:py-2">Cancel</button>
                         </div>
                     </div>
                 )}

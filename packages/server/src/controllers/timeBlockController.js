@@ -1,4 +1,5 @@
 import { timeBlockService } from '../services/timeBlockService.js';
+import { syncTimeBlockToGoogle, handleEntityDeletion } from '../services/calendarSyncService.js';
 
 export const timeBlockController = {
     async getAllTimeBlocks(req, res, next) {
@@ -42,6 +43,12 @@ export const timeBlockController = {
         try {
             const userId = req.user?.id;
             const timeBlock = await timeBlockService.createTimeBlock(userId, req.body);
+
+            // Trigger Google Calendar sync (async, non-blocking)
+            syncTimeBlockToGoogle(userId, timeBlock.id).catch(err =>
+                console.error('Calendar sync error:', err)
+            );
+
             res.status(201).json(timeBlock);
         } catch (error) {
             next(error);
@@ -53,6 +60,12 @@ export const timeBlockController = {
             const userId = req.user?.id;
             const { id } = req.params;
             const timeBlock = await timeBlockService.updateTimeBlock(parseInt(id), userId, req.body);
+
+            // Trigger Google Calendar sync (async, non-blocking)
+            syncTimeBlockToGoogle(userId, timeBlock.id).catch(err =>
+                console.error('Calendar sync error:', err)
+            );
+
             res.json(timeBlock);
         } catch (error) {
             next(error);
@@ -63,7 +76,15 @@ export const timeBlockController = {
         try {
             const userId = req.user?.id;
             const { id } = req.params;
-            await timeBlockService.deleteTimeBlock(parseInt(id), userId);
+            const timeBlockId = parseInt(id);
+
+            await timeBlockService.deleteTimeBlock(timeBlockId, userId);
+
+            // Trigger Google Calendar deletion (async, non-blocking)
+            handleEntityDeletion(userId, 'timeBlock', timeBlockId).catch(err =>
+                console.error('Calendar sync error:', err)
+            );
+
             res.status(204).send();
         } catch (error) {
             next(error);

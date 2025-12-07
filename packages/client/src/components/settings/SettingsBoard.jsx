@@ -4,6 +4,7 @@ import AreaOfResponsibilityCard from "./AreaOfResponsibilityCard";
 import ContextCard from "./ContextCard";
 import AreaOfLifeModal from "./AreaOfLifeModal";
 import ContextModal from "./ContextModal";
+import GoogleCalendarCard from "./GoogleCalendarCard";
 import { useAreas } from "../../hooks/useAreas";
 import { useContexts } from "../../hooks/useContexts";
 
@@ -146,6 +147,9 @@ export default function SettingsBoard() {
                         )}
                     </div>
                 </div>
+
+                {/* Google Calendar Integration */}
+                <GoogleCalendarCard />
             </div>
 
             <AreaOfLifeModal

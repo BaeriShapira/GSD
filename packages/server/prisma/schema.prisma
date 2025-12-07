@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -21,6 +21,14 @@ model User {
   // Email verification
   emailVerified Boolean  @default(false)  // Whether email is verified
 
+  // Google Calendar Integration
+  googleRefreshToken   String?             // Encrypted refresh token
+  googleAccessToken    String?             // Encrypted access token
+  googleTokenExpiry    DateTime?           // When access token expires
+  googleCalendarId     String?             // Primary calendar ID
+  calendarSyncEnabled  Boolean   @default(false)
+  lastCalendarSync     DateTime?
+
   createdAt    DateTime @default(now())
   tasks        Task[]
   referenceFolders ReferenceFolder[]
@@ -32,6 +40,7 @@ model User {
   timeBlocks   TimeBlock[]
   notebooks    Notebook[]
   verificationTokens VerificationToken[]
+  calendarSyncs CalendarSync[]
 }
 
 enum TaskStatus {
@@ -78,6 +87,9 @@ model Task {
   blockedBy      Task?  @relation("TaskDependencies", fields: [blockedByTaskId], references: [id], onDelete: SetNull)
   blockedByTaskId Int?   // Task that blocks this task
   blocking       Task[] @relation("TaskDependencies") // Tasks blocked by this task
+
+  // Track modifications for sync
+  updatedAt      DateTime @updatedAt @default(now())
 }
 
 model ReferenceFolder {
@@ -208,4 +220,30 @@ model VerificationToken {
   userId    Int
   expiresAt DateTime // Token expiration time
   createdAt DateTime @default(now())
+}
+
+model CalendarSync {
+  id               Int      @id @default(autoincrement())
+  userId           Int
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Entity being synced
+  entityType       String   // "task" or "timeBlock"
+  entityId         Int      // ID of Task or TimeBlock
+
+  // Google Calendar data
+  googleEventId    String   @unique
+  googleCalendarId String   // Which calendar it's in
+
+  // Sync metadata
+  lastSyncedAt     DateTime @updatedAt
+  syncSource       String   // "gsd" or "google" - who updated last
+  etag             String?  // Google's ETag for conflict detection
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([userId, entityType, entityId])
+  @@index([userId])
+  @@index([googleEventId])
 }

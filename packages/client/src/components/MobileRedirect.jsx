@@ -4,8 +4,8 @@ import { useMobileDetection } from "../hooks/useMobileDetection";
 
 /**
  * Mobile Redirect Guard
- * Redirects mobile users to /app/bucket_mobile
- * Redirects desktop users away from /app/bucket_mobile to /app/dashboard
+ * Redirects mobile users to mobile routes
+ * Redirects desktop users away from mobile routes to desktop routes
  */
 export default function MobileRedirect() {
     const isMobile = useMobileDetection();
@@ -14,12 +14,12 @@ export default function MobileRedirect() {
 
     useEffect(() => {
         const currentPath = location.pathname;
-        const isBucketMobilePath = currentPath === "/app/bucket_mobile";
+        const isMobilePath = currentPath.includes("_mobile");
 
-        if (isMobile && !isBucketMobilePath) {
+        if (isMobile && !isMobilePath) {
             // Mobile user on desktop route -> redirect to mobile bucket
             navigate("/app/bucket_mobile", { replace: true });
-        } else if (!isMobile && isBucketMobilePath) {
+        } else if (!isMobile && isMobilePath) {
             // Desktop user on mobile route -> redirect to dashboard
             navigate("/app/dashboard", { replace: true });
         }

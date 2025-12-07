@@ -38,25 +38,25 @@ export default function BucketMobile() {
 
     return (
         <div className="min-h-screen bg-brand-bg flex flex-col">
-            {/* Header */}
-            <div className=" pt-4 pb-2 px-4">
+            {/* Header - responsive logo size */}
+            <div className="pt-2 sm:pt-4 pb-2 px-2 sm:px-4">
                 <img
                     src={logoUrl}
                     alt="GSD cat"
-                    className="w-60 object-contain select-none mx-auto"
+                    className="w-40 sm:w-52 md:w-60 object-contain select-none mx-auto"
                     draggable="false"
                 />
             </div>
 
-            {/* Tasks List - scrollable area */}
-            <div className="flex-1 overflow-y-auto px-4 pb-24">
+            {/* Tasks List - scrollable area with responsive padding */}
+            <div className="flex-1 overflow-y-auto px-2 sm:px-4 pb-24">
                 {isLoading ? (
-                    <div className="text-center py-12">
-                        <p className="text-black/50">Loading...</p>
+                    <div className="text-center py-8 sm:py-12">
+                        <p className="text-sm sm:text-base text-black/50">Loading...</p>
                     </div>
                 ) : isError ? (
-                    <div className="text-center py-12">
-                        <p className="text-red-600">Error: {error?.message}</p>
+                    <div className="text-center py-8 sm:py-12">
+                        <p className="text-sm sm:text-base text-red-600">Error: {error?.message}</p>
                     </div>
                 ) : (
                     <MobileBucketList
@@ -68,8 +68,8 @@ export default function BucketMobile() {
                 )}
             </div>
 
-            {/* Input - sticky at bottom */}
-            <div className="sticky bottom-0 left-0 right-0 bg-brand-bg border-t border-black/10 p-4 shadow-lg">
+            {/* Input - sticky above nav menu with responsive padding */}
+            <div className="fixed bottom-16 left-0 right-0 bg-brand-bg border-t border-black/10 p-2 sm:p-4 shadow-lg">
                 <MobileBucketInput onAdd={handleAdd} />
             </div>
         </div>

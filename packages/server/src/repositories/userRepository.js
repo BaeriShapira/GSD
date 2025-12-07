@@ -38,3 +38,26 @@ export async function updateUserGoogleInfo(userId, { displayName, avatarUrl }) {
         data: { displayName, avatarUrl },
     });
 }
+
+export async function updateUserGoogleTokens(userId, { googleRefreshToken, googleAccessToken, googleTokenExpiry, googleCalendarId }) {
+    return prisma.user.update({
+        where: { id: userId },
+        data: {
+            googleRefreshToken,
+            googleAccessToken,
+            googleTokenExpiry,
+            googleCalendarId,
+        },
+    });
+}
+
+export async function linkGoogleAccountToUser(userId, { googleId, displayName, avatarUrl }) {
+    return prisma.user.update({
+        where: { id: userId },
+        data: {
+            googleId,
+            displayName: displayName || undefined, // Only update if provided
+            avatarUrl: avatarUrl || undefined,     // Only update if provided
+        },
+    });
+}

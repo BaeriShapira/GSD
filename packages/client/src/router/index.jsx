@@ -4,6 +4,7 @@ import AppLayout from "../layouts/AppLayout";
 import MobileLayout from "../layouts/MobileLayout";
 import Bucket from "../pages/Bucket";
 import BucketMobile from "../pages/BucketMobile";
+import NextActionsMobile from "../pages/NextActionsMobile";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import OAuthCallback from "../pages/OAuthCallback";
@@ -82,12 +83,19 @@ export const router = createBrowserRouter([
                             { path: "settings", element: <Settings /> },
                         ],
                     },
-                    // Mobile route with MobileLayout (no sidebar, no header)
+                    // Mobile routes with MobileLayout (no sidebar, no header)
                     {
                         path: "bucket_mobile",
                         element: <MobileLayout />,
                         children: [
                             { index: true, element: <BucketMobile /> },
+                        ],
+                    },
+                    {
+                        path: "next_actions_mobile",
+                        element: <MobileLayout />,
+                        children: [
+                            { index: true, element: <NextActionsMobile /> },
                         ],
                     },
                 ],

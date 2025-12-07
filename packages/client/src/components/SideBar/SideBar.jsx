@@ -12,18 +12,18 @@ import { X, LayoutDashboard } from "lucide-react";
 
 const nav = [
     {
-        label: "Dashboard",
-        icon: MdDashboard,
-        children: [
-            { label: "Dashboard", to: "/app/dashboard" },
-        ],
-    },
-    {
         label: "Bucket",
         icon: BsBucketFill,
         children: [
             { label: "Bucket", to: "/app/bucket" },
             { label: "Process bucket", to: "/app/process_bucket" },
+        ],
+    },
+    {
+        label: "Dashboard",
+        icon: MdDashboard,
+        children: [
+            { label: "Dashboard", to: "/app/dashboard" },
         ],
     },
     {

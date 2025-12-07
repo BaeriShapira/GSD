@@ -10,6 +10,7 @@ import projectNoteRouter from "./projectNoteRoutes.js";
 import { dailyOutcomeRouter } from "./dailyOutcomeRoutes.js";
 import timeBlockRouter from "./timeBlockRoutes.js";
 import notebookRouter from "./notebookRoutes.js";
+import calendarRouter from "./calendarRoutes.js";
 
 const router = express.Router();
 
@@ -40,5 +41,7 @@ router.use("/daily-outcomes", dailyOutcomeRouter);
 router.use("/time-blocks", timeBlockRouter);
 
 router.use("/notebooks", notebookRouter);
+
+router.use("/calendar", calendarRouter);
 
 export default router;
