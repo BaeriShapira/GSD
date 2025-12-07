@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Modal from "../UI/Modal";
 import { useDailyOutcome } from "../../hooks/useDailyOutcome";
 import { useInlineEdit } from "../../hooks/useInlineEdit";
+import { useCalendar } from "../../hooks/useCalendar";
 import logoUrl from "../../assets/Google_Calendar_icon.svg";
 
 export default function DashboardHeader({
@@ -15,6 +16,19 @@ export default function DashboardHeader({
 }) {
     const [showSyncModal, setShowSyncModal] = useState(false);
     const { outcome, isLoading, saveOutcome } = useDailyOutcome(selectedDate);
+
+    const {
+        syncStatus,
+        isLoading: isCalendarLoading,
+        enableCalendarSync,
+        disableCalendarSync,
+        triggerSync,
+        disconnectCalendar,
+        isEnabling,
+        isDisabling,
+        isSyncing,
+        isDisconnecting,
+    } = useCalendar();
 
     const {
         isEditing,
@@ -153,19 +167,104 @@ export default function DashboardHeader({
             <Modal
                 isOpen={showSyncModal}
                 onClose={() => setShowSyncModal(false)}
-                title="Google Calendar Sync"
+                title="Google Calendar"
             >
-                <p className="text-black/70">
-                    Google Calendar sync feature is not yet available.
-                </p>
-                <div className="mt-4 flex justify-end">
-                    <button
-                        onClick={() => setShowSyncModal(false)}
-                        className="px-4 py-2 bg-brand-accent text-white rounded-lg hover:bg-brand-accent/90 transition-colors cursor-pointer"
-                    >
-                        OK
-                    </button>
-                </div>
+                {isCalendarLoading ? (
+                    <div className="animate-pulse">
+                        <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+                        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                ) : (
+                    <div>
+                        {/* Header */}
+                        <div className="flex items-center mb-4">
+                            <img
+                                src={logoUrl}
+                                alt="Google calendar icon"
+                                className="w-5 h-5"
+                                draggable="false"
+                            />
+                            <p className="pl-2 text-black/70">
+                                Sync tasks and time blocks automatically
+                            </p>
+                        </div>
+
+                        {/* Status */}
+                        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                            <div className="flex items-center justify-between mb-2">
+                                <span className="text-sm text-black/60">Status:</span>
+                                <span className={`text-sm font-medium ${syncStatus?.connected ? 'text-green-600' : 'text-gray-500'}`}>
+                                    {syncStatus?.connected ? '✓ Connected' : '○ Not Connected'}
+                                </span>
+                            </div>
+
+                            {syncStatus?.connected && syncStatus?.lastSync && (
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-black/60">Last Sync:</span>
+                                    <span className="text-sm">
+                                        {new Date(syncStatus.lastSync).toLocaleString('he-IL')}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-col gap-2">
+                            {!syncStatus?.connected ? (
+                                <button
+                                    onClick={() => {
+                                        window.location.href = `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/api/auth/google/calendar`;
+                                    }}
+                                    disabled={isEnabling}
+                                    className="btn btn-primary w-full"
+                                >
+                                    {isEnabling ? 'Connecting...' : 'Connect Google Calendar'}
+                                </button>
+                            ) : (
+                                <>
+                                    {/* Toggle Sync */}
+                                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <span className="text-sm text-black/90">Auto-Sync</span>
+                                        <label className="relative inline-flex items-center cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={syncStatus?.enabled}
+                                                onChange={() => {
+                                                    if (syncStatus?.enabled) {
+                                                        disableCalendarSync();
+                                                    } else {
+                                                        enableCalendarSync();
+                                                    }
+                                                }}
+                                                disabled={isEnabling || isDisabling}
+                                                className="sr-only peer"
+                                            />
+                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                        </label>
+                                    </div>
+
+                                    {/* Sync Now Button */}
+                                    <button
+                                        onClick={triggerSync}
+                                        disabled={isSyncing || !syncStatus?.enabled}
+                                        className="btn btn-secondary w-full"
+                                    >
+                                        {isSyncing ? 'Syncing...' : '🔄 Sync Now'}
+                                    </button>
+
+                                    {/* Disconnect Button */}
+                                    <button
+                                        onClick={disconnectCalendar}
+                                        disabled={isDisconnecting}
+                                        className="btn btn-secondary w-full text-red-600 hover:bg-red-50"
+                                    >
+                                        {isDisconnecting ? 'Disconnecting...' : 'Disconnect Calendar'}
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                )}
             </Modal>
         </>
     );
