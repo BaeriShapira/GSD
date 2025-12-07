@@ -4,6 +4,7 @@ export default function MobileNextActionList({
     tasks,
     projects,
     contexts,
+    areas,
     onComplete,
     onEdit,
     onDelete
@@ -27,6 +28,7 @@ export default function MobileNextActionList({
                     task={task}
                     projects={projects}
                     contexts={contexts}
+                    areas={areas}
                     onComplete={onComplete}
                     onEdit={onEdit}
                     onDelete={onDelete}

@@ -3,6 +3,7 @@ import { useTasks } from "../hooks/useTasks";
 import { useDeleteTask } from "../hooks/useDeleteTask";
 import { useProjects } from "../hooks/useProjects";
 import { useContexts } from "../hooks/useContexts";
+import { useAreas } from "../hooks/useAreas";
 import MobileNextActionList from "../components/nextActionsMobile/MobileNextActionList";
 import MobileNextActionFilters from "../components/nextActionsMobile/MobileNextActionFilters";
 import EditNextActionModal from "../components/next_actions/EditNextActionModal";
@@ -19,6 +20,7 @@ export default function NextActionsMobile() {
     const deleteTaskMutation = useDeleteTask();
     const { projects } = useProjects();
     const { contexts } = useContexts();
+    const { areas } = useAreas();
 
     const [selectedProjectId, setSelectedProjectId] = useState(null);
     const [selectedContextId, setSelectedContextId] = useState(null);
@@ -152,6 +154,7 @@ export default function NextActionsMobile() {
                         tasks={filteredTasks}
                         projects={projects}
                         contexts={contexts}
+                        areas={areas}
                         onComplete={handleComplete}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
@@ -165,7 +168,7 @@ export default function NextActionsMobile() {
                     task={editingTask}
                     projects={projects}
                     contexts={contexts}
-                    areas={[]} // Can add areas if needed
+                    areas={areas}
                     onSave={handleSaveEdit}
                     onClose={() => setEditingTask(null)}
                 />

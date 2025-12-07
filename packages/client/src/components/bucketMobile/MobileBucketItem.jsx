@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MobileBucketItemMenu from "./MobileBucketItemMenu";
+import MobileCard from "../UI/MobileCard";
 
 export default function MobileBucketItem({ task, onEdit, onUpload, onDelete }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -43,7 +44,7 @@ export default function MobileBucketItem({ task, onEdit, onUpload, onDelete }) {
     };
 
     return (
-        <div className="bg-white border border-black/10 rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-sm flex items-center gap-2 sm:gap-3">
+        <MobileCard className="p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
             <div className="flex-1 flex items-center">
                 {!isEditing ? (
                     <>
@@ -82,6 +83,6 @@ export default function MobileBucketItem({ task, onEdit, onUpload, onDelete }) {
                     />
                 )
             }
-        </div >
+        </MobileCard>
     );
 }
