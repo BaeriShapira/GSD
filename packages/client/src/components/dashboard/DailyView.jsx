@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import UnscheduledTasksSection from "./UnscheduledTasksSection";
 import ScheduledItemsSection from "./ScheduledItemsSection";
 import NextActionsTableView from "../next_actions/NextActionsTableView";
@@ -28,6 +29,58 @@ export default function DailyView({
     onNextActionsDelete,
     onNextActionsDragEnd
 }) {
+    // State for filtering and sorting
+    const [sortBy, setSortBy] = useState(null);
+    const [projectFilterId, setProjectFilterId] = useState(null);
+    const [urgencyFilter, setUrgencyFilter] = useState(null);
+    const [contextFilter, setContextFilter] = useState(null);
+
+    // Filter and sort next actions
+    const filteredAndSortedActions = useMemo(() => {
+        let filtered = [...availableNextActions];
+
+        // Apply filters
+        if (projectFilterId) {
+            filtered = filtered.filter(task => task.projectId === projectFilterId);
+        }
+        if (urgencyFilter) {
+            filtered = filtered.filter(task => task.urgency === urgencyFilter);
+        }
+        if (contextFilter) {
+            filtered = filtered.filter(task => task.contextId === contextFilter);
+        }
+
+        // Apply sorting
+        if (sortBy) {
+            filtered.sort((a, b) => {
+                switch (sortBy) {
+                    case 'urgency':
+                        return (b.urgency || 0) - (a.urgency || 0);
+                    case 'estimatedTime':
+                        return (a.estimatedTime || 0) - (b.estimatedTime || 0);
+                    case 'due':
+                        if (!a.dueDate) return 1;
+                        if (!b.dueDate) return -1;
+                        return new Date(a.dueDate) - new Date(b.dueDate);
+                    case 'task':
+                        return a.text.localeCompare(b.text);
+                    case 'context':
+                        const aContext = contexts.find(c => c.id === a.contextId)?.name || '';
+                        const bContext = contexts.find(c => c.id === b.contextId)?.name || '';
+                        return aContext.localeCompare(bContext);
+                    default:
+                        return 0;
+                }
+            });
+        }
+
+        return filtered;
+    }, [availableNextActions, projectFilterId, urgencyFilter, contextFilter, sortBy, contexts]);
+
+    const handleSort = (column) => {
+        setSortBy(sortBy === column ? null : column);
+    };
+
     return (
         <>
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -65,20 +118,20 @@ export default function DailyView({
                         <h2>All next Actions</h2>
                     </div>
                     <NextActionsTableView
-                        sortedTasks={availableNextActions}
+                        sortedTasks={filteredAndSortedActions}
                         areas={areas}
                         projects={projects}
                         contexts={contexts}
                         searchQuery=""
-                        sortBy={null}
-                        projectFilterId={null}
-                        urgencyFilter={null}
-                        contextFilter={null}
+                        sortBy={sortBy}
+                        projectFilterId={projectFilterId}
+                        urgencyFilter={urgencyFilter}
+                        contextFilter={contextFilter}
                         celebratingTaskId={null}
-                        onSort={() => { }}
-                        onProjectFilterChange={() => { }}
-                        onUrgencyFilterChange={() => { }}
-                        onContextFilterChange={() => { }}
+                        onSort={handleSort}
+                        onProjectFilterChange={setProjectFilterId}
+                        onUrgencyFilterChange={setUrgencyFilter}
+                        onContextFilterChange={setContextFilter}
                         onUpdate={onNextActionsUpdate}
                         onComplete={onNextActionsComplete}
                         onEdit={onNextActionsEdit}
