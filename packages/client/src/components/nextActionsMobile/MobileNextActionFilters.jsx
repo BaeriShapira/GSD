@@ -3,15 +3,18 @@ import { Filter, X } from "lucide-react";
 export default function MobileNextActionFilters({
     projects,
     contexts,
+    areas,
     selectedProjectId,
     selectedContextId,
+    selectedAreaId,
     selectedUrgency,
     onProjectChange,
     onContextChange,
+    onAreaChange,
     onUrgencyChange,
     onClearFilters
 }) {
-    const hasActiveFilters = selectedProjectId || selectedContextId || selectedUrgency;
+    const hasActiveFilters = selectedProjectId || selectedContextId || selectedAreaId || selectedUrgency;
 
     return (
         <div className="bg-white border border-black/10 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm space-y-3">
@@ -61,6 +64,23 @@ export default function MobileNextActionFilters({
                         {contexts.map(context => (
                             <option key={context.id} value={context.id}>
                                 {context.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Area of Life Filter */}
+                <div>
+                    <label className="block text-xs text-black/60 mb-1">Area of Life</label>
+                    <select
+                        value={selectedAreaId || ""}
+                        onChange={(e) => onAreaChange(e.target.value ? Number(e.target.value) : null)}
+                        className="input w-full text-sm"
+                    >
+                        <option value="">All Areas</option>
+                        {areas?.map(area => (
+                            <option key={area.id} value={area.id}>
+                                {area.name}
                             </option>
                         ))}
                     </select>

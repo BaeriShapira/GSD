@@ -48,7 +48,7 @@ export default function MobileBucketItem({ task, onEdit, onUpload, onDelete }) {
             <div className="flex-1 flex items-center">
                 {!isEditing ? (
                     <>
-                        <h4 className="leading-tight pl-1 sm:pl-2 text-sm sm:text-base">{task.text}</h4>
+                        <h4>{task.text}</h4>
                         {task.attachments?.length > 0 && (
                             <div className="ml-1 sm:ml-2 text-[10px] sm:text-xs text-black/50">
                                 📎 {task.attachments.length} attachment

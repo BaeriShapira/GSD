@@ -56,7 +56,7 @@ export default function MobileNextActionMenu({
                 className="p-1.5 hover:bg-black/5 rounded-lg transition-colors"
                 aria-label="Actions"
             >
-                <MoreVertical className="w-4 h-4 sm:w-5 sm:h-5 text-black/60" />
+                <MoreVertical size={20} className="text-gray-600" />
             </button>
 
             {isOpen && (
@@ -94,13 +94,7 @@ export default function MobileNextActionMenu({
                         Edit
                     </button>
 
-                    <button
-                        onClick={handleDelete}
-                        className="w-full px-3 py-2 text-left text-sm hover:bg-black/5 flex items-center gap-2 text-red-600"
-                    >
-                        <Trash2 className="w-4 h-4" />
-                        Delete
-                    </button>
+
                 </div>
             )}
         </div>

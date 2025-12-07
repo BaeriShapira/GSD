@@ -24,6 +24,7 @@ export default function NextActionsMobile() {
 
     const [selectedProjectId, setSelectedProjectId] = useState(null);
     const [selectedContextId, setSelectedContextId] = useState(null);
+    const [selectedAreaId, setSelectedAreaId] = useState(null);
     const [selectedUrgency, setSelectedUrgency] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
@@ -37,6 +38,9 @@ export default function NextActionsMobile() {
         }
         if (selectedContextId) {
             filtered = filtered.filter(task => task.contextId === selectedContextId);
+        }
+        if (selectedAreaId) {
+            filtered = filtered.filter(task => task.areaOfLifeId === selectedAreaId);
         }
         if (selectedUrgency) {
             filtered = filtered.filter(task => task.urgency === selectedUrgency);
@@ -53,7 +57,7 @@ export default function NextActionsMobile() {
         });
 
         return filtered;
-    }, [tasks, selectedProjectId, selectedContextId, selectedUrgency]);
+    }, [tasks, selectedProjectId, selectedContextId, selectedAreaId, selectedUrgency]);
 
     const handleComplete = (taskId) => {
         updateTask(taskId, { status: "COMPLETED" });
@@ -75,10 +79,11 @@ export default function NextActionsMobile() {
     const handleClearFilters = () => {
         setSelectedProjectId(null);
         setSelectedContextId(null);
+        setSelectedAreaId(null);
         setSelectedUrgency(null);
     };
 
-    const hasActiveFilters = selectedProjectId || selectedContextId || selectedUrgency;
+    const hasActiveFilters = selectedProjectId || selectedContextId || selectedAreaId || selectedUrgency;
 
     return (
         <div className="min-h-screen bg-brand-bg flex flex-col">
@@ -90,12 +95,7 @@ export default function NextActionsMobile() {
                     className="w-40 sm:w-52 md:w-60 object-contain select-none mx-auto"
                     draggable="false"
                 />
-                <div className="flex items-center justify-center gap-2 mt-2">
-                    <PiTargetBold className="text-xl sm:text-2xl text-brand-primary" />
-                    <h1 className="text-lg sm:text-xl font-bold text-brand-primary">
-                        Next Actions
-                    </h1>
-                </div>
+
             </div>
 
             {/* Filter Toggle Button */}
@@ -108,7 +108,7 @@ export default function NextActionsMobile() {
                     {hasActiveFilters ? 'Filters Active' : 'Show Filters'}
                     {hasActiveFilters && (
                         <span className="bg-white text-brand-primary px-2 py-0.5 rounded-full text-xs font-medium">
-                            {[selectedProjectId, selectedContextId, selectedUrgency].filter(Boolean).length}
+                            {[selectedProjectId, selectedContextId, selectedAreaId, selectedUrgency].filter(Boolean).length}
                         </span>
                     )}
                 </button>
@@ -120,11 +120,14 @@ export default function NextActionsMobile() {
                     <MobileNextActionFilters
                         projects={projects}
                         contexts={contexts}
+                        areas={areas}
                         selectedProjectId={selectedProjectId}
                         selectedContextId={selectedContextId}
+                        selectedAreaId={selectedAreaId}
                         selectedUrgency={selectedUrgency}
                         onProjectChange={setSelectedProjectId}
                         onContextChange={setSelectedContextId}
+                        onAreaChange={setSelectedAreaId}
                         onUrgencyChange={setSelectedUrgency}
                         onClearFilters={handleClearFilters}
                     />

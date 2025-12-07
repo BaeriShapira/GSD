@@ -45,7 +45,7 @@ export default function MobileNextActionItem({
                 )}
 
                 <div className="flex-1">
-                    <h4 className="leading-tight text-sm sm:text-base font-medium">
+                    <h4>
                         {task.text}
                     </h4>
                 </div>
@@ -60,23 +60,18 @@ export default function MobileNextActionItem({
 
             {/* Quick Info Row */}
             <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm mb-2">
-                {/* Urgency Stars */}
-                {task.urgency && (
-                    <span className="text-yellow-500 text-base leading-none" title={`Urgency: ${task.urgency}/5`}>
-                        {getUrgencyStars(task.urgency)}
-                    </span>
-                )}
+
 
                 {/* Project Badge */}
                 {project && (
-                    <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">
+                    <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 font-medium">
                         {project.name}
                     </span>
                 )}
 
                 {/* Context Badge with Icon */}
                 {context && (
-                    <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 flex items-center gap-1">
+                    <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 flex items-center gap-1">
                         {ContextIcon && <ContextIcon className="w-3 h-3" />}
                         {context.name}
                     </span>
@@ -99,6 +94,13 @@ export default function MobileNextActionItem({
                         <Clock className="w-3 h-3" />
                         <span>{task.estimatedTime}m</span>
                     </div>
+                )}
+
+                {/* Urgency Stars */}
+                {task.urgency && (
+                    <span className="text-yellow-500 text-base leading-none" title={`Urgency: ${task.urgency}/5`}>
+                        {getUrgencyStars(task.urgency)}
+                    </span>
                 )}
             </div>
 
