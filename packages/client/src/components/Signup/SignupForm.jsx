@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../../auth/AuthContext";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8787/api";
 
 export default function SignupForm() {
     const navigate = useNavigate();
+    const { setToken, setUser } = useAuth();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
     const [passwordErrors, setPasswordErrors] = useState([]);
     const [showPasswordErrors, setShowPasswordErrors] = useState(false);
 
@@ -93,11 +99,19 @@ export default function SignupForm() {
 
             const data = await res.json();
 
-            // Redirect to email verification page
-            navigate("/email-verification-required", {
-                replace: true,
-                state: { email }
-            });
+            // Auto-login: Store token and user in AuthContext and localStorage
+            setToken(data.token);
+            setUser(data.user);
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            // Show success message
+            setSuccessMessage("Account created successfully! Redirecting...");
+
+            // Redirect to main app after 1.5 seconds
+            setTimeout(() => {
+                navigate("/app", { replace: true });
+            }, 1500);
         } catch (err) {
             console.error(err);
             setError(err.message || "Registration failed. Please try again.");
@@ -128,13 +142,23 @@ export default function SignupForm() {
 
             <div className="space-y-1">
                 <label className="block text-sm text-black/70">Password</label>
-                <input
-                    type="password"
-                    className="w-full border border-black/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-black/10"
-                    value={password}
-                    onChange={e => handlePasswordChange(e.target.value)}
-                    required
-                />
+                <div className="relative">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        className="w-full border border-black/20 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring focus:ring-black/10"
+                        value={password}
+                        onChange={e => handlePasswordChange(e.target.value)}
+                        required
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 hover:text-black/60 transition-colors"
+                        tabIndex={-1}
+                    >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                </div>
                 {showPasswordErrors && password && passwordErrors.length > 0 && (
                     <div className="text-xs text-amber-600 mt-1 space-y-0.5">
                         {passwordErrors.map((err, idx) => (
@@ -146,18 +170,34 @@ export default function SignupForm() {
 
             <div className="space-y-1">
                 <label className="block text-sm text-black/70">Confirm password</label>
-                <input
-                    type="password"
-                    className="w-full border border-black/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-black/10"
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                    required
-                />
+                <div className="relative">
+                    <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        className="w-full border border-black/20 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring focus:ring-black/10"
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        required
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 hover:text-black/60 transition-colors"
+                        tabIndex={-1}
+                    >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                </div>
             </div>
 
             {error && (
                 <div className="text-xs text-red-500">
                     {error}
+                </div>
+            )}
+
+            {successMessage && (
+                <div className="text-sm text-green-600 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                    {successMessage}
                 </div>
             )}
 
