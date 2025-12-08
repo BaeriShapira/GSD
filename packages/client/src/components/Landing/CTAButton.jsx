@@ -5,9 +5,9 @@ export default function CTAButton() {
         <div className="flex justify-center py-12">
             <Link
                 to="/signup"
-                className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold text-2xl px-16 py-5 rounded-full transition-all hover:scale-105 shadow-xl"
+                className="bg-amber-400 hover:bg-yellow-500 text-black  px-7 py-2 rounded-2xl transition-all  shadow-lg"
             >
-                Signup
+                <h3>Signup</h3>
             </Link>
         </div>
     );

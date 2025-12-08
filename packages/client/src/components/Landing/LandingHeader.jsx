@@ -1,25 +1,27 @@
 import { Link } from "react-router-dom";
+import logoUrl from "../../assets/GSD_LOGO.svg";
+
 
 export default function LandingHeader() {
     return (
-        <header className="w-full bg-gradient-to-r from-purple-900 to-purple-800 rounded-2xl shadow-lg">
-            <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+        <header className="w-full bg-purple-950 rounded-4xl shadow-[4px_5px_0_0_#231434]">
+            <div className="container mx-auto px-8 py-4 flex items-center justify-between">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-3 group">
-                    <div className="text-4xl group-hover:scale-110 transition-transform">
-                        🐱
-                    </div>
-                    <h1 className="text-white text-2xl font-bold italic tracking-wide">
-                        GET SHIT DONE
-                    </h1>
+                    <img
+                        src={logoUrl}
+                        alt="GSD cat"
+                        className="w-60 object-contain select-none"
+                        draggable="false"
+                    />
                 </Link>
 
                 {/* Login Button */}
                 <Link
                     to="/login"
-                    className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-3 rounded-full transition-all hover:scale-105 shadow-lg"
+                    className="bg-amber-400 hover:bg-yellow-500 text-black  px-7 py-2 rounded-2xl transition-all  shadow-lg"
                 >
-                    Login
+                    <h3>Login</h3>
                 </Link>
             </div>
         </header>

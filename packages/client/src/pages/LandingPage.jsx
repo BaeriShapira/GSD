@@ -8,8 +8,8 @@ export default function LandingPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
             {/* Content Wrapper with padding for cat paws */}
-            <div className="relative z-20 pb-96">
-                <div className="container mx-auto px-4 py-8 space-y-12">
+            <div className="relative z-20">
+                <div className="container mx-auto px-0 py-4 space-y-1">
                     {/* Header */}
                     <LandingHeader />
 
