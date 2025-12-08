@@ -21,12 +21,13 @@ import NextActions from "../pages/NextActions";
 import Dashboard from "../pages/Dashboard";
 import RootRedirect from "../pages/RootRedirect";
 import MobileRedirect from "../components/MobileRedirect";
+import LandingPage from "../pages/LandingPage";
 
 export const router = createBrowserRouter([
-    // נתיב ראשי - redirect לפי סטטוס התחברות
+    // Landing page - public
     {
         path: "/",
-        element: <RootRedirect />,
+        element: <LandingPage />,
     },
 
     // מסך הלוגין – פתוח בלי הגנה
