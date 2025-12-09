@@ -23,6 +23,7 @@ import RootRedirect from "../pages/RootRedirect";
 import MobileRedirect from "../components/MobileRedirect";
 import LandingPage from "../pages/LandingPage";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import DashboardMobile from "../pages/DashboardMobile";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -104,6 +105,13 @@ export const router = createBrowserRouter([
                         element: <MobileLayout />,
                         children: [
                             { index: true, element: <NextActionsMobile /> },
+                        ],
+                    },
+                    {
+                        path: "dashboard_mobile",
+                        element: <MobileLayout />,
+                        children: [
+                            { index: true, element: <DashboardMobile /> },
                         ],
                     },
                 ],
