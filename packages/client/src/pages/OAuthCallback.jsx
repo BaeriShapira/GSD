@@ -47,7 +47,7 @@ export default function OAuthCallback() {
             localStorage.setItem("user", JSON.stringify(user));
 
             // Redirect to main app
-            navigate("/");
+            navigate("/app");
         } catch (error) {
             console.error("OAuth callback error:", error);
             navigate("/login?error=oauth_failed");
