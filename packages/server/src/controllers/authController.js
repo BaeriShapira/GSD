@@ -97,3 +97,39 @@ export async function resendVerification(req, res, next) {
         next(err);
     }
 }
+
+// Dev-only auto-login (no database needed)
+export async function devLogin(req, res, next) {
+    try {
+        // Only allow in development
+        if (ENV.NODE_ENV !== 'development') {
+            return res.status(403).json({ error: 'Dev login only available in development mode' });
+        }
+
+        // Create a mock user for development
+        const mockUser = {
+            id: 999999,
+            email: 'dev@test.com',
+            displayName: 'Dev User',
+            avatarUrl: null,
+            authProvider: 'dev',
+            emailVerified: true,
+            googleId: null,
+            createdAt: new Date(),
+        };
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: mockUser.id },
+            ENV.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.json({
+            user: normalizeUser(mockUser),
+            token,
+        });
+    } catch (err) {
+        next(err);
+    }
+}

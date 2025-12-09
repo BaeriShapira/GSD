@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login, googleCallback, me, verifyEmailHandler, resendVerification } from "../controllers/authController.js";
+import { register, login, googleCallback, me, verifyEmailHandler, resendVerification, devLogin } from "../controllers/authController.js";
 import passport from "../config/passport.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -8,6 +8,9 @@ export const authRouter = Router();
 authRouter.post("/register", register);
 authRouter.post("/login", login);
 authRouter.get("/me", authMiddleware, me);
+
+// Dev-only auto-login (no database needed)
+authRouter.post("/dev-login", devLogin);
 
 // Email verification routes
 authRouter.get("/verify-email/:token", verifyEmailHandler);

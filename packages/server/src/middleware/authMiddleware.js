@@ -23,6 +23,21 @@ export async function authMiddleware(req, res, next) {
     try {
         const payload = jwt.verify(token, ENV.JWT_SECRET);
 
+        // Check if this is the dev user (bypass database)
+        if (ENV.NODE_ENV === 'development' && payload.userId === 999999) {
+            const devUser = {
+                id: 999999,
+                email: 'dev@test.com',
+                displayName: 'Dev User',
+                avatarUrl: null,
+                authProvider: 'dev',
+                emailVerified: true,
+            };
+            req.user = devUser;
+            console.log("✅ Auth OK for DEV user");
+            return next();
+        }
+
         // Fetch full user from database
         const user = await prisma.user.findUnique({
             where: { id: payload.userId },

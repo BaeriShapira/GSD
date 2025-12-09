@@ -33,6 +33,36 @@ export default function LoginForm() {
         }
     }
 
+    async function handleDevLogin() {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/dev-login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (!response.ok) {
+                throw new Error("Dev login failed");
+            }
+
+            const data = await response.json();
+
+            // Store token and user in localStorage (same as regular login)
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            // Navigate to app
+            navigate("/app", { replace: true });
+        } catch (err) {
+            console.error(err);
+            setError("Dev login failed");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <form
             onSubmit={handleSubmit}
@@ -114,6 +144,18 @@ export default function LoginForm() {
                 </svg>
                 <span>Sign in with Google</span>
             </button>
+
+            {/* Dev Login Button (only in development) */}
+            {import.meta.env.DEV && (
+                <button
+                    type="button"
+                    onClick={handleDevLogin}
+                    disabled={isLoading}
+                    className="w-full rounded-lg border-2 border-orange-400 bg-orange-50 text-orange-700 py-2 text-sm font-medium hover:bg-orange-100 transition-colors cursor-pointer disabled:opacity-60"
+                >
+                    🚀 Dev Login (No Auth Required)
+                </button>
+            )}
 
             {/* Link to Signup */}
             <div className="text-center text-sm text-black/60 mt-4">
