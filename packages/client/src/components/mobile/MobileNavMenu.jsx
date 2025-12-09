@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Inbox, Target } from "lucide-react";
+import { Inbox, Target, Calendar } from "lucide-react";
 
 export default function MobileNavMenu() {
     const navigate = useNavigate();
@@ -15,6 +15,11 @@ export default function MobileNavMenu() {
             path: "/app/next_actions_mobile",
             icon: Target,
             label: "Next Actions"
+        },
+        {
+            path: "/app/dashboard_mobile",
+            icon: Calendar,
+            label: "Dashboard"
         }
     ];
 
