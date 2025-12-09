@@ -21,6 +21,16 @@ export default function LandingPage() {
 
                     {/* CTA Button */}
                     <CTAButton />
+
+                    {/* Footer */}
+                    <footer className="text-center py-8 text-sm text-gray-600">
+                        <a
+                            href="/privacy"
+                            className="hover:text-purple-600 transition-colors underline"
+                        >
+                            Privacy Policy
+                        </a>
+                    </footer>
                 </div>
             </div>
 

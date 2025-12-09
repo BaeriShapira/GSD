@@ -22,12 +22,19 @@ import Dashboard from "../pages/Dashboard";
 import RootRedirect from "../pages/RootRedirect";
 import MobileRedirect from "../components/MobileRedirect";
 import LandingPage from "../pages/LandingPage";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 export const router = createBrowserRouter([
     // Landing page - public
     {
         path: "/",
         element: <LandingPage />,
+    },
+
+    // Privacy Policy - public
+    {
+        path: "/privacy",
+        element: <PrivacyPolicy />,
     },
 
     // מסך הלוגין – פתוח בלי הגנה

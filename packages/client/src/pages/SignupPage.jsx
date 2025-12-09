@@ -11,6 +11,16 @@ export default function SignupPage() {
                 draggable="false"
             />
             <SignupForm />
+
+            {/* Footer */}
+            <footer className="absolute bottom-4 text-center text-sm text-gray-600">
+                <a
+                    href="/privacy"
+                    className="hover:text-purple-600 transition-colors underline"
+                >
+                    Privacy Policy
+                </a>
+            </footer>
         </div>
     );
 }
