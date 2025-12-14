@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar, AlertCircle, Clock } from "lucide-react";
+import { Calendar, AlertCircle, Clock, User } from "lucide-react";
 import { format } from "date-fns";
 import MobileNextActionMenu from "./MobileNextActionMenu";
 import MobileCard from "../UI/MobileCard";
@@ -80,6 +80,14 @@ export default function MobileNextActionItem({
 
             {/* Compact Info Row */}
             <div className="flex items-center gap-3 text-xs text-black/60">
+                {/* Waiting For */}
+                {task.waitingFor && (
+                    <div className="flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        <span>{task.waitingFor}</span>
+                    </div>
+                )}
+
                 {/* Due Date */}
                 {task.dueDate && (
                     <div className="flex items-center gap-1">
