@@ -39,7 +39,7 @@ export default function MobileTimelineSection({
             {/* Section Header */}
             <div className="flex items-center justify-between px-2">
                 <h3 >
-                    Scheduled tasks for today
+                    Scheduled tasks
                 </h3>
                 <button
                     onClick={onNewTimeBlock}

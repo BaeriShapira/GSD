@@ -20,7 +20,7 @@ export default function MobileUnscheduledSection({
             {/* Section Header */}
             <div className="flex items-center justify-between px-2">
                 <h3 >
-                    Unscheduled tasks for today
+                    Unscheduled tasks
                 </h3>
                 <button
                     onClick={onAdd}
