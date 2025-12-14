@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
 import { useTasks } from "../hooks/useTasks";
 import { useTimeBlocks } from "../hooks/useTimeBlocks";
+import { useProjects } from "../hooks/useProjects";
+import { useContexts } from "../hooks/useContexts";
+import { useAreas } from "../hooks/useAreas";
 import { format, parseISO, addDays, subDays, isSameDay } from "date-fns";
 import MobileDashboardHeader from "../components/dashboardMobile/MobileDashboardHeader";
 import MobileUnscheduledSection from "../components/dashboardMobile/MobileUnscheduledSection";
@@ -24,6 +27,9 @@ export default function DashboardMobile() {
 
     const { tasks: nextActions, isLoading, updateTask, deleteTask, createTask } = useTasks("NEXT_ACTION");
     const { timeBlocks, addTimeBlock, editTimeBlock, removeTimeBlock } = useTimeBlocks(selectedDate);
+    const { projects } = useProjects();
+    const { contexts } = useContexts();
+    const { areas } = useAreas();
 
     // Navigation handlers
     const handlePreviousDay = () => setSelectedDate((prev) => subDays(prev, 1));
@@ -200,6 +206,9 @@ export default function DashboardMobile() {
                 {/* Unscheduled Tasks */}
                 <MobileUnscheduledSection
                     unscheduledTasks={unscheduledTasks}
+                    projects={projects}
+                    contexts={contexts}
+                    areas={areas}
                     onComplete={handleCompleteTask}
                     onDelete={deleteTask}
                     onEdit={handleEdit}
@@ -209,6 +218,9 @@ export default function DashboardMobile() {
                 {/* Timeline */}
                 <MobileTimelineSection
                     orderedScheduleItems={orderedScheduleItems}
+                    projects={projects}
+                    contexts={contexts}
+                    areas={areas}
                     onNewTimeBlock={handleNewTimeBlock}
                     onEditTimeBlock={handleEditTimeBlock}
                     onDeleteTimeBlock={removeTimeBlock}

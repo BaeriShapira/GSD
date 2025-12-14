@@ -1,6 +1,6 @@
-import { Plus, Clock, CheckCircle } from "lucide-react";
+import { Plus, Clock } from "lucide-react";
 import { format, parseISO } from "date-fns";
-import SwipeableTaskCard from "./SwipeableTaskCard";
+import MobileNextActionItem from "../nextActionsMobile/MobileNextActionItem";
 import MobileCard from "../UI/MobileCard";
 
 /**
@@ -9,6 +9,9 @@ import MobileCard from "../UI/MobileCard";
  */
 export default function MobileTimelineSection({
     orderedScheduleItems,
+    projects,
+    contexts,
+    areas,
     onNewTimeBlock,
     onEditTimeBlock,
     onDeleteTimeBlock,
@@ -35,15 +38,15 @@ export default function MobileTimelineSection({
         <div className="space-y-3">
             {/* Section Header */}
             <div className="flex items-center justify-between px-2">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    📅 Today's Schedule
+                <h3 >
+                    Scheduled tasks for today
                 </h3>
                 <button
                     onClick={onNewTimeBlock}
-                    className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+                    className="btn btn-primary"
                     aria-label="Add time block"
                 >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-3 h-3" />
                 </button>
             </div>
 
@@ -90,49 +93,22 @@ export default function MobileTimelineSection({
                             );
                         } else {
                             // Scheduled task
-                            const { task, children } = item;
+                            const { task } = item;
                             return (
                                 <div key={`task-${task.id}`} className="flex items-start gap-2">
                                     <span className="text-sm font-semibold text-gray-600 mt-2 min-w-[60px]">
                                         {formatTaskTime(task.dueDate)}
                                     </span>
                                     <div className="flex-1">
-                                        <SwipeableTaskCard
+                                        <MobileNextActionItem
                                             task={task}
+                                            projects={projects}
+                                            contexts={contexts}
+                                            areas={areas}
                                             onComplete={onCompleteTask}
-                                            onDelete={onDeleteTask}
                                             onEdit={onEditTask}
-                                        >
-                                            <div className="flex items-start gap-2">
-                                                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                                                <div className="flex-1">
-                                                    <p className="text-sm sm:text-base text-gray-900">
-                                                        {task.text}
-                                                    </p>
-
-                                                    {/* Child tasks */}
-                                                    {children && children.length > 0 && (
-                                                        <div className="mt-2 space-y-1 pl-3 border-l-2 border-gray-200">
-                                                            {children.map((child) => (
-                                                                <p
-                                                                    key={child.id}
-                                                                    className="text-xs sm:text-sm text-gray-600"
-                                                                >
-                                                                    → {child.text}
-                                                                </p>
-                                                            ))}
-                                                        </div>
-                                                    )}
-
-                                                    {/* Estimated Time */}
-                                                    {task.estimatedTime && (
-                                                        <p className="text-xs text-gray-500 mt-1">
-                                                            ⏱️ {task.estimatedTime} min
-                                                        </p>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </SwipeableTaskCard>
+                                            onDelete={onDeleteTask}
+                                        />
                                     </div>
                                 </div>
                             );

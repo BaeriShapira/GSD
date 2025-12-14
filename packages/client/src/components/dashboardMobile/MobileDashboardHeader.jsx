@@ -15,8 +15,8 @@ export default function MobileDashboardHeader({ selectedDate, onPreviousDay, onN
             <div className="flex justify-center mb-3">
                 <img
                     src={logoUrl}
-                    alt="GSD"
-                    className="w-32 sm:w-40 object-contain select-none"
+                    alt="GSD cat"
+                    className="w-40 sm:w-52 md:w-60 object-contain select-none mx-auto"
                     draggable="false"
                 />
             </div>
