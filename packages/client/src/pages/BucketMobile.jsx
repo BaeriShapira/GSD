@@ -2,6 +2,7 @@ import { useTasks } from "../hooks/useTasks";
 import { useDeleteTask } from "../hooks/useDeleteTask";
 import MobileBucketInput from "../components/bucketMobile/MobileBucketInput";
 import MobileBucketList from "../components/bucketMobile/MobileBucketList";
+import MobileProcessButton from "../components/bucketMobile/MobileProcessButton";
 import logoUrl from "../assets/GSD_LOGO_PURPLE.svg";
 
 /**
@@ -47,6 +48,9 @@ export default function BucketMobile() {
                     draggable="false"
                 />
             </div>
+
+            {/* Process Button */}
+            <MobileProcessButton taskCount={tasks.length} />
 
             {/* Tasks List - scrollable area with responsive padding */}
             <div className="flex-1 overflow-y-auto px-2 sm:px-4 pb-24">

@@ -25,6 +25,7 @@ import LandingPage from "../pages/LandingPage";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import DashboardMobile from "../pages/DashboardMobile";
 import WaitingForMobile from "../pages/WaitingForMobile";
+import ProcessBucketMobile from "../pages/ProcessBucketMobile";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -120,6 +121,13 @@ export const router = createBrowserRouter([
                         element: <MobileLayout />,
                         children: [
                             { index: true, element: <WaitingForMobile /> },
+                        ],
+                    },
+                    {
+                        path: "process_bucket_mobile",
+                        element: <MobileLayout />,
+                        children: [
+                            { index: true, element: <ProcessBucketMobile /> },
                         ],
                     },
                 ],
