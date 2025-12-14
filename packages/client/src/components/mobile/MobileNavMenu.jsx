@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Inbox, Target, Calendar } from "lucide-react";
+import { Inbox, Target, Calendar, Clock } from "lucide-react";
 
 export default function MobileNavMenu() {
     const navigate = useNavigate();
@@ -20,6 +20,11 @@ export default function MobileNavMenu() {
             path: "/app/dashboard_mobile",
             icon: Calendar,
             label: "Dashboard"
+        },
+        {
+            path: "/app/waiting_for_mobile",
+            icon: Clock,
+            label: "Waiting For"
         }
     ];
 
