@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { ENV } from "../config/env.js";
 
 // Create transporter for sending emails
@@ -134,50 +135,57 @@ export async function sendPasswordResetEmail(email, token) {
 }
 
 /**
- * Send contact message to developer
+ * Send contact message to developer using Resend API
  */
 export async function sendContactEmail({ fromEmail, fromName, subject, message }) {
-    const transport = getTransporter();
-
-    if (!transport) {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
         console.log(`📧 [DEV MODE] Contact from: ${fromEmail} (${fromName})`);
         console.log(`📧 Subject: ${subject}`);
         console.log(`📧 Message: ${message}`);
         return { success: true, dev: true };
     }
 
-    const mailOptions = {
-        from: `"${process.env.APP_NAME || "GSD App"}" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-        to: "gsd.app.dev@gmail.com",
-        replyTo: fromEmail,
-        subject: `[GSD Contact] ${subject}`,
-        html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #003311;">Contact Form Message</h2>
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-                <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <p style="margin: 5px 0;"><strong>From:</strong> ${fromName}</p>
-                    <p style="margin: 5px 0;"><strong>Email:</strong> ${fromEmail}</p>
-                    <p style="margin: 5px 0;"><strong>Subject:</strong> ${subject}</p>
-                </div>
+    const htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #003311;">Contact Form Message</h2>
 
-                <div style="margin: 20px 0;">
-                    <h3 style="color: #333; margin-bottom: 10px;">Message:</h3>
-                    <p style="color: #666; line-height: 1.6; white-space: pre-wrap;">${message}</p>
-                </div>
-
-                <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;" />
-                <p style="color: #999; font-size: 12px;">
-                    This message was sent through the GSD App contact form.
-                </p>
+            <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 5px 0;"><strong>From:</strong> ${fromName}</p>
+                <p style="margin: 5px 0;"><strong>Email:</strong> ${fromEmail}</p>
+                <p style="margin: 5px 0;"><strong>Subject:</strong> ${subject}</p>
             </div>
-        `,
-    };
+
+            <div style="margin: 20px 0;">
+                <h3 style="color: #333; margin-bottom: 10px;">Message:</h3>
+                <p style="color: #666; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;" />
+            <p style="color: #999; font-size: 12px;">
+                This message was sent through the GSD App contact form.
+            </p>
+        </div>
+    `;
 
     try {
-        await transport.sendMail(mailOptions);
-        console.log(`✅ Contact email sent from: ${fromEmail}`);
-        return { success: true };
+        const { data, error } = await resend.emails.send({
+            from: `${process.env.APP_NAME || "GSD App"} <onboarding@resend.dev>`,
+            to: ["gsd.app.dev@gmail.com"],
+            replyTo: fromEmail,
+            subject: `[GSD Contact] ${subject}`,
+            html: htmlContent,
+        });
+
+        if (error) {
+            console.error("❌ Resend error:", error);
+            throw new Error(error.message || "Failed to send email via Resend");
+        }
+
+        console.log(`✅ Contact email sent from: ${fromEmail} (ID: ${data.id})`);
+        return { success: true, id: data.id };
     } catch (error) {
         console.error("❌ Error sending contact email:", error);
         throw new Error("Failed to send contact message. Please try again later.");
