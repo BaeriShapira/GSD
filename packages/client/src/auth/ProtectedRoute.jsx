@@ -21,7 +21,7 @@ export default function ProtectedRoute() {
 
     // Redirect users away from onboarding routes
     if (isOnboardingRoute) {
-        const defaultPath = isMobile ? '/app/bucket_mobile' : '/app/settings';
+        const defaultPath = isMobile ? '/app/bucket_mobile' : '/app/bucket';
         return <Navigate to={defaultPath} replace />;
     }
 
