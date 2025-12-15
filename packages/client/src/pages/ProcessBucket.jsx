@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ProcessBucketBoard from "../components/ProcessBucket/ProcessBucketBoard";
 import ProcessBucketTutorial from "../components/ProcessBucket/ProcessBucketTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 
 export default function ProcessBucket() {
@@ -10,20 +11,14 @@ export default function ProcessBucket() {
 
     // Auto-start tutorial if user hasn't seen it yet
     useEffect(() => {
-        const hasSeenProcessTutorial = localStorage.getItem('hasSeenProcessTutorial');
-
-        if (!hasSeenProcessTutorial) {
+        if (!hasSeenTutorial('process', user)) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user]);
 
     function handleTutorialComplete() {
-        // Mark that user has completed the process tutorial
-        localStorage.setItem('hasSeenProcessTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar to show Reference badge
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'process' } }));
+        completeTutorial('process', () => setShowTutorial(false));
     }
 
     return (

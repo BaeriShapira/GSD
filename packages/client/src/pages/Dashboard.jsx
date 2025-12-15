@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DashboardBoard from "../components/dashboard/DashboardBoard";
 import DashboardTutorial from "../components/dashboard/DashboardTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 export default function Dashboard() {
     const { user } = useAuth();
@@ -9,20 +10,14 @@ export default function Dashboard() {
 
     // Auto-start tutorial if user hasn't seen it yet
     useEffect(() => {
-        const hasSeenDashboardTutorial = localStorage.getItem('hasSeenDashboardTutorial');
-
-        if (!hasSeenDashboardTutorial) {
+        if (!hasSeenTutorial('dashboard', user)) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user]);
 
     function handleTutorialComplete() {
-        // Mark that user has completed the dashboard tutorial
-        localStorage.setItem('hasSeenDashboardTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar if needed
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'dashboard' } }));
+        completeTutorial('dashboard', () => setShowTutorial(false));
     }
 
     return (

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import WaitingForBoard from "../components/waiting_for/WaitingForBoard";
 import WaitingForTutorial from "../components/waiting_for/WaitingForTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 export default function WaitingFor() {
     const { user } = useAuth();
@@ -9,20 +10,14 @@ export default function WaitingFor() {
 
     // Auto-start tutorial if user hasn't seen it yet
     useEffect(() => {
-        const hasSeenWaitingForTutorial = localStorage.getItem('hasSeenWaitingForTutorial');
-
-        if (!hasSeenWaitingForTutorial) {
+        if (!hasSeenTutorial('waitingFor', user)) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user]);
 
     function handleTutorialComplete() {
-        // Mark that user has completed the waiting for tutorial
-        localStorage.setItem('hasSeenWaitingForTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar if needed
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'waitingFor' } }));
+        completeTutorial('waitingFor', () => setShowTutorial(false));
     }
 
     return (

@@ -4,6 +4,7 @@ import ProjectsBoard from "../components/projects/ProjectsBoard";
 import ProjectBoard from "../components/projects/project/ProjectBoard";
 import ProjectsTutorial from "../components/projects/ProjectsTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 export default function Projects() {
     const { projectId } = useParams();
@@ -12,22 +13,14 @@ export default function Projects() {
 
     // Auto-start tutorial if user hasn't seen it yet (only on main projects page, not in specific project)
     useEffect(() => {
-        if (!projectId) {
-            const hasSeenProjectsTutorial = localStorage.getItem('hasSeenProjectsTutorial');
-
-            if (!hasSeenProjectsTutorial) {
-                // Small delay to let the page render first
-                setTimeout(() => setShowTutorial(true), 500);
-            }
+        if (!projectId && !hasSeenTutorial('projects', user)) {
+            // Small delay to let the page render first
+            setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user, projectId]);
 
     function handleTutorialComplete() {
-        // Mark that user has completed the projects tutorial
-        localStorage.setItem('hasSeenProjectsTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar if needed
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'projects' } }));
+        completeTutorial('projects', () => setShowTutorial(false));
     }
 
     // If projectId exists in URL, show ProjectBoard

@@ -4,6 +4,7 @@ import ReferenceBoard from "../components/reference/ReferenceBoard";
 import FolderBoard from "../components/reference/folder/FolderBoard";
 import ReferenceTutorial from "../components/reference/ReferenceTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 export default function Reference() {
     const { folderId } = useParams();
@@ -12,22 +13,14 @@ export default function Reference() {
 
     // Auto-start tutorial if user hasn't seen it yet (only on main reference page, not in folders)
     useEffect(() => {
-        if (!folderId) {
-            const hasSeenReferenceTutorial = localStorage.getItem('hasSeenReferenceTutorial');
-
-            if (!hasSeenReferenceTutorial) {
-                // Small delay to let the page render first
-                setTimeout(() => setShowTutorial(true), 500);
-            }
+        if (!folderId && !hasSeenTutorial('reference', user)) {
+            // Small delay to let the page render first
+            setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user, folderId]);
 
     function handleTutorialComplete() {
-        // Mark that user has completed the reference tutorial
-        localStorage.setItem('hasSeenReferenceTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar if needed
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'reference' } }));
+        completeTutorial('reference', () => setShowTutorial(false));
     }
 
     // אם יש folderId בURL, נציג את FolderBoard

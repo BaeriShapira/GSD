@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SomedayBoard from "../components/someday/SomedayBoard";
 import SomedayTutorial from "../components/someday/SomedayTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 
 export default function Someday() {
@@ -10,20 +11,14 @@ export default function Someday() {
 
     // Auto-start tutorial if user hasn't seen it yet
     useEffect(() => {
-        const hasSeenSomedayTutorial = localStorage.getItem('hasSeenSomedayTutorial');
-
-        if (!hasSeenSomedayTutorial) {
+        if (!hasSeenTutorial('someday', user)) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user]);
 
     function handleTutorialComplete() {
-        // Mark that user has completed the someday tutorial
-        localStorage.setItem('hasSeenSomedayTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar if needed
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'someday' } }));
+        completeTutorial('someday', () => setShowTutorial(false));
     }
 
     return (

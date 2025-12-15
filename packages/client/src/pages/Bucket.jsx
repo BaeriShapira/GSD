@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import QuickCaptureBoard from "../components/bucket/QuickCaptureBoard";
 import BucketTutorial from "../components/bucket/BucketTutorial";
 import { useAuth } from "../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../utils/tutorialHelpers";
 
 
 export default function Bucket() {
@@ -10,21 +11,17 @@ export default function Bucket() {
 
     // Auto-start tutorial if user completed settings but hasn't seen bucket tutorial
     useEffect(() => {
-        const hasCompletedSettingsTutorial = localStorage.getItem('hasCompletedSettingsTutorial');
-        const hasSeenBucketTutorial = localStorage.getItem('hasSeenBucketTutorial');
+        const hasCompletedSettings = !hasSeenTutorial('settings', user);
+        const hasSeenBucket = hasSeenTutorial('bucket', user);
 
-        if (hasCompletedSettingsTutorial && !hasSeenBucketTutorial) {
-            // Mark that user has seen the bucket (removes the badge)
-            localStorage.setItem('hasSeenBucketTutorial', 'true');
+        if (!hasCompletedSettings && !hasSeenBucket) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user]);
 
     function handleTutorialComplete() {
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar to show Process badge
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'bucket' } }));
+        completeTutorial('bucket', () => setShowTutorial(false));
     }
 
     return (
