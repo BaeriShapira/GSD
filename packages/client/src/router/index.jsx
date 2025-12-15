@@ -98,7 +98,7 @@ export const router = createBrowserRouter([
                     {
                         element: <AppLayout />,
                         children: [
-                            { index: true, element: <Dashboard /> },
+                            { index: true, element: <Settings /> },
                             { path: "dashboard", element: <Dashboard /> },
                             { path: "bucket", element: <Bucket /> },
                             { path: "process_bucket", element: <ProcessBucket /> },
