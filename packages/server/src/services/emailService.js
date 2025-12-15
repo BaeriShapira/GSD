@@ -134,6 +134,64 @@ export async function sendPasswordResetEmail(email, token) {
 }
 
 /**
+ * Send welcome email to new user using Resend API
+ */
+export async function sendWelcomeEmail(email, name) {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
+        console.log(`📧 [DEV MODE] Welcome email would be sent to: ${email}`);
+        return { success: true, dev: true };
+    }
+
+    // Lazy load Resend to avoid loading it in dev mode
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <p style="color: #333; font-size: 16px; line-height: 1.6;">Hey,</p>
+
+            <p style="color: #333; font-size: 16px; line-height: 1.6;">
+                I saw you signed up for GSD welcome!<br>
+                I'm really glad you're trying it out.
+            </p>
+
+            <p style="color: #333; font-size: 16px; line-height: 1.6;">
+                I'm here for any question, feedback, or bug you might run into.<br>
+                You can just reply to this email and I'll get back to you.
+            </p>
+
+            <p style="color: #333; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                Baeri
+            </p>
+        </div>
+    `;
+
+    try {
+        const { data, error } = await resend.emails.send({
+            from: `Baeri from GSD <gsd.app.dev@gmail.com>`,
+            to: [email],
+            replyTo: "gsd.app.dev@gmail.com",
+            subject: "Welcome to GSD",
+            html: htmlContent,
+        });
+
+        if (error) {
+            console.error("❌ Resend error (welcome email):", error);
+            // Don't throw - we don't want to fail registration if email fails
+            return { success: false, error: error.message };
+        }
+
+        console.log(`✅ Welcome email sent to: ${email} (ID: ${data.id})`);
+        return { success: true, id: data.id };
+    } catch (error) {
+        console.error("❌ Error sending welcome email:", error);
+        // Don't throw - we don't want to fail registration if email fails
+        return { success: false, error: error.message };
+    }
+}
+
+/**
  * Send contact message to developer using Resend API
  */
 export async function sendContactEmail({ fromEmail, fromName, subject, message }) {
