@@ -22,6 +22,17 @@ model User {
   emailVerified Boolean  @default(false)  // Whether email is verified
   hasCompletedOnboarding Boolean @default(false)
 
+  // Tutorial completion tracking
+  hasSeenSettingsTutorial Boolean @default(false)
+  hasSeenBucketTutorial Boolean @default(false)
+  hasSeenProcessTutorial Boolean @default(false)
+  hasSeenReferenceTutorial Boolean @default(false)
+  hasSeenSomedayTutorial Boolean @default(false)
+  hasSeenProjectsTutorial Boolean @default(false)
+  hasSeenWaitingForTutorial Boolean @default(false)
+  hasSeenNextActionsTutorial Boolean @default(false)
+  hasSeenDashboardTutorial Boolean @default(false)
+
   // Google Calendar Integration
   googleRefreshToken   String?             // Encrypted refresh token
   googleAccessToken    String?             // Encrypted access token

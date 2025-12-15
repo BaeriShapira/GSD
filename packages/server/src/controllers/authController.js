@@ -10,6 +10,15 @@ function normalizeUser(user) {
         name: user.displayName || user.email?.split('@')[0], // Fallback to email username
         avatar: user.avatarUrl,
         hasCompletedOnboarding: user.hasCompletedOnboarding,
+        hasSeenSettingsTutorial: user.hasSeenSettingsTutorial,
+        hasSeenBucketTutorial: user.hasSeenBucketTutorial,
+        hasSeenProcessTutorial: user.hasSeenProcessTutorial,
+        hasSeenReferenceTutorial: user.hasSeenReferenceTutorial,
+        hasSeenSomedayTutorial: user.hasSeenSomedayTutorial,
+        hasSeenProjectsTutorial: user.hasSeenProjectsTutorial,
+        hasSeenWaitingForTutorial: user.hasSeenWaitingForTutorial,
+        hasSeenNextActionsTutorial: user.hasSeenNextActionsTutorial,
+        hasSeenDashboardTutorial: user.hasSeenDashboardTutorial,
     };
 }
 
@@ -146,6 +155,24 @@ export async function completeOnboarding(req, res, next) {
         res.json({
             success: true,
             user: normalizeUser({ ...req.user, hasCompletedOnboarding: true })
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function completeTutorial(req, res, next) {
+    try {
+        const userId = req.user.id;
+        const { tutorialName } = req.body;
+
+        const { updateUserTutorialStatus } = await import("../repositories/userRepository.js");
+
+        const updatedUser = await updateUserTutorialStatus(userId, tutorialName);
+
+        res.json({
+            success: true,
+            user: normalizeUser(updatedUser)
         });
     } catch (err) {
         next(err);

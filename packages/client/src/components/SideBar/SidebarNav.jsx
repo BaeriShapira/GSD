@@ -12,8 +12,9 @@ export default function SidebarNav({ items, onItemClick }) {
 
     // Check if user should see "You start here!" badge on Settings
     const shouldShowSettingsBadge = () => {
-        const hasCompletedTutorial = localStorage.getItem('hasCompletedSettingsTutorial');
-        return user?.hasCompletedOnboarding && !hasCompletedTutorial;
+        const hasCompletedTutorialLocally = localStorage.getItem('hasCompletedSettingsTutorial');
+        const hasCompletedTutorialServer = user?.hasSeenSettingsTutorial;
+        return user?.hasCompletedOnboarding && !hasCompletedTutorialLocally && !hasCompletedTutorialServer;
     };
 
     // Check if user should see "Try it yourself!" badge on Bucket

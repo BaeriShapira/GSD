@@ -68,3 +68,28 @@ export async function updateUserOnboardingStatus(userId, hasCompletedOnboarding)
         data: { hasCompletedOnboarding },
     });
 }
+
+export async function updateUserTutorialStatus(userId, tutorialName) {
+    // Map tutorial names to database fields
+    const tutorialFieldMap = {
+        'settings': 'hasSeenSettingsTutorial',
+        'bucket': 'hasSeenBucketTutorial',
+        'process': 'hasSeenProcessTutorial',
+        'reference': 'hasSeenReferenceTutorial',
+        'someday': 'hasSeenSomedayTutorial',
+        'projects': 'hasSeenProjectsTutorial',
+        'waitingFor': 'hasSeenWaitingForTutorial',
+        'nextActions': 'hasSeenNextActionsTutorial',
+        'dashboard': 'hasSeenDashboardTutorial',
+    };
+
+    const fieldName = tutorialFieldMap[tutorialName];
+    if (!fieldName) {
+        throw new Error(`Invalid tutorial name: ${tutorialName}`);
+    }
+
+    return prisma.user.update({
+        where: { id: userId },
+        data: { [fieldName]: true },
+    });
+}

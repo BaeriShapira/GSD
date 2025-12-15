@@ -9,6 +9,7 @@ import SettingsTutorial from "./SettingsTutorial";
 import { useAreas } from "../../hooks/useAreas";
 import { useContexts } from "../../hooks/useContexts";
 import { useAuth } from "../../auth/AuthContext";
+import { completeTutorial, hasSeenTutorial } from "../../utils/tutorialHelpers";
 
 export default function SettingsBoard() {
     const { areas, isLoading, isError, error, createArea, updateArea, deleteArea } = useAreas();
@@ -23,19 +24,13 @@ export default function SettingsBoard() {
 
     const [showTutorial, setShowTutorial] = useState(false);
 
-    // Auto-start tutorial if user just completed onboarding and has no areas/contexts
+    // Auto-start tutorial if user just completed onboarding
     useEffect(() => {
-        const hasCompletedTutorial = localStorage.getItem('hasCompletedSettingsTutorial');
-        // TEMPORARY: Show tutorial for everyone for testing
-        if (!hasCompletedTutorial) {
+        if (!hasSeenTutorial('settings', user)) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
-        // PRODUCTION: Uncomment this when ready
-        // if (!hasCompletedTutorial && user?.hasCompletedOnboarding && areas?.length === 0 && contexts?.length === 0) {
-        //     setTimeout(() => setShowTutorial(true), 500);
-        // }
-    }, [user, areas, contexts]);
+    }, [user]);
 
     function handleEditArea(area) {
         setEditingArea(area);
@@ -78,10 +73,7 @@ export default function SettingsBoard() {
     }
 
     function handleTutorialComplete() {
-        localStorage.setItem('hasCompletedSettingsTutorial', 'true');
-        setShowTutorial(false);
-        // Dispatch custom event to notify sidebar to update badges
-        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'settings' } }));
+        completeTutorial('settings', () => setShowTutorial(false));
     }
 
     if (isLoading) {

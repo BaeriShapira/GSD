@@ -49,3 +49,17 @@ export async function apiCompleteOnboarding() {
 
     return response.json();
 }
+
+export async function apiCompleteTutorial(tutorialName) {
+    const response = await fetchWithAuth("/auth/complete-tutorial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tutorialName }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to complete tutorial");
+    }
+
+    return response.json();
+}
