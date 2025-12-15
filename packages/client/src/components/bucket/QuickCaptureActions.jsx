@@ -25,7 +25,7 @@ export default function QuickCaptureActions({
             <button
                 type="button"
                 onClick={onProcessAll} // כרגע לא עושה כלום
-                className="btn btn-primary"
+                className="btn btn-primary process-bucket-button"
             >
                 <Rocket className="w-4 h-4" />
                 Process all

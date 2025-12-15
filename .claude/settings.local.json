@@ -30,7 +30,12 @@
       "Bash(powershell -Command \"Stop-Process -Id 25720 -Force\")",
       "Bash(powershell -Command \"Stop-Process -Id 30196 -Force\")",
       "Bash(powershell -Command \"Stop-Process -Id 19736 -Force\")",
-      "Bash(powershell -Command \"Stop-Process -Id 34072,32080 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 34072,32080 -Force\")",
+      "Bash(powershell -Command \"Stop-Process -Id 18436 -Force\")",
+      "Bash(npx prisma db push:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(git checkout:*)",
+      "Bash(del updateUsers.js)"
     ],
     "deny": [],
     "ask": []

@@ -129,6 +129,8 @@ export default function SomedayBoard() {
                     defaultViewLabel="Table view"
                     actionLabel="Add Item"
                     onAction={handleOpenNewModal}
+                    searchClassName="someday-search"
+                    actionClassName="someday-add-button"
                 />
 
                 <SomedayTableView
@@ -175,6 +177,8 @@ export default function SomedayBoard() {
                 defaultViewLabel="Table view"
                 actionLabel="Add Item"
                 onAction={handleOpenNewModal}
+                searchClassName="someday-search"
+                actionClassName="someday-add-button"
             />
 
             <SomedayGroupedView

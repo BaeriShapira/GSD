@@ -27,6 +27,8 @@ export default function WaitingForHeader({
             defaultViewLabel="Table view"
             actionLabel="Add item"
             onAction={onAddItem}
+            searchClassName="waiting-for-search"
+            actionClassName="waiting-for-add-button"
         />
     );
 }

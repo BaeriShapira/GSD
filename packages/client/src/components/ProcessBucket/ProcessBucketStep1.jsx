@@ -3,7 +3,7 @@ import { STEP1 } from "./ProcessBucketSteps";
 
 export default function ProcessBucketStep1({ step1Choice, onChange }) {
     return (
-        <div className="mt-4">
+        <div className="process-bucket-step1 mt-4">
             <p className="mb-3">Step 1 – Is it actionable?</p>
 
             <div className="grid gap-4 sm:grid-cols-2 max-w-xl mb-6">

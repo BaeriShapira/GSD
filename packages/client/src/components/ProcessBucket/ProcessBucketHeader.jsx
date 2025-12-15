@@ -9,17 +9,17 @@ export default function ProcessBucketHeader({
 
     return (
         <>
-            <div className="mb-6">
+            <div className="process-bucket-header mb-6">
                 <p1>
                     Process bucket {currentIndex}/{total}
                 </p1>
+
+                <h2 className="mt-2">
+                    {title}
+                </h2>
+
+                <AttachmentList attachments={attachments} className="mt-4" />
             </div>
-
-            <h2 className="mb-4">
-                {title}
-            </h2>
-
-            <AttachmentList attachments={attachments} className="mb-4" />
         </>
     );
 }

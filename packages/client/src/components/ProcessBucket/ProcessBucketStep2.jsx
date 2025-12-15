@@ -12,19 +12,23 @@ export default function ProcessBucketStep2({
 }) {
     if (step1Choice === STEP1.NOT_ACTIONABLE) {
         return (
-            <Step2NotActionable
-                step2Choice={step2Choice}
-                onChange={onChange}
-            />
+            <div className="process-bucket-step2">
+                <Step2NotActionable
+                    step2Choice={step2Choice}
+                    onChange={onChange}
+                />
+            </div>
         );
     }
 
     if (step1Choice === STEP1.ACTIONABLE) {
         return (
-            <Step2Actionable
-                step2Choice={step2Choice}
-                onChange={onChange}
-            />
+            <div className="process-bucket-step2">
+                <Step2Actionable
+                    step2Choice={step2Choice}
+                    onChange={onChange}
+                />
+            </div>
         );
     }
 

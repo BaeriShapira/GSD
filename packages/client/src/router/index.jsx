@@ -26,6 +26,8 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import DashboardMobile from "../pages/DashboardMobile";
 import WaitingForMobile from "../pages/WaitingForMobile";
 import ProcessBucketMobile from "../pages/ProcessBucketMobile";
+import Onboarding from "../pages/Onboarding";
+import OnboardingMobile from "../pages/OnboardingMobile";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -66,6 +68,22 @@ export const router = createBrowserRouter([
     {
         path: "/email-verification-required",
         element: <EmailVerificationRequired />,
+    },
+
+    // Onboarding routes - protected but separate
+    {
+        path: "/onboarding",
+        element: <ProtectedRoute />,
+        children: [
+            { index: true, element: <Onboarding /> },
+        ],
+    },
+    {
+        path: "/onboarding-mobile",
+        element: <ProtectedRoute />,
+        children: [
+            { index: true, element: <OnboardingMobile /> },
+        ],
     },
 
     // כל מה שמתחת ל- ProtectedRoute דורש התחברות

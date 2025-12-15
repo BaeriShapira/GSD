@@ -28,6 +28,8 @@ export default function NextActionsHeader({
             defaultViewLabel="Table view"
             actionLabel="Add action"
             onAction={onAddAction}
+            searchClassName="next-actions-search"
+            actionClassName="next-actions-add-button"
         />
     );
 }

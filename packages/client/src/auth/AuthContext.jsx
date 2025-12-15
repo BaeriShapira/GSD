@@ -43,6 +43,14 @@ export function AuthProvider({ children }) {
         window.location.href = "/login";
     }
 
+    function updateUser(updatedUserData) {
+        setUser(prev => {
+            const updated = { ...prev, ...updatedUserData };
+            localStorage.setItem("user", JSON.stringify(updated));
+            return updated;
+        });
+    }
+
     // Refresh user data from server on mount if token exists
     useEffect(() => {
         async function refreshUserData() {
@@ -82,6 +90,7 @@ export function AuthProvider({ children }) {
                 logout,
                 setToken,
                 setUser,
+                updateUser,
             }}
         >
             {children}

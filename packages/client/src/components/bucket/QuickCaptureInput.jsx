@@ -31,7 +31,7 @@ export default function QuickCaptureInput({ onAdd }) {
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full quick-capture-input">
             <div className="relative w-full">
                 <input
                     className="input w-full pr-32"   // 👈 שורה חשובה

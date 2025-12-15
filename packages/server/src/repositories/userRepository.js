@@ -61,3 +61,10 @@ export async function linkGoogleAccountToUser(userId, { googleId, displayName, a
         },
     });
 }
+
+export async function updateUserOnboardingStatus(userId, hasCompletedOnboarding) {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { hasCompletedOnboarding },
+    });
+}

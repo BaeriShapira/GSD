@@ -1,22 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import AreaOfResponsibilityCard from "./AreaOfResponsibilityCard";
 import ContextCard from "./ContextCard";
 import AreaOfLifeModal from "./AreaOfLifeModal";
 import ContextModal from "./ContextModal";
 import GoogleCalendarCard from "./GoogleCalendarCard";
+import SettingsTutorial from "./SettingsTutorial";
 import { useAreas } from "../../hooks/useAreas";
 import { useContexts } from "../../hooks/useContexts";
+import { useAuth } from "../../auth/AuthContext";
 
 export default function SettingsBoard() {
     const { areas, isLoading, isError, error, createArea, updateArea, deleteArea } = useAreas();
     const { contexts, isLoading: contextsLoading, createContext, updateContext, deleteContext } = useContexts();
+    const { user } = useAuth();
 
     const [showAreaModal, setShowAreaModal] = useState(false);
     const [editingArea, setEditingArea] = useState(null);
 
     const [showContextModal, setShowContextModal] = useState(false);
     const [editingContext, setEditingContext] = useState(null);
+
+    const [showTutorial, setShowTutorial] = useState(false);
+
+    // Auto-start tutorial if user just completed onboarding and has no areas/contexts
+    useEffect(() => {
+        const hasCompletedTutorial = localStorage.getItem('hasCompletedSettingsTutorial');
+        // TEMPORARY: Show tutorial for everyone for testing
+        if (!hasCompletedTutorial) {
+            // Small delay to let the page render first
+            setTimeout(() => setShowTutorial(true), 500);
+        }
+        // PRODUCTION: Uncomment this when ready
+        // if (!hasCompletedTutorial && user?.hasCompletedOnboarding && areas?.length === 0 && contexts?.length === 0) {
+        //     setTimeout(() => setShowTutorial(true), 500);
+        // }
+    }, [user, areas, contexts]);
 
     function handleEditArea(area) {
         setEditingArea(area);
@@ -58,6 +77,13 @@ export default function SettingsBoard() {
         setEditingContext(null);
     }
 
+    function handleTutorialComplete() {
+        localStorage.setItem('hasCompletedSettingsTutorial', 'true');
+        setShowTutorial(false);
+        // Dispatch custom event to notify sidebar to update badges
+        window.dispatchEvent(new CustomEvent('tutorialCompleted', { detail: { tutorial: 'settings' } }));
+    }
+
     if (isLoading) {
         return (
             <div className="my-10 max-w-7xl">
@@ -78,7 +104,7 @@ export default function SettingsBoard() {
         <>
             <div className="my-10 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl">
                 {/* Areas of Life */}
-                <div className="border border-black/10 rounded-xl bg-white p-6 shadow-sm">
+                <div className="areas-section border border-black/10 rounded-xl bg-white p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
                         <div>
                             <h2>Areas of Life</h2>
@@ -87,7 +113,7 @@ export default function SettingsBoard() {
 
                         <button
                             onClick={handleAddArea}
-                            className="flex items-center gap-1 text-sm text-black/60 hover:text-black transition-colors cursor-pointer"
+                            className="add-area-button flex items-center gap-1 text-sm text-black/60 hover:text-black transition-colors cursor-pointer"
                         >
                             <Plus size={16} />
                             Add
@@ -112,7 +138,7 @@ export default function SettingsBoard() {
                 </div>
 
                 {/* Contexts */}
-                <div className="border border-black/10 rounded-xl bg-white p-6 shadow-sm">
+                <div className="contexts-section border border-black/10 rounded-xl bg-white p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
                         <div>
                             <h2 >Contexts</h2>
@@ -121,7 +147,7 @@ export default function SettingsBoard() {
 
                         <button
                             onClick={handleAddContext}
-                            className="flex items-center gap-1 text-sm text-black/60 hover:text-black transition-colors cursor-pointer"
+                            className="add-context-button flex items-center gap-1 text-sm text-black/60 hover:text-black transition-colors cursor-pointer"
                         >
                             <Plus size={16} />
                             Add
@@ -150,6 +176,26 @@ export default function SettingsBoard() {
 
                 {/* Google Calendar Integration */}
                 <GoogleCalendarCard />
+
+                {/* Onboarding Tutorial */}
+                <div className="border border-black/10 rounded-xl bg-white p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <h2>Onboarding Tutorial</h2>
+                            <p>Restart the tutorial to learn about GTD again</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => {
+                            const isMobile = window.matchMedia("(max-width: 425px)").matches;
+                            const path = isMobile ? '/onboarding-mobile' : '/onboarding';
+                            window.location.href = path;
+                        }}
+                        className="px-4 py-2 btn btn-primary"
+                    >
+                        Restart Tutorial
+                    </button>
+                </div>
             </div>
 
             <AreaOfLifeModal
@@ -172,6 +218,12 @@ export default function SettingsBoard() {
                 onSubmit={handleContextSubmit}
                 onDelete={deleteContext}
                 initialData={editingContext}
+            />
+
+            <SettingsTutorial
+                isOpen={showTutorial}
+                onClose={() => setShowTutorial(false)}
+                onComplete={handleTutorialComplete}
             />
         </>
     );

@@ -7,7 +7,7 @@ export default function ProcessBucketActions({
     validationMessage,
 }) {
     return (
-        <div className="mt-8">
+        <div className="process-bucket-actions mt-8">
             {!canSave && validationMessage && (
                 <p className="text-sm text-red-500 mb-2 text-right">
                     {validationMessage}

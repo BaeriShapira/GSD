@@ -71,14 +71,16 @@ export default function ReferenceBoard() {
     return (
         <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm ">
             <div className="flex items-center justify-between mb-6">
-                <SearchInput
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    placeholder="Search by text, label, or file..."
-                />
+                <div className="reference-search flex-1 mr-4">
+                    <SearchInput
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        placeholder="Search by text, label, or file..."
+                    />
+                </div>
                 <button
                     onClick={() => setShowNewFolderModal(true)}
-                    className="btn btn-primary"
+                    className="reference-add-folder btn btn-primary"
                 >
                     <Plus size={20} />
                     <span>Add folder </span>
@@ -132,7 +134,7 @@ export default function ReferenceBoard() {
             ) : (
                 <>
                     {/* Folders Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <div className="reference-folders-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                         {folders.map((folder) => (
                             <FolderCard
                                 key={folder.id}

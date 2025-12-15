@@ -32,7 +32,9 @@ export default function PageHeader({
 
     // Styling props
     variant = "default", // "default" | "minimal"
-    className = ""
+    className = "",
+    searchClassName = "",
+    actionClassName = ""
 }) {
     const containerClass = variant === "minimal"
         ? `mb-6 ${className}`
@@ -45,11 +47,13 @@ export default function PageHeader({
                 <div className="flex items-center gap-2 flex-1">
                     {/* Search Input */}
                     {onSearchChange && (
-                        <SearchInput
-                            value={searchQuery}
-                            onChange={onSearchChange}
-                            placeholder={searchPlaceholder}
-                        />
+                        <div className={searchClassName}>
+                            <SearchInput
+                                value={searchQuery}
+                                onChange={onSearchChange}
+                                placeholder={searchPlaceholder}
+                            />
+                        </div>
                     )}
 
                     {/* View Mode Toggle */}
@@ -69,7 +73,7 @@ export default function PageHeader({
                 {onAction && (
                     <button
                         onClick={onAction}
-                        className="btn btn-primary"
+                        className={`btn btn-primary ${actionClassName}`}
                     >
                         <ActionIcon size={20} />
                         <span>{actionLabel}</span>

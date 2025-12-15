@@ -29,6 +29,8 @@ export default function ProjectsHeader({
             onAction={onAddProject}
             variant={isGroupedView ? "default" : "minimal"}
             className={isGroupedView ? "mb-6 my-0" : ""}
+            searchClassName="projects-search"
+            actionClassName="projects-add-button"
         />
     );
 }

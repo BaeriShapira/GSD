@@ -9,6 +9,7 @@ function normalizeUser(user) {
         ...userData,
         name: user.displayName || user.email?.split('@')[0], // Fallback to email username
         avatar: user.avatarUrl,
+        hasCompletedOnboarding: user.hasCompletedOnboarding,
     };
 }
 
@@ -115,6 +116,7 @@ export async function devLogin(req, res, next) {
             authProvider: 'dev',
             emailVerified: true,
             googleId: null,
+            hasCompletedOnboarding: true,
             createdAt: new Date(),
         };
 
@@ -128,6 +130,22 @@ export async function devLogin(req, res, next) {
         res.json({
             user: normalizeUser(mockUser),
             token,
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function completeOnboarding(req, res, next) {
+    try {
+        const userId = req.user.id;
+        const { updateUserOnboardingStatus } = await import("../repositories/userRepository.js");
+
+        await updateUserOnboardingStatus(userId, true);
+
+        res.json({
+            success: true,
+            user: normalizeUser({ ...req.user, hasCompletedOnboarding: true })
         });
     } catch (err) {
         next(err);

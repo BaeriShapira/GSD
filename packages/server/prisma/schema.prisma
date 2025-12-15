@@ -20,6 +20,7 @@ model User {
 
   // Email verification
   emailVerified Boolean  @default(false)  // Whether email is verified
+  hasCompletedOnboarding Boolean @default(false)
 
   // Google Calendar Integration
   googleRefreshToken   String?             // Encrypted refresh token

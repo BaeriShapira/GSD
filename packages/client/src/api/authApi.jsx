@@ -37,3 +37,15 @@ export async function apiGetMe() {
 
     return res.json(); // user object
 }
+
+export async function apiCompleteOnboarding() {
+    const response = await fetchWithAuth("/auth/complete-onboarding", {
+        method: "POST",
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to complete onboarding");
+    }
+
+    return response.json();
+}
