@@ -11,10 +11,10 @@ export default function Bucket() {
 
     // Auto-start tutorial if user completed settings but hasn't seen bucket tutorial
     useEffect(() => {
-        const hasCompletedSettings = !hasSeenTutorial('settings', user);
+        const hasCompletedSettings = hasSeenTutorial('settings', user);
         const hasSeenBucket = hasSeenTutorial('bucket', user);
 
-        if (!hasCompletedSettings && !hasSeenBucket) {
+        if (hasCompletedSettings && !hasSeenBucket) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }

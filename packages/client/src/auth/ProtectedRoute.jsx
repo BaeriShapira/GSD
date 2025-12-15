@@ -27,7 +27,7 @@ export default function ProtectedRoute() {
     }
 
     if (!needsOnboarding && isOnboardingRoute) {
-        const defaultPath = isMobile ? '/app/bucket_mobile' : '/app/dashboard';
+        const defaultPath = isMobile ? '/app/bucket_mobile' : '/app/settings';
         return <Navigate to={defaultPath} replace />;
     }
 
