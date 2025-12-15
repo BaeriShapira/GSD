@@ -11,6 +11,7 @@ import { dailyOutcomeRouter } from "./dailyOutcomeRoutes.js";
 import timeBlockRouter from "./timeBlockRoutes.js";
 import notebookRouter from "./notebookRoutes.js";
 import calendarRouter from "./calendarRoutes.js";
+import { contactRouter } from "./contactRoutes.js";
 
 const router = express.Router();
 
@@ -43,5 +44,7 @@ router.use("/time-blocks", timeBlockRouter);
 router.use("/notebooks", notebookRouter);
 
 router.use("/calendar", calendarRouter);
+
+router.use("/contact", contactRouter);
 
 export default router;

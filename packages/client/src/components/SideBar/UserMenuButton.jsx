@@ -1,9 +1,11 @@
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, Mail } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../auth/AuthContext";
+import ContactDeveloperModal from "../UI/ContactDeveloperModal";
 
 export default function UserMenuButton() {
     const [showMenu, setShowMenu] = useState(false);
+    const [showContactModal, setShowContactModal] = useState(false);
     const menuRef = useRef(null);
     const { user, logout } = useAuth();
 
@@ -35,6 +37,11 @@ export default function UserMenuButton() {
     const handleLogout = () => {
         setShowMenu(false);
         logout();
+    };
+
+    const handleContactClick = () => {
+        setShowMenu(false);
+        setShowContactModal(true);
     };
 
     return (
@@ -74,6 +81,13 @@ export default function UserMenuButton() {
                 {showMenu && (
                     <div className="absolute bottom-full left-0 right-0 mb-2 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                         <button
+                            onClick={handleContactClick}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer flex items-center gap-2"
+                        >
+                            <Mail size={16} />
+                            Contact Developer
+                        </button>
+                        <button
                             onClick={handleLogout}
                             className="w-full px-4 py-2 text-left text-sm text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer flex items-center gap-2"
                         >
@@ -83,6 +97,11 @@ export default function UserMenuButton() {
                     </div>
                 )}
             </div>
+
+            <ContactDeveloperModal
+                isOpen={showContactModal}
+                onClose={() => setShowContactModal(false)}
+            />
         </div>
     );
 }
