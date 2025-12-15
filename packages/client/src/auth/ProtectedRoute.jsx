@@ -17,7 +17,7 @@ export default function ProtectedRoute() {
 
     // Check onboarding status
     const isOnboardingRoute = location.pathname.startsWith('/onboarding');
-    const needsOnboarding = user && !user.hasCompletedOnboarding;
+    const needsOnboarding = user && user.hasCompletedOnboarding === false;
 
     // If user needs onboarding and is not on onboarding route, redirect to onboarding
     if (needsOnboarding && !isOnboardingRoute) {
