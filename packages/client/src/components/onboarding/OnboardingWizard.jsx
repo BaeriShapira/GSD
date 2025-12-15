@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiCompleteOnboarding } from "../../api/authApi";
+import { apiCompleteOnboarding, apiGetMe } from "../../api/authApi";
 import { useAuth } from "../../auth/AuthContext";
 import OnboardingProgress from "./OnboardingProgress";
 import OnboardingNavigation from "./OnboardingNavigation";
@@ -37,8 +37,10 @@ export default function OnboardingWizard() {
 
     const handleFinish = async () => {
         try {
-            const result = await apiCompleteOnboarding();
-            updateUser({ hasCompletedOnboarding: true });
+            await apiCompleteOnboarding();
+            // Refresh user data from server to get updated hasCompletedOnboarding
+            const freshUser = await apiGetMe();
+            updateUser(freshUser);
             navigate("/app/settings");
         } catch (error) {
             console.error("Failed to complete onboarding:", error);
@@ -48,7 +50,9 @@ export default function OnboardingWizard() {
     const handleSkip = async () => {
         try {
             await apiCompleteOnboarding();
-            updateUser({ hasCompletedOnboarding: true });
+            // Refresh user data from server to get updated hasCompletedOnboarding
+            const freshUser = await apiGetMe();
+            updateUser(freshUser);
             navigate("/app/settings");
         } catch (error) {
             console.error("Failed to skip onboarding:", error);

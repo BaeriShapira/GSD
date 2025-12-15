@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { apiCompleteOnboarding } from "../../api/authApi";
+import { apiCompleteOnboarding, apiGetMe } from "../../api/authApi";
 import { useAuth } from "../../auth/AuthContext";
 import logoUrl from "../../assets/GSD_LOGO_PURPLE.svg";
 
@@ -10,7 +10,9 @@ export default function MobileOnboardingWelcome() {
     const handleGetStarted = async () => {
         try {
             await apiCompleteOnboarding();
-            updateUser({ hasCompletedOnboarding: true });
+            // Refresh user data from server to get updated hasCompletedOnboarding
+            const freshUser = await apiGetMe();
+            updateUser(freshUser);
             navigate("/app/bucket_mobile");
         } catch (error) {
             console.error("Failed to complete onboarding:", error);
