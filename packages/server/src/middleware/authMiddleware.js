@@ -48,6 +48,7 @@ export async function authMiddleware(req, res, next) {
                 avatarUrl: true,
                 authProvider: true,
                 emailVerified: true,
+                hasCompletedOnboarding: true,
                 // Don't select passwordHash for security
             },
         });
