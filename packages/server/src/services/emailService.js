@@ -174,7 +174,7 @@ export async function sendContactEmail({ fromEmail, fromName, subject, message }
     try {
         const { data, error } = await resend.emails.send({
             from: `${process.env.APP_NAME || "GSD App"} <onboarding@resend.dev>`,
-            to: ["gsd.app.dev@gmail.com"],
+            to: ["baerishapir@gmail.com"],
             replyTo: fromEmail,
             subject: `[GSD Contact] ${subject}`,
             html: htmlContent,
