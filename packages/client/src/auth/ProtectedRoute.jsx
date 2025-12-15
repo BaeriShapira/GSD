@@ -15,12 +15,18 @@ export default function ProtectedRoute() {
         return <Navigate to="/login" replace />;
     }
 
-    // TEMPORARY: Disable onboarding check until database migration is complete
-    // Assume all users have completed onboarding
+    // Check onboarding status
     const isOnboardingRoute = location.pathname.startsWith('/onboarding');
+    const needsOnboarding = user && !user.hasCompletedOnboarding;
 
-    // Redirect users away from onboarding routes
-    if (isOnboardingRoute) {
+    // If user needs onboarding and is not on onboarding route, redirect to onboarding
+    if (needsOnboarding && !isOnboardingRoute) {
+        const onboardingPath = isMobile ? '/onboarding-mobile' : '/onboarding';
+        return <Navigate to={onboardingPath} replace />;
+    }
+
+    // If user completed onboarding but tries to access onboarding route, redirect to app
+    if (!needsOnboarding && isOnboardingRoute) {
         const defaultPath = isMobile ? '/app/bucket_mobile' : '/app/bucket';
         return <Navigate to={defaultPath} replace />;
     }
