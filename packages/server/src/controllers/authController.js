@@ -150,11 +150,11 @@ export async function completeOnboarding(req, res, next) {
         const userId = req.user.id;
         const { updateUserOnboardingStatus } = await import("../repositories/userRepository.js");
 
-        await updateUserOnboardingStatus(userId, true);
+        const updatedUser = await updateUserOnboardingStatus(userId, true);
 
         res.json({
             success: true,
-            user: normalizeUser({ ...req.user, hasCompletedOnboarding: true })
+            user: normalizeUser(updatedUser)
         });
     } catch (err) {
         next(err);
