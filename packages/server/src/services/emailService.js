@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { Resend } from "resend";
 import { ENV } from "../config/env.js";
 
 // Create transporter for sending emails
@@ -146,6 +145,8 @@ export async function sendContactEmail({ fromEmail, fromName, subject, message }
         return { success: true, dev: true };
     }
 
+    // Lazy load Resend to avoid loading it in dev mode
+    const { Resend } = await import("resend");
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const htmlContent = `
