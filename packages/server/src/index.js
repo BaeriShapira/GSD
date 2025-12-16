@@ -30,9 +30,17 @@ app.use(cors({
 }));
 
 // Security: Helmet adds various HTTP headers for security
-// Configure to allow CORS
+// Configure to allow CORS and serve uploaded files
 app.use(helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" }
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "blob:", "*"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+        }
+    }
 }));
 
 // Security: Rate limiting to prevent abuse

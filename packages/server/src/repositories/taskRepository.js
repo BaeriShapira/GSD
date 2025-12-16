@@ -164,7 +164,7 @@ export function createTaskForUser(userId, taskData, attachmentsData = []) {
  * עדכון משימה קיימת
  * (כרגע לא תומכים בעדכון קבצים — רק מחזירים אותם)
  */
-export async function updateTaskForUser(userId, taskId, updates) {
+export async function updateTaskForUser(userId, taskId, updates, attachmentsData = []) {
     const taskIdInt = Number(taskId);
 
     const existing = await prisma.task.findUnique({
@@ -175,9 +175,17 @@ export async function updateTaskForUser(userId, taskId, updates) {
         return null;
     }
 
+    // אם יש attachments חדשים, נוסיף אותם ל-updates
+    const data = { ...updates };
+    if (attachmentsData.length > 0) {
+        data.attachments = {
+            create: attachmentsData,
+        };
+    }
+
     return prisma.task.update({
         where: { id: taskIdInt },
-        data: updates,
+        data,
         include: {
             folder: true,
             attachments: true,

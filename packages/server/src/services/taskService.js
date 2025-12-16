@@ -43,7 +43,7 @@ export async function addUserTask(userId, taskData, files = []) {
     return createTaskForUser(userId, taskData, attachmentsData);
 }
 
-export async function editUserTask(userId, taskId, updates) {
+export async function editUserTask(userId, taskId, updates, files = []) {
     // תמיכה בעדכון טקסט בלבד (לשמירה על תאימות לאחור)
     if (typeof updates === "string") {
         if (!updates || !updates.trim()) {
@@ -57,7 +57,16 @@ export async function editUserTask(userId, taskId, updates) {
         }
     }
 
-    const updated = await updateTaskForUser(userId, taskId, updates);
+    // בנה attachments מתוך files (מ-multer)
+    const attachmentsData = (files || []).map(file => ({
+        originalName: file.originalname,
+        storedName: file.filename,
+        mimeType: file.mimetype,
+        size: file.size,
+        url: `${ENV.SERVER_BASE_URL}/uploads/tasks/${file.filename}`,
+    }));
+
+    const updated = await updateTaskForUser(userId, taskId, updates, attachmentsData);
     if (!updated) {
         const err = new Error("Task not found");
         err.status = 404;
