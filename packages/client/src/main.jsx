@@ -25,7 +25,8 @@ createRoot(document.getElementById("root")).render(
 
 // Load Analytics in production only - after initial render
 if (import.meta.env.PROD) {
-  import(/* @vite-ignore */ "@vercel/analytics/react").then(({ inject }) => {
+  const analyticsModule = "@vercel" + "/analytics/react";
+  import(analyticsModule).then(({ inject }) => {
     inject();
   }).catch(() => {
     // Silently fail if Analytics fails to load
