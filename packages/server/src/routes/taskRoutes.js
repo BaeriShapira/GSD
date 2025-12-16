@@ -18,5 +18,5 @@ taskRouter.use(authMiddleware);
 taskRouter.get("/", getTasks);        // GET /api/tasks
 taskRouter.post("/", uploadTaskFiles, handleUploadErrors, createTask);     // POST /api/tasks
 taskRouter.post("/bulk-update-order", bulkUpdateTasksOrder); // POST /api/tasks/bulk-update-order
-taskRouter.put("/:id", updateTask);   // PUT /api/tasks/123
+taskRouter.put("/:id", uploadTaskFiles, handleUploadErrors, updateTask);   // PUT /api/tasks/123
 taskRouter.delete("/:id", deleteTask); // DELETE /api/tasks/123

@@ -62,12 +62,47 @@ export async function createTask(data) {
 
 export async function updateTask(id, updates) {
     // תמיכה לאחור - אם זה סטרינג, זה טקסט
-    const body = typeof updates === "string" ? { text: updates } : updates;
+    if (typeof updates === "string") {
+        const body = { text: updates };
+        const res = await fetchWithAuth(`/tasks/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error("Failed to update task");
+        return res.json();
+    }
+
+    const { files = [], ...rest } = updates || {};
+
+    // אם אין קבצים – שולחים כ-JSON רגיל
+    if (!files || files.length === 0) {
+        const res = await fetchWithAuth(`/tasks/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(rest),
+        });
+        if (!res.ok) throw new Error("Failed to update task");
+        return res.json();
+    }
+
+    // אם יש קבצים – FormData
+    const formData = new FormData();
+
+    // אם יש שדות נוספים, נוסיף גם אותם
+    Object.entries(rest).forEach(([key, value]) => {
+        if (value != null) {
+            formData.append(key, value);
+        }
+    });
+
+    files.forEach(file => {
+        formData.append("files", file); // השם "files" צריך להתאים לבקאנד
+    });
 
     const res = await fetchWithAuth(`/tasks/${id}`, {
         method: "PUT",
-        body: JSON.stringify(body),
+        body: formData,
     });
+
     if (!res.ok) throw new Error("Failed to update task");
     return res.json();
 }

@@ -25,12 +25,10 @@ export default function BucketMobile() {
     };
 
     const handleUpload = (taskId, files) => {
-        // Upload files by creating a new task update with files
-        // Note: Current API might not support adding files to existing tasks
-        // We'll need to check if the backend supports this
-        console.log("Upload files for task", taskId, files);
-        // TODO: Implement file upload to existing task when backend supports it
-        alert("File upload to existing tasks coming soon!");
+        if (!files || files.length === 0) return;
+
+        // Upload files by updating the task with files
+        updateTask(taskId, { files });
     };
 
     const handleDelete = (taskId) => {
