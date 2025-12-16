@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "./auth/AuthContext"; // 👈 חדש
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
+      <Analytics />
     </AuthProvider>
   </QueryClientProvider>
 );
