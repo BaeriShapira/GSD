@@ -25,10 +25,11 @@ createRoot(document.getElementById("root")).render(
 
 // Load Analytics in production only - after initial render
 if (import.meta.env.PROD) {
-  const analyticsModule = "@vercel" + "/analytics/react";
+  const analyticsModule = "@vercel/analytics/react";
   import(analyticsModule).then(({ inject }) => {
+    console.log("✅ Vercel Analytics loaded successfully");
     inject();
-  }).catch(() => {
-    // Silently fail if Analytics fails to load
+  }).catch((error) => {
+    console.warn("⚠️ Failed to load Vercel Analytics:", error);
   });
 }
