@@ -59,7 +59,7 @@ export default function ContactDeveloperModal({ isOpen, onClose }) {
         <Modal isOpen={isOpen} onClose={handleClose} title="Contact Developer">
             {status === "success" ? (
                 <div className="text-center py-8">
-                    <CheckCircle size={48} className="mx-auto text-green-500 mb-4" />
+                    <CheckCircle size={48} className="mx-auto text-brand-primary mb-4" />
                     <h3 className="text-lg font-semibold text-brand-primary mb-2">
                         Message Sent!
                     </h3>

@@ -51,7 +51,7 @@ export default function GoogleCalendarCard() {
     return (
         <div className="border border-black/10 rounded-xl bg-white p-6 shadow-sm">
             {/* Header */}
-            <div className="flex flex-col items-start ">
+            <div className="flex flex-col items-start  mb-4 ">
                 <div className=" flex items-center justify-center">
                     <img
                         src={logoUrl}
@@ -95,7 +95,7 @@ export default function GoogleCalendarCard() {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col items-start gap-2">
                 {!isConnected ? (
                     <button
                         onClick={handleConnect}

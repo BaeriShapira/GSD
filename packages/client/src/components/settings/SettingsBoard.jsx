@@ -174,7 +174,7 @@ export default function SettingsBoard() {
                     <div className="flex items-center justify-between mb-4">
                         <div>
                             <h2>Onboarding Tutorial</h2>
-                            <p>Restart the tutorial to learn about GTD again</p>
+                            <p>Restart the tutorial to learn about GSD again</p>
                         </div>
                     </div>
                     <button
