@@ -23,7 +23,10 @@ export default function GoogleCalendarCard() {
 
     const handleConnect = () => {
         // Redirect to Calendar-specific Google OAuth
-        window.location.href = `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/api/auth/google/calendar`;
+        const baseUrl = import.meta.env.VITE_API_BASE_URL;
+        // Remove trailing /api if it exists, then add the full auth path
+        const serverUrl = baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;
+        window.location.href = `${serverUrl}/api/auth/google/calendar`;
     };
 
     const handleToggleSync = () => {
@@ -97,7 +100,7 @@ export default function GoogleCalendarCard() {
                     <button
                         onClick={handleConnect}
                         disabled={isEnabling}
-                        className="btn btn-primary w-full"
+                        className="btn btn-primary "
                     >
                         {isEnabling ? 'Connecting...' : 'Connect Google Calendar'}
                     </button>

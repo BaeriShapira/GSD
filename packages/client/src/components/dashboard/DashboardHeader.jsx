@@ -213,7 +213,9 @@ export default function DashboardHeader({
                             {!syncStatus?.connected ? (
                                 <button
                                     onClick={() => {
-                                        window.location.href = `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/api/auth/google/calendar`;
+                                        const baseUrl = import.meta.env.VITE_API_BASE_URL;
+                                        const serverUrl = baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;
+                                        window.location.href = `${serverUrl}/api/auth/google/calendar`;
                                     }}
                                     disabled={isEnabling}
                                     className="btn btn-primary w-full"
