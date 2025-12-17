@@ -168,7 +168,7 @@ export async function sendWelcomeEmail(email, name) {
 
     try {
         const { data, error } = await resend.emails.send({
-            from: `Baeri from GSD <gsd.app.dev@gmail.com>`,
+            from: `Baeri from GSD <onboarding@gsdapp.dev>`,
             to: [email],
             replyTo: "gsd.app.dev@gmail.com",
             subject: "Welcome to GSD",
