@@ -24,9 +24,12 @@ export default function SettingsBoard() {
 
     const [showTutorial, setShowTutorial] = useState(false);
 
-    // Auto-start tutorial if user just completed onboarding
+    // Auto-start tutorial for new users who just completed onboarding
     useEffect(() => {
-        if (!hasSeenTutorial('settings', user)) {
+        const hasCompletedOnboarding = user?.hasCompletedOnboarding === true;
+        const hasSeenSettings = hasSeenTutorial('settings', user);
+
+        if (hasCompletedOnboarding && !hasSeenSettings) {
             // Small delay to let the page render first
             setTimeout(() => setShowTutorial(true), 500);
         }
