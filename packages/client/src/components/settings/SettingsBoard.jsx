@@ -27,16 +27,17 @@ export default function SettingsBoard() {
     // Auto-start tutorial for new users who just completed onboarding
     useEffect(() => {
         const hasCompletedOnboarding = user?.hasCompletedOnboarding === true;
-        const hasSeenSettings = hasSeenTutorial('settings', user);
+        // For new users, check ONLY server state (not localStorage)
+        // This prevents old localStorage values from blocking the tutorial
+        const hasSeenSettingsOnServer = user?.hasSeenSettingsTutorial === true;
 
         console.log('🔍 SettingsBoard Tutorial Check:', {
             hasCompletedOnboarding,
-            hasSeenSettings,
-            userHasSeenSettingsTutorial: user?.hasSeenSettingsTutorial,
-            shouldShowTutorial: hasCompletedOnboarding && !hasSeenSettings
+            hasSeenSettingsOnServer,
+            shouldShowTutorial: hasCompletedOnboarding && !hasSeenSettingsOnServer
         });
 
-        if (hasCompletedOnboarding && !hasSeenSettings) {
+        if (hasCompletedOnboarding && !hasSeenSettingsOnServer) {
             // Small delay to let the page render first
             console.log('✅ Auto-starting Settings tutorial...');
             setTimeout(() => setShowTutorial(true), 500);
