@@ -1,78 +1,68 @@
-import nodemailer from "nodemailer";
-import { ENV } from "../config/env.js";
-
-// Create transporter for sending emails
-let transporter = null;
-
-function getTransporter() {
-    if (!transporter) {
-        // Check if SMTP is configured
-        if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
-            console.warn("⚠️  SMTP not configured. Email sending will be disabled.");
-            return null;
-        }
-
-        transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: parseInt(process.env.SMTP_PORT || "587"),
-            secure: process.env.SMTP_SECURE === "true", // true for 465, false for other ports
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
-    }
-    return transporter;
-}
+/**
+ * Email Service using Resend API
+ *
+ * All emails are sent through Resend for reliability and deliverability.
+ * Requires RESEND_API_KEY environment variable in production.
+ * In development mode (without API key), emails are logged to console.
+ */
 
 /**
- * Send email verification email
+ * Send email verification email (currently not used - users are auto-verified)
  */
 export async function sendVerificationEmail(email, token) {
-    const transport = getTransporter();
-
-    if (!transport) {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
         console.log(`📧 [DEV MODE] Verification email would be sent to: ${email}`);
         console.log(`📧 [DEV MODE] Verification URL: ${process.env.CLIENT_URL}/verify-email/${token}`);
         return { success: true, dev: true };
     }
 
+    // Lazy load Resend to avoid loading it in dev mode
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const verificationUrl = `${process.env.CLIENT_URL}/verify-email/${token}`;
 
-    const mailOptions = {
-        from: `"${process.env.APP_NAME || "GSD App"}" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-        to: email,
-        subject: "Verify your email address",
-        html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #333;">Welcome to ${process.env.APP_NAME || "GSD App"}!</h2>
-                <p style="color: #666; line-height: 1.6;">
-                    Thank you for signing up. Please verify your email address by clicking the button below:
-                </p>
-                <div style="text-align: center; margin: 30px 0;">
-                    <a href="${verificationUrl}"
-                       style="background-color: #000; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                        Verify Email Address
-                    </a>
-                </div>
-                <p style="color: #999; font-size: 12px;">
-                    If the button doesn't work, copy and paste this link into your browser:<br>
-                    <a href="${verificationUrl}" style="color: #666;">${verificationUrl}</a>
-                </p>
-                <p style="color: #999; font-size: 12px;">
-                    This link will expire in 24 hours.
-                </p>
-                <p style="color: #999; font-size: 12px;">
-                    If you didn't create an account, you can safely ignore this email.
-                </p>
+    const htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #333;">Verify your email address</h2>
+            <p style="color: #666; line-height: 1.6;">
+                Thank you for signing up for GSD. Please verify your email address by clicking the button below:
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="${verificationUrl}"
+                   style="background-color: #000; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Verify Email Address
+                </a>
             </div>
-        `,
-    };
+            <p style="color: #999; font-size: 12px;">
+                If the button doesn't work, copy and paste this link into your browser:<br>
+                <a href="${verificationUrl}" style="color: #666;">${verificationUrl}</a>
+            </p>
+            <p style="color: #999; font-size: 12px;">
+                This link will expire in 24 hours.
+            </p>
+            <p style="color: #999; font-size: 12px;">
+                If you didn't create an account, you can safely ignore this email.
+            </p>
+        </div>
+    `;
 
     try {
-        await transport.sendMail(mailOptions);
-        console.log(`✅ Verification email sent to: ${email}`);
-        return { success: true };
+        const { data, error } = await resend.emails.send({
+            from: `GSD <noreply@gsdapp.dev>`,
+            to: [email],
+            subject: "Verify your email address",
+            html: htmlContent,
+        });
+
+        if (error) {
+            console.error("❌ Resend error (verification email):", error);
+            throw new Error("Failed to send verification email");
+        }
+
+        console.log(`✅ Verification email sent to: ${email} (ID: ${data.id})`);
+        return { success: true, id: data.id };
     } catch (error) {
         console.error("❌ Error sending verification email:", error);
         throw new Error("Failed to send verification email");
@@ -80,53 +70,62 @@ export async function sendVerificationEmail(email, token) {
 }
 
 /**
- * Send password reset email (for future use)
+ * Send password reset email (currently not used)
  */
 export async function sendPasswordResetEmail(email, token) {
-    const transport = getTransporter();
-
-    if (!transport) {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
         console.log(`📧 [DEV MODE] Password reset email would be sent to: ${email}`);
         console.log(`📧 [DEV MODE] Reset URL: ${process.env.CLIENT_URL}/reset-password/${token}`);
         return { success: true, dev: true };
     }
 
+    // Lazy load Resend to avoid loading it in dev mode
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
 
-    const mailOptions = {
-        from: `"${process.env.APP_NAME || "GSD App"}" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-        to: email,
-        subject: "Reset your password",
-        html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #333;">Reset Your Password</h2>
-                <p style="color: #666; line-height: 1.6;">
-                    You requested to reset your password. Click the button below to create a new password:
-                </p>
-                <div style="text-align: center; margin: 30px 0;">
-                    <a href="${resetUrl}"
-                       style="background-color: #000; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                        Reset Password
-                    </a>
-                </div>
-                <p style="color: #999; font-size: 12px;">
-                    If the button doesn't work, copy and paste this link into your browser:<br>
-                    <a href="${resetUrl}" style="color: #666;">${resetUrl}</a>
-                </p>
-                <p style="color: #999; font-size: 12px;">
-                    This link will expire in 24 hours.
-                </p>
-                <p style="color: #999; font-size: 12px;">
-                    If you didn't request a password reset, you can safely ignore this email.
-                </p>
+    const htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #333;">Reset Your Password</h2>
+            <p style="color: #666; line-height: 1.6;">
+                You requested to reset your password. Click the button below to create a new password:
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="${resetUrl}"
+                   style="background-color: #000; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Reset Password
+                </a>
             </div>
-        `,
-    };
+            <p style="color: #999; font-size: 12px;">
+                If the button doesn't work, copy and paste this link into your browser:<br>
+                <a href="${resetUrl}" style="color: #666;">${resetUrl}</a>
+            </p>
+            <p style="color: #999; font-size: 12px;">
+                This link will expire in 24 hours.
+            </p>
+            <p style="color: #999; font-size: 12px;">
+                If you didn't request a password reset, you can safely ignore this email.
+            </p>
+        </div>
+    `;
 
     try {
-        await transport.sendMail(mailOptions);
-        console.log(`✅ Password reset email sent to: ${email}`);
-        return { success: true };
+        const { data, error } = await resend.emails.send({
+            from: `GSD <noreply@gsdapp.dev>`,
+            to: [email],
+            subject: "Reset your password",
+            html: htmlContent,
+        });
+
+        if (error) {
+            console.error("❌ Resend error (password reset):", error);
+            throw new Error("Failed to send password reset email");
+        }
+
+        console.log(`✅ Password reset email sent to: ${email} (ID: ${data.id})`);
+        return { success: true, id: data.id };
     } catch (error) {
         console.error("❌ Error sending password reset email:", error);
         throw new Error("Failed to send password reset email");
@@ -134,7 +133,7 @@ export async function sendPasswordResetEmail(email, token) {
 }
 
 /**
- * Send welcome email to new user using Resend API
+ * Send welcome email to new user
  */
 export async function sendWelcomeEmail(email, name) {
     // Check if Resend is configured

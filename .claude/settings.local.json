@@ -39,7 +39,9 @@
       "Bash(DATABASE_URL=\"postgresql://user:pass@localhost/db\" npx prisma migrate dev:*)",
       "Bash(DATABASE_URL=\"postgresql://postgres:PlpYTDRhMqHKnGhvNWOjAgUOQgUIzJpT@postgres-k9gv.railway.internal:5432/railway\" npx prisma db push:*)",
       "Bash(npx:*)",
-      "Bash(sqlite3:*)"
+      "Bash(sqlite3:*)",
+      "Bash(grep:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []
