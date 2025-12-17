@@ -29,8 +29,16 @@ export default function SettingsBoard() {
         const hasCompletedOnboarding = user?.hasCompletedOnboarding === true;
         const hasSeenSettings = hasSeenTutorial('settings', user);
 
+        console.log('🔍 SettingsBoard Tutorial Check:', {
+            hasCompletedOnboarding,
+            hasSeenSettings,
+            userHasSeenSettingsTutorial: user?.hasSeenSettingsTutorial,
+            shouldShowTutorial: hasCompletedOnboarding && !hasSeenSettings
+        });
+
         if (hasCompletedOnboarding && !hasSeenSettings) {
             // Small delay to let the page render first
+            console.log('✅ Auto-starting Settings tutorial...');
             setTimeout(() => setShowTutorial(true), 500);
         }
     }, [user]);
