@@ -1,14 +1,15 @@
-import { List, Blocks, SquareChartGantt, ToolCase } from "lucide-react";
+import { List, Blocks, SquareChartGantt, ToolCase, PieChart } from "lucide-react";
 
 /**
- * ViewModeToggle component with 4 icon buttons for different view modes
+ * ViewModeToggle component with icon buttons for different view modes
  *
- * @param {string} viewMode - Current view mode ("table"/"grid" or "grouped")
+ * @param {string} viewMode - Current view mode ("table"/"grid", "grouped", or "stats")
  * @param {function} onViewModeChange - Callback when view mode changes
  * @param {string} groupBy - Current group by option (e.g., "area", "project", "context")
  * @param {function} onGroupByChange - Callback when group by changes
  * @param {Array} groupByOptions - Available group by options [{value: "area", label: "Area of Life", icon: "users"}, ...]
  * @param {string} defaultViewLabel - Label for default view (e.g., "Table view", "Grid view")
+ * @param {boolean} showStatsButton - Whether to show the statistics button (default: false)
  */
 export default function ViewModeToggle({
     viewMode,
@@ -16,9 +17,11 @@ export default function ViewModeToggle({
     groupBy = "area",
     onGroupByChange,
     groupByOptions = [],
-    defaultViewLabel = "Table view"
+    defaultViewLabel = "Table view",
+    showStatsButton = false
 }) {
     const isGroupedView = viewMode === "grouped";
+    const isStatsView = viewMode === "stats";
     const defaultView = defaultViewLabel === "Grid view" ? "grid" : "table";
 
     function handleDefaultViewClick() {
@@ -28,6 +31,10 @@ export default function ViewModeToggle({
     function handleGroupByClick(optionValue) {
         onGroupByChange(optionValue);
         onViewModeChange("grouped");
+    }
+
+    function handleStatsClick() {
+        onViewModeChange("stats");
     }
 
     // Icon mapping
@@ -42,7 +49,7 @@ export default function ViewModeToggle({
             {/* Default View Button (Table/Grid) */}
             <button
                 onClick={handleDefaultViewClick}
-                className={`p-2 rounded transition-colors ${!isGroupedView
+                className={`p-2 rounded transition-colors ${!isGroupedView && !isStatsView
                     ? "bg-black/10 text-black"
                     : "text-black/40 hover:text-black/60 cursor-pointer"
                     }`}
@@ -53,7 +60,7 @@ export default function ViewModeToggle({
 
             {/* Group By Buttons */}
             {groupByOptions.map(option => {
-                const IconComponent = iconMap[option.icon] || Users;
+                const IconComponent = iconMap[option.icon] || Blocks;
                 const isActive = isGroupedView && groupBy === option.value;
 
                 return (
@@ -70,6 +77,20 @@ export default function ViewModeToggle({
                     </button>
                 );
             })}
+
+            {/* Statistics Button */}
+            {showStatsButton && (
+                <button
+                    onClick={handleStatsClick}
+                    className={`p-2 rounded transition-colors ${isStatsView
+                        ? "bg-black/10 text-black"
+                        : "text-black/40 hover:text-black/60 cursor-pointer"
+                        }`}
+                    title="Statistics view"
+                >
+                    <PieChart size={18} />
+                </button>
+            )}
         </div>
     );
 }

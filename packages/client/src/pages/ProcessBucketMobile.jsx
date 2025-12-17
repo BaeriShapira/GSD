@@ -339,13 +339,13 @@ export default function ProcessBucketMobile() {
                 ? Boolean(waitingFor?.trim())
                 : step2Choice === STEP2_ACTIONABLE.NEXT_ACTION
                     ? Boolean(nextActionText?.trim()) &&
-                      (scheduleType === "list" || (scheduleType === "calendar" && scheduledDate))
+                    (scheduleType === "list" || (scheduleType === "calendar" && scheduledDate))
                     : step2Choice === STEP2_ACTIONABLE.PROJECT
                         ? (projectChoice === "existing"
                             ? Boolean(existingProjectId && firstActionText?.trim()) &&
-                              (firstActionScheduleType === "list" || (firstActionScheduleType === "calendar" && firstActionScheduledDate))
+                            (firstActionScheduleType === "list" || (firstActionScheduleType === "calendar" && firstActionScheduledDate))
                             : Boolean(newProjectName?.trim() && firstActionText?.trim()) &&
-                              (firstActionScheduleType === "list" || (firstActionScheduleType === "calendar" && firstActionScheduledDate)))
+                            (firstActionScheduleType === "list" || (firstActionScheduleType === "calendar" && firstActionScheduledDate)))
                         : Boolean(step2Choice);
 
     // Validation message
@@ -642,7 +642,7 @@ export default function ProcessBucketMobile() {
                     <button
                         type="button"
                         onClick={handleSkip}
-                        className="btn btn-outline flex-1 text-sm sm:text-base py-3"
+                        className="btn btn-outline flex-1 text-sm sm:text-base py-3 justify-center"
                     >
                         Skip this one
                     </button>
@@ -650,7 +650,7 @@ export default function ProcessBucketMobile() {
                         type="button"
                         onClick={handleSaveAndContinue}
                         disabled={!canSave}
-                        className={`btn btn-primary flex-1 text-sm sm:text-base py-3 ${!canSave ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`btn btn-primary justify-center flex-1 text-sm sm:text-base py-3 ${!canSave ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                         Save &amp; next
                     </button>

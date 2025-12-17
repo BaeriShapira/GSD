@@ -1,0 +1,66 @@
+/**
+ * System Updates Configuration
+ *
+ * Instructions for Developer:
+ * 1. Add new updates to the top of the array
+ * 2. Each update should have:
+ *    - id: Unique identifier (use format: "update-YYYY-MM-DD-N")
+ *    - date: Release date (YYYY-MM-DD format)
+ *    - version: Version number (optional)
+ *    - title: Short title in Hebrew
+ *    - items: Array of update descriptions in Hebrew
+ * 3. Users will see a red notification dot until they view the latest update
+ */
+
+export const systemUpdates = [
+    {
+        id: "update-2025-12-17-2",
+        date: "2025-12-17",
+        version: "1.4.0",
+        title: "Improvements and New Features",
+        items: [
+            `We added an Archive page under Reference.
+
+            All the tasks you’ve already completed are stored there.
+            You’ll also find some cool stats about your progress, broken down by Areas of Life.
+            
+            And yeah - it’s also just nice to see all the shit you’ve actually done.`,
+            "We’ve received the required security approvals from Google, and you can now safely sync with your calendar without any concerns.",
+        ]
+    },
+
+    // Add more updates here...
+    // Example:
+    // {
+    //     id: "update-2025-12-18-1",
+    //     date: "2025-12-18",
+    //     version: "1.2.0",
+    //     title: "New Features",
+    //     items: [
+    //         "Added export tasks to PDF",
+    //         "Support for multiple file uploads",
+    //     ]
+    // },
+];
+
+// Get the latest update ID
+export const getLatestUpdateId = () => {
+    return systemUpdates.length > 0 ? systemUpdates[0].id : null;
+};
+
+// Check if user has viewed the latest update
+export const hasNewUpdates = () => {
+    const latestId = getLatestUpdateId();
+    if (!latestId) return false;
+
+    const viewedId = localStorage.getItem("lastViewedUpdateId");
+    return viewedId !== latestId;
+};
+
+// Mark latest update as viewed
+export const markUpdatesAsViewed = () => {
+    const latestId = getLatestUpdateId();
+    if (latestId) {
+        localStorage.setItem("lastViewedUpdateId", latestId);
+    }
+};

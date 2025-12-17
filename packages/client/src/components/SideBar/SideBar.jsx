@@ -58,7 +58,8 @@ const nav = [
         label: "Reference",
         icon: BsFolderFill,
         children: [
-            { label: "General", to: "/app/reference" },
+            { label: "Reference", to: "/app/reference" },
+            { label: "Archive", to: "/app/archive" },
         ],
     },
     {

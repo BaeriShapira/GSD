@@ -13,6 +13,7 @@ import EmailVerificationRequired from "../pages/EmailVerificationRequired";
 import ProtectedRoute from "../auth/ProtectedRoute";
 import ProcessBucket from "../pages/ProcessBucket";
 import Reference from "../pages/Reference";
+import Archive from "../pages/Archive";
 import Someday from "../pages/Someday";
 import Settings from "../pages/Settings";
 import WaitingFor from "../pages/WaitingFor";
@@ -104,6 +105,7 @@ export const router = createBrowserRouter([
                             { path: "process_bucket", element: <ProcessBucket /> },
                             { path: "reference", element: <Reference /> },
                             { path: "reference/:folderId", element: <Reference /> },
+                            { path: "archive", element: <Archive /> },
                             { path: "projects", element: <Projects /> },
                             { path: "projects/:projectId", element: <Projects /> },
                             { path: "next_actions", element: <NextActions /> },

@@ -105,8 +105,19 @@ export default function SidebarNav({ items, onItemClick }) {
             return;
         }
 
-        // אם יש יותר מפריט אחד, פתח/סגור את התפריט
-        setOpen(prev => (prev === section.label ? null : section.label));
+        // אם יש יותר מפריט אחד:
+        // 1. נווט לפריט הראשון
+        // 2. פתח/סגור את התפריט
+        if (section.children && section.children.length > 1) {
+            // נווט לפריט הראשון (למשל: Bucket)
+            navigate(section.children[0].to);
+
+            // פתח/סגור את התפריט
+            setOpen(prev => (prev === section.label ? null : section.label));
+
+            // אל תסגור את התפריט במובייל כי המשתמש רוצה לראות את האפשרויות
+            // (onItemClick לא נקרא כאן)
+        }
     }
 
     return (

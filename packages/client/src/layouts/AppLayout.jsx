@@ -3,9 +3,13 @@ import { useState } from "react";
 import Sidebar from "../components/SideBar/SideBar";
 import FloatingQuickCapture from "../components/UI/FloatingQuickCapture";
 import { Menu } from "lucide-react";
+import { usePageTracking } from "../hooks/usePageTracking";
 
 export default function AppLayout() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    // Track page views automatically
+    usePageTracking();
 
     return (
         <div className="min-h-screen w-full bg-brand-bg">

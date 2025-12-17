@@ -7,9 +7,11 @@ import ViewModeToggle from "./ViewModeToggle";
  * Supports:
  * - Search input
  * - View mode toggle with grouping options
+ * - Custom middle content (filters, etc.)
  * - Action button (Add, etc.)
+ * - Task count display
  *
- * Used in: Next Actions, Waiting For, Projects, Someday, Reference
+ * Used in: Next Actions, Waiting For, Projects, Someday, Reference, Archive
  */
 export default function PageHeader({
     // Search props
@@ -24,6 +26,13 @@ export default function PageHeader({
     onGroupByChange,
     groupByOptions = [],
     defaultViewLabel = "Table view",
+    showStatsButton = false,
+
+    // Middle content (custom filters, etc.)
+    middleContent,
+
+    // Task count
+    tasksCount,
 
     // Action button props
     actionLabel = "Add",
@@ -42,7 +51,7 @@ export default function PageHeader({
 
     return (
         <div className={containerClass}>
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
                 {/* Left Section: Search + View Toggle */}
                 <div className="flex items-center gap-2 flex-1">
                     {/* Search Input */}
@@ -65,9 +74,20 @@ export default function PageHeader({
                             onGroupByChange={onGroupByChange}
                             groupByOptions={groupByOptions}
                             defaultViewLabel={defaultViewLabel}
+                            showStatsButton={showStatsButton}
                         />
                     )}
                 </div>
+
+                {/* Middle Section: Custom Content (filters, etc.) */}
+                {middleContent}
+
+                {/* Task Count */}
+                {tasksCount !== undefined && (
+                    <div className="text-sm text-black/60 whitespace-nowrap">
+                        {tasksCount} {tasksCount === 1 ? 'task' : 'tasks'}
+                    </div>
+                )}
 
                 {/* Right Section: Action Button */}
                 {onAction && (
