@@ -49,6 +49,16 @@ export async function authMiddleware(req, res, next) {
                 authProvider: true,
                 emailVerified: true,
                 hasCompletedOnboarding: true,
+                // Tutorial status fields
+                hasSeenSettingsTutorial: true,
+                hasSeenBucketTutorial: true,
+                hasSeenProcessTutorial: true,
+                hasSeenReferenceTutorial: true,
+                hasSeenSomedayTutorial: true,
+                hasSeenProjectsTutorial: true,
+                hasSeenWaitingForTutorial: true,
+                hasSeenNextActionsTutorial: true,
+                hasSeenDashboardTutorial: true,
                 // Don't select passwordHash for security
             },
         });

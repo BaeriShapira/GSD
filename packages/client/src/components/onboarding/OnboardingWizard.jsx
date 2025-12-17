@@ -44,6 +44,7 @@ export default function OnboardingWizard() {
             navigate("/app/settings");
         } catch (error) {
             console.error("Failed to complete onboarding:", error);
+            alert("Failed to complete onboarding. Please try again or contact support.");
         }
     };
 
@@ -56,6 +57,7 @@ export default function OnboardingWizard() {
             navigate("/app/settings");
         } catch (error) {
             console.error("Failed to skip onboarding:", error);
+            alert("Failed to skip onboarding. Please try again or contact support.");
         }
     };
 

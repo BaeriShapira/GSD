@@ -25,9 +25,10 @@ export default function ProtectedRoute() {
         return <Navigate to={onboardingPath} replace />;
     }
 
-    // If user completed onboarding but tries to access onboarding route, redirect to app
+    // If user completed onboarding but tries to access onboarding route, redirect to settings
+    // This ensures the Settings tutorial is the first tutorial users see after onboarding
     if (!needsOnboarding && isOnboardingRoute) {
-        const defaultPath = isMobile ? '/app/bucket_mobile' : '/app/bucket';
+        const defaultPath = '/app/settings';
         return <Navigate to={defaultPath} replace />;
     }
 
