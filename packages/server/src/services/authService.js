@@ -13,7 +13,7 @@ import {
 import { createDefaultAreas } from "../repositories/areaRepository.js";
 import { ensureDefaultContextsExist } from "../repositories/contextRepository.js";
 import { createVerificationToken, findVerificationToken, deleteVerificationToken, deleteUserTokensByType } from "../repositories/verificationTokenRepository.js";
-import { sendVerificationEmail, sendWelcomeEmail } from "./emailService.js";
+import { sendVerificationEmail, sendWelcomeEmail, sendNewUserNotification } from "./emailService.js";
 import { encrypt } from "../utils/encryption.js";
 
 export async function registerUser(email, password) {
@@ -32,6 +32,11 @@ export async function registerUser(email, password) {
     // Send welcome email (don't await - send in background)
     sendWelcomeEmail(user.email, user.displayName || user.email.split('@')[0]).catch(err => {
         console.error("Failed to send welcome email:", err);
+    });
+
+    // Send admin notification (don't await - send in background)
+    sendNewUserNotification(user.email, user.displayName || user.email.split('@')[0], user.id).catch(err => {
+        console.error("Failed to send admin notification:", err);
     });
 
     // Generate JWT token and return immediately (no email verification needed)
@@ -108,6 +113,11 @@ export async function findOrCreateGoogleUser({ googleId, email, displayName, ava
     // Send welcome email (don't await - send in background)
     sendWelcomeEmail(user.email, user.displayName || user.email.split('@')[0]).catch(err => {
         console.error("Failed to send welcome email:", err);
+    });
+
+    // Send admin notification (don't await - send in background)
+    sendNewUserNotification(user.email, user.displayName || user.email.split('@')[0], user.id).catch(err => {
+        console.error("Failed to send admin notification:", err);
     });
 
     // Save tokens if provided

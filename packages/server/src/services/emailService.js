@@ -192,6 +192,60 @@ export async function sendWelcomeEmail(email, name) {
 }
 
 /**
+ * Send new user notification to admin
+ */
+export async function sendNewUserNotification(userEmail, userName, userId) {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
+        console.log(`📧 [DEV MODE] New user notification would be sent for: ${userEmail}`);
+        return { success: true, dev: true };
+    }
+
+    // Lazy load Resend to avoid loading it in dev mode
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #333;">New User Registered! 🎉</h1>
+
+            <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 5px 0;"><strong>Name:</strong> ${userName}</p>
+                <p style="margin: 5px 0;"><strong>Email:</strong> ${userEmail}</p>
+                <p style="margin: 5px 0;"><strong>User ID:</strong> ${userId}</p>
+                <p style="margin: 5px 0;"><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+            </div>
+
+            <p style="font-size: 14px; color: #888; margin-top: 30px;">
+                This is an automated notification from your GSD application.
+            </p>
+        </div>
+    `;
+
+    try {
+        const { data, error } = await resend.emails.send({
+            from: `GSD Notifications <noreply@gsdapp.dev>`,
+            to: ["gsd.app.dev@gmail.com"],
+            subject: `New User Registration: ${userName}`,
+            html: htmlContent,
+        });
+
+        if (error) {
+            console.error("❌ Resend error (admin notification):", error);
+            // Don't throw - we don't want to fail registration if email fails
+            return { success: false, error: error.message };
+        }
+
+        console.log(`✅ Admin notification sent for new user: ${userEmail} (ID: ${data.id})`);
+        return { success: true, id: data.id };
+    } catch (error) {
+        console.error("❌ Error sending admin notification:", error);
+        // Don't throw - we don't want to fail registration if email fails
+        return { success: false, error: error.message };
+    }
+}
+
+/**
  * Send contact message to developer using Resend API
  */
 export async function sendContactEmail({ fromEmail, fromName, subject, message }) {
