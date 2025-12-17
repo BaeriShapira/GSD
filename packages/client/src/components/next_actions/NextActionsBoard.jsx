@@ -215,12 +215,12 @@ export default function NextActionsBoard() {
         updateTask(taskId, updates);
     }
 
-    // Handle complete - delete task with celebration
+    // Handle complete - move task to archive with celebration
     function handleComplete(taskId) {
-        if (confirm("Mark this action as complete? It will be removed from the list.")) {
+        if (confirm("Mark this action as complete? It will be moved to the Archive.")) {
             setCelebratingTaskId(taskId);
             setTimeout(() => {
-                deleteTask(taskId);
+                updateTask(taskId, { status: "COMPLETED" });
                 setCelebratingTaskId(null);
             }, 0);
         }
