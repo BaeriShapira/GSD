@@ -16,12 +16,10 @@ export const systemUpdates = [
     {
         id: "update-2025-12-18-1",
         date: "2025-12-18",
-        version: "1.5.0",
+        version: "1.4.1",
         title: "Navigation & Tutorial Improvements",
         items: [
-            "Fixed: After onboarding, new users are now directed straight to Settings (instead of Bucket) so the Settings tutorial starts automatically.",
             "Fixed: When you visit gsdapp.dev while logged in, you're now sent directly to the app instead of the landing page. No more confusion!",
-            "Added: All tutorial status fields are now properly synced with the server, ensuring a consistent tutorial experience across sessions.",
         ]
     },
     {
