@@ -14,6 +14,17 @@
 
 export const systemUpdates = [
     {
+        id: "update-2025-12-18-1",
+        date: "2025-12-18",
+        version: "1.5.0",
+        title: "Navigation & Tutorial Improvements",
+        items: [
+            "Fixed: After onboarding, new users are now directed straight to Settings (instead of Bucket) so the Settings tutorial starts automatically.",
+            "Fixed: When you visit gsdapp.dev while logged in, you're now sent directly to the app instead of the landing page. No more confusion!",
+            "Added: All tutorial status fields are now properly synced with the server, ensuring a consistent tutorial experience across sessions.",
+        ]
+    },
+    {
         id: "update-2025-12-17-2",
         date: "2025-12-17",
         version: "1.4.0",
@@ -21,11 +32,11 @@ export const systemUpdates = [
         items: [
             `We added an Archive page under Reference.
 
-            All the tasks you’ve already completed are stored there.
-            You’ll also find some cool stats about your progress, broken down by Areas of Life.
-            
-            And yeah - it’s also just nice to see all the shit you’ve actually done.`,
-            "We’ve received the required security approvals from Google, and you can now safely sync with your calendar without any concerns.",
+            All the tasks you've already completed are stored there.
+            You'll also find some cool stats about your progress, broken down by Areas of Life.
+
+            And yeah - it's also just nice to see all the shit you've actually done.`,
+            "We've received the required security approvals from Google, and you can now safely sync with your calendar without any concerns.",
         ]
     },
 
