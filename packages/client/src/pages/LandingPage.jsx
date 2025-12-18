@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 import LandingHeader from "../components/Landing/LandingHeader";
 import HeroSection from "../components/Landing/HeroSection";
 import FeatureList from "../components/Landing/FeatureList";
@@ -5,6 +8,21 @@ import CTAButton from "../components/Landing/CTAButton";
 import CatPaws from "../components/Landing/CatPaws";
 
 export default function LandingPage() {
+    const { isAuthenticated, isBootstrapping } = useAuth();
+    const navigate = useNavigate();
+
+    // Redirect authenticated users to app
+    useEffect(() => {
+        if (!isBootstrapping && isAuthenticated) {
+            navigate("/app", { replace: true });
+        }
+    }, [isAuthenticated, isBootstrapping, navigate]);
+
+    // Show nothing while checking authentication
+    if (isBootstrapping) {
+        return null;
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
             {/* Content Wrapper with padding for cat paws */}
