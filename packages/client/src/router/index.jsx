@@ -29,6 +29,7 @@ import WaitingForMobile from "../pages/WaitingForMobile";
 import ProcessBucketMobile from "../pages/ProcessBucketMobile";
 import Onboarding from "../pages/Onboarding";
 import OnboardingMobile from "../pages/OnboardingMobile";
+import WeeklyReview from "../pages/WeeklyReview";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -112,6 +113,7 @@ export const router = createBrowserRouter([
                             { path: "someday", element: <Someday /> },
                             { path: "waiting_for", element: <WaitingFor /> },
                             { path: "settings", element: <Settings /> },
+                            { path: "weekly_review", element: <WeeklyReview /> },
                         ],
                     },
                     // Mobile routes with MobileLayout (no sidebar, no header)

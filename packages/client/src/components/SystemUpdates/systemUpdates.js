@@ -14,29 +14,51 @@
 
 export const systemUpdates = [
     {
-        id: "update-2025-12-18-1",
-        date: "2025-12-18",
-        version: "1.4.1",
-        title: "Navigation & Tutorial Improvements",
+        id: "update-2025-12-19-1",
+        date: "2025-12-19",
+        version: "1.5.0",
+        title: "Weekly Review Feature",
         items: [
-            "Fixed: When you visit gsdapp.dev while logged in, you're now sent directly to the app instead of the landing page. No more confusion!",
+            `New: Weekly Review is here! 
+
+            Find it under Bucket → Weekly Review.
+
+            This guided 5-step process will help you:
+            • Review your Someday/Maybe items
+            • Go through all your projects
+            • Brain dump everything to Bucket
+            • Process your entire Bucket
+            • Plan your week with goals and time blocks
+
+            GSD recommends doing this once a week to keep your system clean and your mind clear.
+
+            We'd love to hear your feedback! Email us at gsd.app.dev@gmail.com`,
         ]
     },
-    {
-        id: "update-2025-12-17-2",
-        date: "2025-12-17",
-        version: "1.4.0",
-        title: "Improvements and New Features",
-        items: [
-            `We added an Archive page under Reference.
+    // {
+    //     id: "update-2025-12-18-1",
+    //     date: "2025-12-18",
+    //     version: "1.4.1",
+    //     title: "Navigation & Tutorial Improvements",
+    //     items: [
+    //         "Fixed: When you visit gsdapp.dev while logged in, you're now sent directly to the app instead of the landing page. No more confusion!",
+    //     ]
+    // },
+    // {
+    //     id: "update-2025-12-17-2",
+    //     date: "2025-12-17",
+    //     version: "1.4.0",
+    //     title: "Improvements and New Features",
+    //     items: [
+    //         `We added an Archive page under Reference.
 
-            All the tasks you've already completed are stored there.
-            You'll also find some cool stats about your progress, broken down by Areas of Life.
+    //         All the tasks you've already completed are stored there.
+    //         You'll also find some cool stats about your progress, broken down by Areas of Life.
 
-            And yeah - it's also just nice to see all the shit you've actually done.`,
-            "We've received the required security approvals from Google, and you can now safely sync with your calendar without any concerns.",
-        ]
-    },
+    //         And yeah - it's also just nice to see all the shit you've actually done.`,
+    //         "We've received the required security approvals from Google, and you can now safely sync with your calendar without any concerns.",
+    //     ]
+    // },
 
     // Add more updates here...
     // Example:

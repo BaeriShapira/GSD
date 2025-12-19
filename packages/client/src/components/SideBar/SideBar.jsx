@@ -17,6 +17,7 @@ const nav = [
         children: [
             { label: "Bucket", to: "/app/bucket" },
             { label: "Process bucket", to: "/app/process_bucket" },
+            { label: "Weekly Review", to: "/app/weekly_review" },
         ],
     },
     {
