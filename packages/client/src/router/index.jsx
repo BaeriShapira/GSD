@@ -30,6 +30,7 @@ import ProcessBucketMobile from "../pages/ProcessBucketMobile";
 import Onboarding from "../pages/Onboarding";
 import OnboardingMobile from "../pages/OnboardingMobile";
 import WeeklyReview from "../pages/WeeklyReview";
+import AdminPanel from "../pages/AdminPanel";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -114,6 +115,7 @@ export const router = createBrowserRouter([
                             { path: "waiting_for", element: <WaitingFor /> },
                             { path: "settings", element: <Settings /> },
                             { path: "weekly_review", element: <WeeklyReview /> },
+                            { path: "admin", element: <AdminPanel /> },
                         ],
                     },
                     // Mobile routes with MobileLayout (no sidebar, no header)

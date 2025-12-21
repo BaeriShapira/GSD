@@ -245,6 +245,58 @@ export async function sendNewUserNotification(userEmail, userName, userId) {
 }
 
 /**
+ * Send broadcast email to multiple users
+ */
+export async function sendBroadcastEmail(users, subject, htmlContent) {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
+        console.log(`📧 [DEV MODE] Broadcast email would be sent to ${users.length} users`);
+        console.log(`📧 Subject: ${subject}`);
+        console.log(`📧 Content preview: ${htmlContent.substring(0, 100)}...`);
+        return { success: true, dev: true };
+    }
+
+    // Lazy load Resend to avoid loading it in dev mode
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    try {
+        // Send emails one by one to allow personalization
+        const results = [];
+        for (const user of users) {
+            try {
+                const { data, error } = await resend.emails.send({
+                    from: `Baeri from GSD <onboarding@gsdapp.dev>`,
+                    to: [user.email],
+                    replyTo: "gsd.app.dev@gmail.com",
+                    subject: subject,
+                    html: htmlContent,
+                });
+
+                if (error) {
+                    console.error(`❌ Failed to send to ${user.email}:`, error);
+                    results.push({ email: user.email, success: false, error });
+                } else {
+                    console.log(`✅ Email sent to: ${user.email} (ID: ${data.id})`);
+                    results.push({ email: user.email, success: true, id: data.id });
+                }
+            } catch (emailError) {
+                console.error(`❌ Error sending to ${user.email}:`, emailError);
+                results.push({ email: user.email, success: false, error: emailError.message });
+            }
+        }
+
+        const successCount = results.filter((r) => r.success).length;
+        console.log(`✅ Broadcast complete: ${successCount}/${users.length} sent successfully`);
+
+        return { success: true, results, totalSent: successCount, totalUsers: users.length };
+    } catch (error) {
+        console.error("❌ Error sending broadcast email:", error);
+        throw new Error("Failed to send broadcast email");
+    }
+}
+
+/**
  * Send contact message to developer using Resend API
  */
 export async function sendContactEmail({ fromEmail, fromName, subject, message }) {

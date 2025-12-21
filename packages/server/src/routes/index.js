@@ -12,6 +12,7 @@ import timeBlockRouter from "./timeBlockRoutes.js";
 import notebookRouter from "./notebookRoutes.js";
 import calendarRouter from "./calendarRoutes.js";
 import { contactRouter } from "./contactRoutes.js";
+import adminRouter from "./adminRoutes.js";
 
 const router = express.Router();
 
@@ -46,5 +47,7 @@ router.use("/notebooks", notebookRouter);
 router.use("/calendar", calendarRouter);
 
 router.use("/contact", contactRouter);
+
+router.use("/admin", adminRouter);
 
 export default router;

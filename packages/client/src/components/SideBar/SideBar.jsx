@@ -7,7 +7,8 @@ import { BsLightbulbFill } from "react-icons/bs";
 import { IoSettingsSharp } from "react-icons/io5";
 import { MdHourglassBottom, MdDashboard } from "react-icons/md";
 import { GrTasks } from "react-icons/gr";
-import { X, LayoutDashboard } from "lucide-react";
+import { X, LayoutDashboard, Shield } from "lucide-react";
+import { useAuth } from "../../auth/AuthContext";
 
 
 const nav = [
@@ -73,7 +74,21 @@ const nav = [
 
 ];
 
+// Admin navigation - only shown to admin users (user.id === 1)
+const adminNav = [
+    {
+        label: "Admin",
+        icon: Shield,
+        children: [
+            { label: "Admin Panel", to: "/app/admin" },
+        ],
+    },
+];
+
 export default function Sidebar({ isMobileMenuOpen, onCloseMobileMenu }) {
+    const { user } = useAuth();
+    const isAdmin = user?.id === 1;
+
     return (
         <>
             {/* Mobile overlay backdrop */}
@@ -109,6 +124,14 @@ export default function Sidebar({ isMobileMenuOpen, onCloseMobileMenu }) {
                         <SidebarLogo />
                         <div className="mt-2 mb-6 h-px w-full bg-black/10" />
                         <SidebarNav items={nav} onItemClick={onCloseMobileMenu} />
+
+                        {/* Admin navigation - only for user.id === 1 */}
+                        {isAdmin && (
+                            <>
+                                <div className="my-4 h-px w-full bg-black/10" />
+                                <SidebarNav items={adminNav} onItemClick={onCloseMobileMenu} />
+                            </>
+                        )}
                     </div>
 
                     <UserMenuButton
