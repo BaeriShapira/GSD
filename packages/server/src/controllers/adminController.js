@@ -8,9 +8,10 @@ import { sendBroadcastEmail } from "../services/emailService.js";
 export const getUserStats = async (req, res) => {
     try {
         const now = new Date();
-        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        // Use UTC to ensure consistency across timezones
+        const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
         const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
 
         // User statistics
         const totalUsers = await prisma.user.count();
