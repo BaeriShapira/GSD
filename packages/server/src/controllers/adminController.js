@@ -106,6 +106,7 @@ export const getMostActiveUsers = async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
 
+        // Get all users with their task count
         const users = await prisma.user.findMany({
             select: {
                 id: true,
@@ -116,23 +117,21 @@ export const getMostActiveUsers = async (req, res) => {
                     select: { tasks: true },
                 },
             },
-            orderBy: {
-                tasks: {
-                    _count: "desc",
-                },
-            },
-            take: limit,
         });
 
-        const formattedUsers = users.map((user) => ({
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            createdAt: user.createdAt,
-            taskCount: user._count.tasks,
-        }));
+        // Sort by task count and take top N
+        const sortedUsers = users
+            .map((user) => ({
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                createdAt: user.createdAt,
+                taskCount: user._count.tasks,
+            }))
+            .sort((a, b) => b.taskCount - a.taskCount)
+            .slice(0, limit);
 
-        res.json(formattedUsers);
+        res.json(sortedUsers);
     } catch (error) {
         console.error("Error fetching most active users:", error);
         res.status(500).json({ error: "Failed to fetch most active users" });
@@ -175,19 +174,25 @@ export const sendBroadcast = async (req, res) => {
         } else if (recipientType === "topActive") {
             // Send to most active users
             const limit = topActiveCount || 10;
-            const activeUsers = await prisma.user.findMany({
+
+            // Get all users with task count, sort, and take top N
+            const allUsers = await prisma.user.findMany({
                 select: {
                     email: true,
                     name: true,
-                },
-                orderBy: {
-                    tasks: {
-                        _count: "desc",
+                    _count: {
+                        select: { tasks: true },
                     },
                 },
-                take: limit,
             });
-            users = activeUsers;
+
+            users = allUsers
+                .sort((a, b) => b._count.tasks - a._count.tasks)
+                .slice(0, limit)
+                .map((user) => ({
+                    email: user.email,
+                    name: user.name,
+                }));
         } else {
             return res.status(400).json({ error: "Invalid recipient type or missing data" });
         }
