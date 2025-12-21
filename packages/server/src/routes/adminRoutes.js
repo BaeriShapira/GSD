@@ -1,5 +1,6 @@
 // packages/server/src/routes/adminRoutes.js
 import express from "express";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 import { requireAdmin } from "../../middleware/adminMiddleware.js";
 import {
     getUserStats,
@@ -10,7 +11,8 @@ import {
 
 const router = express.Router();
 
-// All admin routes require admin authentication
+// All admin routes require authentication first, then admin check
+router.use(authMiddleware);
 router.use(requireAdmin);
 
 // Get user statistics
