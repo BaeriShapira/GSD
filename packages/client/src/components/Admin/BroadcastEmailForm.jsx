@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { sendBroadcastEmail, sendTestEmail } from "../../api/adminApi";
+import { useState, useEffect } from "react";
+import { sendBroadcastEmail, sendTestEmail, getAllUsers, getMostActiveUsers } from "../../api/adminApi";
 import EmailPreview from "./EmailPreview";
 import { Mail, Send, TestTube } from "lucide-react";
 
@@ -9,6 +9,46 @@ export default function BroadcastEmailForm() {
     const [sending, setSending] = useState(false);
     const [sendingTest, setSendingTest] = useState(false);
     const [message, setMessage] = useState(null);
+
+    const [recipientType, setRecipientType] = useState("all");
+    const [allUsers, setAllUsers] = useState([]);
+    const [selectedUserIds, setSelectedUserIds] = useState([]);
+    const [topActiveCount, setTopActiveCount] = useState(10);
+    const [loadingUsers, setLoadingUsers] = useState(false);
+
+    useEffect(() => {
+        if (recipientType === "selected") {
+            loadAllUsers();
+        }
+    }, [recipientType]);
+
+    const loadAllUsers = async () => {
+        try {
+            setLoadingUsers(true);
+            const users = await getAllUsers();
+            setAllUsers(users);
+        } catch (error) {
+            console.error("Error loading users:", error);
+        } finally {
+            setLoadingUsers(false);
+        }
+    };
+
+    const handleUserSelect = (userId) => {
+        setSelectedUserIds((prev) =>
+            prev.includes(userId)
+                ? prev.filter((id) => id !== userId)
+                : [...prev, userId]
+        );
+    };
+
+    const handleSelectAll = () => {
+        if (selectedUserIds.length === allUsers.length) {
+            setSelectedUserIds([]);
+        } else {
+            setSelectedUserIds(allUsers.map((u) => u.id));
+        }
+    };
 
     const handleSendTest = async () => {
         if (!subject.trim() || !htmlContent.trim()) {
@@ -34,16 +74,34 @@ export default function BroadcastEmailForm() {
             return;
         }
 
-        const confirmed = window.confirm(
-            "Are you sure you want to send this email to ALL users? This action cannot be undone."
-        );
+        if (recipientType === "selected" && selectedUserIds.length === 0) {
+            setMessage({ type: "error", text: "Please select at least one user" });
+            return;
+        }
 
+        let confirmMessage = "Are you sure you want to send this email to ";
+        if (recipientType === "all") {
+            confirmMessage += "ALL users?";
+        } else if (recipientType === "selected") {
+            confirmMessage += `${selectedUserIds.length} selected user(s)?`;
+        } else if (recipientType === "topActive") {
+            confirmMessage += `the top ${topActiveCount} most active users?`;
+        }
+        confirmMessage += " This action cannot be undone.";
+
+        const confirmed = window.confirm(confirmMessage);
         if (!confirmed) return;
 
         try {
             setSending(true);
             setMessage(null);
-            const result = await sendBroadcastEmail(subject, htmlContent);
+            const result = await sendBroadcastEmail(
+                subject,
+                htmlContent,
+                recipientType,
+                selectedUserIds,
+                topActiveCount
+            );
             setMessage({
                 type: "success",
                 text: `Broadcast email sent successfully to ${result.recipientCount} users!`,
@@ -51,6 +109,7 @@ export default function BroadcastEmailForm() {
             // Clear form after successful broadcast
             setSubject("");
             setHtmlContent("");
+            setSelectedUserIds([]);
         } catch (error) {
             setMessage({ type: "error", text: error.message });
         } finally {
@@ -68,8 +127,8 @@ export default function BroadcastEmailForm() {
                 </div>
 
                 <p className="text-black/60 mb-6">
-                    Send an email to all registered users. Use the test button to send a preview to
-                    yourself first.
+                    Send an email to all users, selected users, or most active users. Use the test
+                    button to send a preview to yourself first.
                 </p>
 
                 {/* Message */}
@@ -82,6 +141,100 @@ export default function BroadcastEmailForm() {
                         }`}
                     >
                         {message.text}
+                    </div>
+                )}
+
+                {/* Recipient Type */}
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-black/80 mb-2">
+                        Send To
+                    </label>
+                    <div className="space-y-2">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="recipientType"
+                                value="all"
+                                checked={recipientType === "all"}
+                                onChange={(e) => setRecipientType(e.target.value)}
+                                className="w-4 h-4"
+                            />
+                            <span className="text-sm text-black/80">All Users</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="recipientType"
+                                value="selected"
+                                checked={recipientType === "selected"}
+                                onChange={(e) => setRecipientType(e.target.value)}
+                                className="w-4 h-4"
+                            />
+                            <span className="text-sm text-black/80">Selected Users</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="recipientType"
+                                value="topActive"
+                                checked={recipientType === "topActive"}
+                                onChange={(e) => setRecipientType(e.target.value)}
+                                className="w-4 h-4"
+                            />
+                            <span className="text-sm text-black/80">Most Active Users</span>
+                        </label>
+                    </div>
+                </div>
+
+                {/* Selected Users */}
+                {recipientType === "selected" && (
+                    <div className="mb-4 border border-black/10 rounded-lg p-4 bg-black/5">
+                        <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-black/80">
+                                Select Users ({selectedUserIds.length} selected)
+                            </p>
+                            <button
+                                onClick={handleSelectAll}
+                                className="text-sm text-purple-950 hover:underline"
+                            >
+                                {selectedUserIds.length === allUsers.length ? "Deselect All" : "Select All"}
+                            </button>
+                        </div>
+                        {loadingUsers && <p className="text-sm text-black/60">Loading users...</p>}
+                        {!loadingUsers && allUsers.length > 0 && (
+                            <div className="max-h-60 overflow-y-auto space-y-1">
+                                {allUsers.map((user) => (
+                                    <label key={user.id} className="flex items-center gap-2 cursor-pointer py-1">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedUserIds.includes(user.id)}
+                                            onChange={() => handleUserSelect(user.id)}
+                                            className="w-4 h-4"
+                                        />
+                                        <span className="text-sm text-black/80">
+                                            {user.name || "N/A"} ({user.email})
+                                        </span>
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Top Active Count */}
+                {recipientType === "topActive" && (
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-black/80 mb-2">
+                            Number of Most Active Users
+                        </label>
+                        <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={topActiveCount}
+                            onChange={(e) => setTopActiveCount(parseInt(e.target.value) || 10)}
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20"
+                        />
                     </div>
                 )}
 
@@ -132,7 +285,7 @@ export default function BroadcastEmailForm() {
                         className="btn btn-primary flex items-center gap-2"
                     >
                         <Send size={16} />
-                        {sending ? "Sending..." : "Send to All Users"}
+                        {sending ? "Sending..." : "Send Broadcast"}
                     </button>
                 </div>
             </div>

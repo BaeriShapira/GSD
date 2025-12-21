@@ -29,15 +29,29 @@ export async function getAllUsers() {
 }
 
 /**
- * Send broadcast email to all users
+ * Get most active users
  */
-export async function sendBroadcastEmail(subject, htmlContent) {
+export async function getMostActiveUsers(limit = 10) {
+    const response = await fetchWithAuth(`/admin/most-active-users?limit=${limit}`);
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to fetch most active users");
+    }
+
+    return response.json();
+}
+
+/**
+ * Send broadcast email to all users, selected users, or top active users
+ */
+export async function sendBroadcastEmail(subject, htmlContent, recipientType = "all", userIds = [], topActiveCount = 10) {
     const response = await fetchWithAuth("/admin/broadcast", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ subject, htmlContent }),
+        body: JSON.stringify({ subject, htmlContent, recipientType, userIds, topActiveCount }),
     });
 
     if (!response.ok) {

@@ -5,6 +5,7 @@ import { requireAdmin } from "../../middleware/adminMiddleware.js";
 import {
     getUserStats,
     getAllUsers,
+    getMostActiveUsers,
     sendBroadcast,
     sendTestEmail,
 } from "../controllers/adminController.js";
@@ -21,7 +22,10 @@ router.get("/stats", getUserStats);
 // Get all users
 router.get("/users", getAllUsers);
 
-// Send broadcast email to all users
+// Get most active users
+router.get("/most-active-users", getMostActiveUsers);
+
+// Send broadcast email to all users or selected users
 router.post("/broadcast", sendBroadcast);
 
 // Send test email to admin
