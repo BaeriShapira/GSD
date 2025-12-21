@@ -1,5 +1,5 @@
 // packages/server/src/controllers/adminController.js
-import prisma from "../config/database.js";
+import { prisma } from "../config/prisma.js";
 import { sendBroadcastEmail } from "../services/emailService.js";
 
 /**
