@@ -84,16 +84,23 @@ export const getAllUsers = async (req, res) => {
             select: {
                 id: true,
                 email: true,
-                name: true,
+                displayName: true,
                 createdAt: true,
-                lastLoginAt: true,
             },
             orderBy: {
                 createdAt: "desc",
             },
         });
 
-        res.json(users);
+        // Map displayName to name for consistency with frontend
+        const formattedUsers = users.map(user => ({
+            id: user.id,
+            email: user.email,
+            name: user.displayName,
+            createdAt: user.createdAt,
+        }));
+
+        res.json(formattedUsers);
     } catch (error) {
         console.error("Error fetching users:", error);
         res.status(500).json({ error: "Failed to fetch users" });
@@ -112,7 +119,7 @@ export const getMostActiveUsers = async (req, res) => {
             select: {
                 id: true,
                 email: true,
-                name: true,
+                displayName: true,
                 createdAt: true,
                 _count: {
                     select: { tasks: true },
@@ -125,7 +132,7 @@ export const getMostActiveUsers = async (req, res) => {
             .map((user) => ({
                 id: user.id,
                 email: user.email,
-                name: user.name,
+                name: user.displayName,
                 createdAt: user.createdAt,
                 taskCount: user._count.tasks,
             }))
@@ -155,23 +162,25 @@ export const sendBroadcast = async (req, res) => {
         // Determine which users to send to based on recipientType
         if (recipientType === "all") {
             // Send to all users
-            users = await prisma.user.findMany({
+            const allUsers = await prisma.user.findMany({
                 select: {
                     email: true,
-                    name: true,
+                    displayName: true,
                 },
             });
+            users = allUsers.map(u => ({ email: u.email, name: u.displayName }));
         } else if (recipientType === "selected" && userIds && userIds.length > 0) {
             // Send to selected users
-            users = await prisma.user.findMany({
+            const selectedUsers = await prisma.user.findMany({
                 where: {
                     id: { in: userIds },
                 },
                 select: {
                     email: true,
-                    name: true,
+                    displayName: true,
                 },
             });
+            users = selectedUsers.map(u => ({ email: u.email, name: u.displayName }));
         } else if (recipientType === "topActive") {
             // Send to most active users
             const limit = topActiveCount || 10;
@@ -180,7 +189,7 @@ export const sendBroadcast = async (req, res) => {
             const allUsers = await prisma.user.findMany({
                 select: {
                     email: true,
-                    name: true,
+                    displayName: true,
                     _count: {
                         select: { tasks: true },
                     },
@@ -192,7 +201,7 @@ export const sendBroadcast = async (req, res) => {
                 .slice(0, limit)
                 .map((user) => ({
                     email: user.email,
-                    name: user.name,
+                    name: user.displayName,
                 }));
         } else {
             return res.status(400).json({ error: "Invalid recipient type or missing data" });
