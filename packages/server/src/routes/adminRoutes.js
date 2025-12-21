@@ -12,6 +12,13 @@ import {
 
 const router = express.Router();
 
+// Debug logging for all admin routes
+router.use((req, res, next) => {
+    console.log("🔵 ADMIN ROUTE:", req.method, req.url);
+    console.log("🔵 Headers:", req.headers.authorization ? "HAS AUTH" : "NO AUTH");
+    next();
+});
+
 // All admin routes require authentication first, then admin check
 router.use(authMiddleware);
 router.use(requireAdmin);
