@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import UsersStats from "../components/Admin/UsersStats";
-import AllUsersList from "../components/Admin/AllUsersList";
+import MostActiveUsers from "../components/Admin/MostActiveUsers";
 import BroadcastEmailForm from "../components/Admin/BroadcastEmailForm";
 import { Shield } from "lucide-react";
 
@@ -58,9 +58,9 @@ export default function AdminPanel() {
                 <UsersStats />
             </div>
 
-            {/* All Users List */}
+            {/* Most Active Users */}
             <div className="mb-6">
-                <AllUsersList />
+                <MostActiveUsers />
             </div>
 
             {/* Broadcast Email */}
