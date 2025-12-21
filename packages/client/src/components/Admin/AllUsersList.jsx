@@ -13,11 +13,14 @@ export default function AllUsersList() {
 
     const loadUsers = async () => {
         try {
+            console.log("🟢 AllUsersList: Starting to load users...");
             setLoading(true);
             setError(null);
             const data = await getAllUsers();
+            console.log("🟢 AllUsersList: Got users:", data);
             setUsers(data);
         } catch (err) {
+            console.error("🔴 AllUsersList: Error loading users:", err);
             setError(err.message);
         } finally {
             setLoading(false);
