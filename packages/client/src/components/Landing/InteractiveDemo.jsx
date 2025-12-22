@@ -4,9 +4,15 @@ import { PiRocketLaunchFill } from "react-icons/pi";
 import { PiTargetBold } from "react-icons/pi";
 import { GrTasks } from "react-icons/gr";
 import { MdDashboard } from "react-icons/md";
+import { FaLightbulb, FaFolder, FaClock } from "react-icons/fa";
 import CaptureDemo from "./demos/CaptureDemo";
 import ProcessDemo from "./demos/ProcessDemo";
 import NextActionsDemo from "./demos/NextActionsDemo";
+import ProjectsDemo from "./demos/ProjectsDemo";
+import SomedayDemo from "./demos/SomedayDemo";
+import ReferenceDemo from "./demos/ReferenceDemo";
+import WaitingForDemo from "./demos/WaitingForDemo";
+import DashboardDemo from "./demos/DashboardDemo";
 
 export default function InteractiveDemo() {
     const [activeTab, setActiveTab] = useState("capture");
@@ -33,6 +39,21 @@ export default function InteractiveDemo() {
             icon: GrTasks,
         },
         {
+            id: "waiting",
+            label: "Waiting for.",
+            icon: FaClock,
+        },
+        {
+            id: "someday",
+            label: "Someday/Maybe.",
+            icon: FaLightbulb,
+        },
+        {
+            id: "reference",
+            label: "Reference files.",
+            icon: FaFolder,
+        },
+        {
             id: "dashboard",
             label: "Daily dashboard.",
             icon: MdDashboard,
@@ -42,9 +63,9 @@ export default function InteractiveDemo() {
     return (
         <section className="py-16 px-4 bg-white">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Left side - Interactive tabs */}
-                    <div className="space-y-4 lg:pt-20">
+                    <div className="space-y-2.5">
                         {tabs.map((tab) => {
                             const Icon = tab.icon;
                             const isActive = activeTab === tab.id;
@@ -54,7 +75,7 @@ export default function InteractiveDemo() {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
                                     className={`
-                                        w-full flex items-center gap-4 px-6 py-4 rounded-full text-left
+                                        w-full flex items-center gap-3 px-5 py-3 rounded-full text-left
                                         transition-all duration-200 cursor-pointer
                                         ${isActive
                                             ? "bg-purple-100 text-purple-900"
@@ -62,8 +83,8 @@ export default function InteractiveDemo() {
                                         }
                                     `}
                                 >
-                                    <Icon className="text-2xl flex-shrink-0" />
-                                    <span className="text-lg font-semibold">{tab.label}</span>
+                                    <Icon className="text-xl flex-shrink-0" />
+                                    <span className="text-base font-semibold">{tab.label}</span>
                                 </button>
                             );
                         })}
@@ -74,11 +95,11 @@ export default function InteractiveDemo() {
                         {activeTab === "capture" && <CaptureDemo />}
                         {activeTab === "process" && <ProcessDemo />}
                         {activeTab === "actions" && <NextActionsDemo />}
-                        {activeTab !== "capture" && activeTab !== "process" && activeTab !== "actions" && (
-                            <p className="text-gray-500 text-center">
-                                Demo content for <strong>{activeTab}</strong> will go here
-                            </p>
-                        )}
+                        {activeTab === "projects" && <ProjectsDemo />}
+                        {activeTab === "waiting" && <WaitingForDemo />}
+                        {activeTab === "someday" && <SomedayDemo />}
+                        {activeTab === "reference" && <ReferenceDemo />}
+                        {activeTab === "dashboard" && <DashboardDemo />}
                     </div>
                 </div>
             </div>

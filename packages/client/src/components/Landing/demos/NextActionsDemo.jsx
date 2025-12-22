@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Check } from "lucide-react";
 
 export default function NextActionsDemo() {
     const [tasks, setTasks] = useState([
-        { id: 1, text: "Practice hunting technique", project: "Outdoor Skills", urgency: 3, context: "Home", time: 30, completed: false },
-        { id: 2, text: "Sharpen claws on scratching post", project: null, urgency: 1, context: "Anywhere", time: 10, completed: false },
-        { id: 3, text: "Inspect all boxes in house", project: "Territory Control", urgency: 2, context: "Home", time: 15, completed: false },
-        { id: 4, text: "Test new toy mouse", project: null, urgency: 1, context: "Home", time: 20, completed: false },
+        { id: 1, text: "Chase my yom", project: "Outdoor Skills", urgency: 3, context: "Home", time: 30, areaColor: "bg-blue-400", completed: false },
+        { id: 2, text: "Eat fish & kibble", project: null, urgency: 1, context: "Kitchen", time: 10, areaColor: "bg-green-400", completed: false },
+        { id: 3, text: "Chase the laser", project: "Territory Control", urgency: 2, context: "Home", time: 15, areaColor: "bg-blue-400", completed: false },
+        { id: 4, text: "Knock over the milk", project: null, urgency: 1, context: "Kitchen", time: 20, areaColor: "bg-green-400", completed: false },
+        { id: 5, text: "Sit in a box", project: "Territory Control", urgency: 2, context: "Anywhere", time: 5, areaColor: "bg-blue-400", completed: false },
+        { id: 6, text: "Take a nap", project: null, urgency: 1, context: "Home", time: 60, areaColor: "bg-purple-400", completed: false },
     ]);
 
     function handleToggleComplete(id) {
@@ -47,67 +48,86 @@ export default function NextActionsDemo() {
                             <th className="w-[10%] p-3 text-left text-xs font-semibold text-black/60 tracking-wider">
                                 Est. Time
                             </th>
+                            <th className="w-[8%] p-3 text-left text-xs font-semibold text-black/60 tracking-wider">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {tasks.map((task) => (
                             <tr
                                 key={task.id}
-                                className={`border-b border-black/10 hover:bg-gray-50 transition-colors ${
-                                    task.completed ? "opacity-50" : ""
-                                }`}
+                                className="border-b border-black/10 hover:bg-gray-50 transition-colors"
                             >
                                 {/* Task */}
-                                <td className="p-3 pl-6">
-                                    <div className="flex items-center gap-3">
-                                        <button
-                                            onClick={() => handleToggleComplete(task.id)}
-                                            className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all cursor-pointer flex-shrink-0 ${
-                                                task.completed
-                                                    ? "bg-black border-black"
-                                                    : "bg-white border-black/30 hover:border-black/50"
-                                            }`}
-                                        >
-                                            {task.completed && (
-                                                <Check size={14} className="text-white" strokeWidth={3} />
-                                            )}
-                                        </button>
-                                        <span className={`text-sm ${task.completed ? "line-through text-black/50" : "text-black"}`}>
-                                            {task.text}
-                                        </span>
+                                <td className="p-3 pl-6 align-top">
+                                    <div className="flex gap-2 items-start">
+                                        {task.areaColor && (
+                                            <div className={`w-1 h-6 rounded-full ${task.areaColor} flex-shrink-0 mt-1`} />
+                                        )}
+                                        <div className="flex flex-col gap-1 flex-1">
+                                            <h4 className="font-medium text-black/90 whitespace-pre-wrap">
+                                                {task.text}
+                                            </h4>
+                                        </div>
                                     </div>
                                 </td>
 
                                 {/* Project */}
-                                <td className="p-3">
+                                <td className="p-3 align-top">
                                     <span className="text-sm text-black/70">
-                                        {task.project || "—"}
+                                        {task.project ? (
+                                            task.project
+                                        ) : (
+                                            <span className="text-black/30">—</span>
+                                        )}
                                     </span>
                                 </td>
 
                                 {/* Urgency */}
-                                <td className="p-3">
-                                    <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                                        task.urgency === 3 ? "bg-red-100 text-red-700" :
-                                        task.urgency === 2 ? "bg-yellow-100 text-yellow-700" :
-                                        "bg-gray-100 text-gray-600"
-                                    }`}>
-                                        {task.urgency === 3 ? "High" : task.urgency === 2 ? "Med" : "Low"}
-                                    </span>
+                                <td className="p-3 align-top">
+                                    {task.urgency ? (
+                                        <span
+                                            className="text-yellow-500 text-lg leading-none"
+                                            title={`Urgency: ${task.urgency}/5`}
+                                        >
+                                            {"★".repeat(task.urgency) + "☆".repeat(5 - task.urgency)}
+                                        </span>
+                                    ) : (
+                                        <span className="text-black/30 text-sm">—</span>
+                                    )}
                                 </td>
 
                                 {/* Context */}
-                                <td className="p-3">
+                                <td className="p-3 align-top">
                                     <span className="text-sm text-black/70">
-                                        {task.context}
+                                        {task.context ? (
+                                            task.context
+                                        ) : (
+                                            <span className="text-black/30">—</span>
+                                        )}
                                     </span>
                                 </td>
 
                                 {/* Est. Time */}
-                                <td className="p-3">
-                                    <span className="text-sm text-black/70">
-                                        {task.time}m
-                                    </span>
+                                <td className="p-3 align-top">
+                                    {task.time ? (
+                                        <span className="text-sm text-black/70">
+                                            {task.time} min
+                                        </span>
+                                    ) : (
+                                        <span className="text-black/30 text-sm">—</span>
+                                    )}
+                                </td>
+
+                                {/* Actions */}
+                                <td className="p-3 align-top">
+                                    <button
+                                        onClick={() => handleToggleComplete(task.id)}
+                                        className="px-4 py-2 rounded-3xl text-sm flex items-center gap-1 transition-colors cursor-pointer bg-black hover:bg-black/80 text-white"
+                                    >
+                                        Done
+                                    </button>
                                 </td>
                             </tr>
                         ))}
