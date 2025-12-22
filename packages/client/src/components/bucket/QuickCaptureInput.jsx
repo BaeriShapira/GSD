@@ -43,10 +43,10 @@ export default function QuickCaptureInput({ onAdd }) {
 
                 <div
                     className="absolute right-3 top-1/2 -translate-y-1/2
-                               flex items-center gap-3 text-sm text-black/50"
+                               flex items-center gap-3 text-sm text-black/50 dark:text-dark-text-secondary"
                 >
-                    <label className="cursor-pointer p-1 rounded hover:bg-black/5 transition-colors">
-                        <Upload size={16} className="text-black/50" />
+                    <label className="cursor-pointer p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+                        <Upload size={16} className="text-black/50 dark:text-dark-text-secondary" />
                         <input
                             type="file"
                             multiple
@@ -55,24 +55,24 @@ export default function QuickCaptureInput({ onAdd }) {
                         />
                     </label>
 
-                    <div className="pl-2 text-sm text-black/50 border-l border-black/10">
+                    <div className="pl-2 text-sm text-black/50 dark:text-dark-text-secondary border-l border-black/10 dark:border-dark-border">
                         Enter ↵
                     </div>
                 </div>
             </div>
 
             {files.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2 text-xs text-black/60">
+                <div className="mt-2 flex flex-wrap gap-2 text-xs text-black/60 dark:text-dark-text-secondary">
                     {files.map(file => (
                         <span
                             key={file.name + file.lastModified}
-                            className="inline-flex items-center gap-1 rounded-full border border-black/10 px-3 py-1 bg-black/5"
+                            className="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-dark-border px-3 py-1 bg-black/5 dark:bg-white/5"
                         >
                             <span className="max-w-[200px] truncate">{file.name}</span>
                             <button
                                 type="button"
                                 onClick={() => removeFile(file)}
-                                className="hover:text-red-600 transition-colors cursor-pointer"
+                                className="hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
                             >
                                 <X size={14} />
                             </button>

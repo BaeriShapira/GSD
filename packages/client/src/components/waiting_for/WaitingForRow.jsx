@@ -122,7 +122,7 @@ export default function WaitingForRow({
         <tr
             ref={mergedRef}
             style={dragStyle}
-            className="border-b border-black/10 hover:bg-gray-50 transition-colors cursor-grab active:cursor-grabbing"
+            className="border-b border-black/10 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing"
             {...dragAttributes}
             {...dragListeners}
         >
@@ -138,8 +138,8 @@ export default function WaitingForRow({
                     <div className="flex flex-col gap-1 flex-1">
                         {isEditingTask ? (
                             <textarea
-                                className="w-full px-2 py-1 font-medium text-black/90 rounded
-                                               focus:outline-none focus:ring focus:ring-black/10
+                                className="w-full px-2 py-1 font-medium text-black/90 dark:text-white rounded bg-white dark:bg-dark-bg
+                                               focus:outline-none focus:ring focus:ring-black/10 dark:focus:ring-white/10
                                                resize-none"
                                 value={taskDraft}
                                 autoFocus
@@ -154,14 +154,14 @@ export default function WaitingForRow({
                             />
                         ) : (
                             <h4
-                                className="font-medium text-black/90 whitespace-pre-wrap break-words break-all"
+                                className="font-medium text-black/90 dark:text-white whitespace-pre-wrap break-words break-all"
                                 onDoubleClick={startTaskEdit}
                             >
                                 {task.text}
                             </h4>
                         )}
 
-                        <span className="text-xs text-black/40">
+                        <span className="text-xs text-black/40 dark:text-dark-text-secondary">
                             Created {createdAgo}
                         </span>
 
@@ -179,8 +179,8 @@ export default function WaitingForRow({
             <td className="p-3 align-top">
                 {isEditingWaitingFor ? (
                     <input
-                        className="w-full px-2 py-1 text-black/90 rounded
-                                   focus:outline-none focus:ring focus:ring-black/10"
+                        className="w-full px-2 py-1 text-black/90 dark:text-white rounded bg-white dark:bg-dark-bg
+                                   focus:outline-none focus:ring focus:ring-black/10 dark:focus:ring-white/10"
                         value={waitingForDraft}
                         onChange={(e) => setWaitingForDraft(e.target.value)}
                         onBlur={handleWaitingForBlur}
@@ -190,11 +190,11 @@ export default function WaitingForRow({
                 ) : (
                     <button
                         type="button"
-                        className="text-left w-full text-sm text-black/80 whitespace-pre-wrap break-words"
+                        className="text-left w-full text-sm text-black/80 dark:text-dark-text-secondary whitespace-pre-wrap break-words"
                         onDoubleClick={() => setIsEditingWaitingFor(true)}
                     >
                         {task.waitingFor || (
-                            <span className="text-black/30">Click to add</span>
+                            <span className="text-black/30 dark:text-dark-text-secondary/50">Click to add</span>
                         )}
                     </button>
                 )}
@@ -202,8 +202,8 @@ export default function WaitingForRow({
 
             {/* PROJECT */}
             <td className="p-3 align-top">
-                <span className="text-sm text-black/70">
-                    {project ? project.name : <span className="text-black/30">—</span>}
+                <span className="text-sm text-black/70 dark:text-dark-text-secondary">
+                    {project ? project.name : <span className="text-black/30 dark:text-dark-text-secondary/50">—</span>}
                 </span>
             </td>
 
@@ -214,13 +214,13 @@ export default function WaitingForRow({
                         type="date"
                         value={expectedDateFormatted}
                         onChange={handleExpectedDateChange}
-                        className="text-sm border border-black/10 rounded px-2 py-1 bg-white text-black/80 hover:border-black/20 transition-colors flex-1"
+                        className="text-sm border border-black/10 dark:border-dark-border rounded px-2 py-1 bg-white dark:bg-dark-bg text-black/80 dark:text-white hover:border-black/20 dark:hover:border-white/20 transition-colors flex-1"
                     />
                     {expectedDateFormatted && (
                         <button
                             type="button"
                             onClick={() => onUpdate(task.id, { expectedDate: null })}
-                            className="cursor-pointer p-1.5 text-black hover:bg-red-50 rounded-lg transition-colors"
+                            className="cursor-pointer p-1.5 text-black dark:text-white hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
                             title="Clear date"
                         >
                             <X size={14} />

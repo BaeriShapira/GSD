@@ -94,15 +94,15 @@ export default function SomedayBoard() {
 
     if (isLoading || areasLoading) {
         return (
-            <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm max-w-5xl">
-                <div className="text-sm text-black/50">Loading...</div>
+            <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm max-w-5xl">
+                <div className="text-sm text-black/50 dark:text-dark-text-secondary">Loading...</div>
             </div>
         );
     }
 
     if (isError) {
         return (
-            <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm max-w-5xl">
+            <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm max-w-5xl">
                 <div className="text-sm text-red-500">Error: {error?.message}</div>
             </div>
         );

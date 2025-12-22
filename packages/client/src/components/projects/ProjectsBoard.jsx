@@ -215,7 +215,7 @@ export default function ProjectsBoard() {
                     />
                 </div>
             ) : (
-                <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm ">
+                <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm ">
                     <ProjectsHeader
                         searchQuery={searchQuery}
                         onSearchChange={setSearchQuery}

@@ -29,11 +29,11 @@ export default function ProcessBucketFinished() {
                 }}
             />
 
-            <h2 className="text-2xl font-bold text-black/80 mb-3">
+            <h2 className="text-2xl font-bold text-black/80 dark:text-white mb-3">
                 You've finished processing!
             </h2>
 
-            <p className="text-black/50 text-sm">
+            <p className="text-black/50 dark:text-dark-text-secondary text-sm">
                 All your tasks have been processed.
             </p>
         </div>

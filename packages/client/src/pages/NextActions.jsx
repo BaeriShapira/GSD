@@ -24,7 +24,7 @@ export default function NextActions() {
         <section className="p-2">
             <div className="px-4">
                 <h1>Next Actions</h1>
-                <p>Your actionable next steps across all projects.</p>
+                <p className="dark:text-dark-text-secondary">Your actionable next steps across all projects.</p>
             </div>
             <NextActionsBoard />
 

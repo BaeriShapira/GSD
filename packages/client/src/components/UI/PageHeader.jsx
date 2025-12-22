@@ -47,7 +47,7 @@ export default function PageHeader({
 }) {
     const containerClass = variant === "minimal"
         ? `mb-6 ${className}`
-        : `border border-black/10 rounded-xl bg-white p-6 shadow-sm my-10 ${className}`;
+        : `border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm my-10 ${className}`;
 
     return (
         <div className={containerClass}>
@@ -84,7 +84,7 @@ export default function PageHeader({
 
                 {/* Task Count */}
                 {tasksCount !== undefined && (
-                    <div className="text-sm text-black/60 whitespace-nowrap">
+                    <div className="text-sm text-black/60 dark:text-dark-text-secondary whitespace-nowrap">
                         {tasksCount} {tasksCount === 1 ? 'task' : 'tasks'}
                     </div>
                 )}

@@ -60,7 +60,7 @@ export default function ChildTaskRow({
 
     return (
         <>
-            <tr className="border-b border-black/10 bg-gray-100">
+            <tr className="border-b border-black/10 dark:border-dark-border bg-gray-100 dark:bg-dark-bg">
                 {/* TASK */}
                 <td className="p-3 align-top relative" style={{ paddingLeft }}>
                     <div className="flex gap-2 items-start">
@@ -72,13 +72,13 @@ export default function ChildTaskRow({
 
                         <div className="flex flex-col gap-1 flex-1">
                             <div className="flex items-center gap-2">
-                                <span className="text-black/40 text-xs">↳</span>
+                                <span className="text-black/40 dark:text-dark-text-secondary text-xs">↳</span>
 
                                 {hasBlockingTasks && (
                                     <button
                                         type="button"
                                         onClick={() => setIsExpanded((prev) => !prev)}
-                                        className="flex-shrink-0 text-black/60 hover:text-black/80 transition-colors"
+                                        className="flex-shrink-0 text-black/60 dark:text-dark-text-secondary hover:text-black/80 dark:hover:text-white transition-colors"
                                         title={
                                             isExpanded
                                                 ? "Collapse dependent tasks"
@@ -93,12 +93,12 @@ export default function ChildTaskRow({
                                     </button>
                                 )}
 
-                                <h4 className="font-medium text-black/70 text-sm whitespace-pre-wrap break-words break-all">
+                                <h4 className="font-medium text-black/70 dark:text-dark-text-secondary text-sm whitespace-pre-wrap break-words break-all">
                                     {task.text}
                                 </h4>
                             </div>
 
-                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-black/5 rounded text-xs w-fit">
+                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-black/5 dark:bg-white/5 rounded text-xs w-fit text-black/70 dark:text-dark-text-secondary">
                                 <span>
                                     <FaCirclePause />
                                 </span>
@@ -110,11 +110,11 @@ export default function ChildTaskRow({
 
                 {/* PROJECT */}
                 <td className="p-3 align-top">
-                    <span className="text-sm text-black/60">
+                    <span className="text-sm text-black/60 dark:text-dark-text-secondary">
                         {project ? (
                             project.name
                         ) : (
-                            <span className="text-black/30">—</span>
+                            <span className="text-black/30 dark:text-dark-text-secondary/50">—</span>
                         )}
                     </span>
                 </td>
@@ -123,23 +123,23 @@ export default function ChildTaskRow({
                 <td className="p-3 align-top">
                     {urgencyStars ? (
                         <span
-                            className="text-yellow-500 text-lg leading-none"
+                            className="text-yellow-500 dark:text-yellow-400 text-lg leading-none"
                             title={`Urgency: ${task.urgency}/5`}
                         >
                             {urgencyStars}
                         </span>
                     ) : (
-                        <span className="text-black/30 text-sm">—</span>
+                        <span className="text-black/30 dark:text-dark-text-secondary/50 text-sm">—</span>
                     )}
                 </td>
 
                 {/* CONTEXT */}
                 <td className="p-3 align-top">
-                    <span className="text-sm text-black/60">
+                    <span className="text-sm text-black/60 dark:text-dark-text-secondary">
                         {context ? (
                             context.name
                         ) : (
-                            <span className="text-black/30">—</span>
+                            <span className="text-black/30 dark:text-dark-text-secondary/50">—</span>
                         )}
                     </span>
                 </td>
@@ -147,29 +147,29 @@ export default function ChildTaskRow({
                 {/* ESTIMATED TIME */}
                 <td className="p-3 align-top">
                     {task.estimatedTime ? (
-                        <span className="text-sm text-black/60">
+                        <span className="text-sm text-black/60 dark:text-dark-text-secondary">
                             {task.estimatedTime} min
                         </span>
                     ) : (
-                        <span className="text-black/30 text-sm">—</span>
+                        <span className="text-black/30 dark:text-dark-text-secondary/50 text-sm">—</span>
                     )}
                 </td>
 
                 {/* DUE DATE (display only) */}
                 <td className="p-3 align-top">
                     {dueDateFormatted ? (
-                        <span className="text-sm text-black/60">
+                        <span className="text-sm text-black/60 dark:text-dark-text-secondary">
                             {dueDateFormatted}
                         </span>
                     ) : (
-                        <span className="text-black/30 text-sm">—</span>
+                        <span className="text-black/30 dark:text-dark-text-secondary/50 text-sm">—</span>
                     )}
                 </td>
 
                 {/* ACTIONS */}
                 <td className="p-3 align-top">
                     <div className="flex items-center gap-2 group">
-                        <span className="text-xs text-black/40 italic">Blocked</span>
+                        <span className="text-xs text-black/40 dark:text-dark-text-secondary italic">Blocked</span>
                         <DropdownMenu
                             onEdit={() => onEdit(task)}
                             onDelete={() => onDelete(task.id)}

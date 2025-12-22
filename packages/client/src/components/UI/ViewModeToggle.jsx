@@ -50,8 +50,8 @@ export default function ViewModeToggle({
             <button
                 onClick={handleDefaultViewClick}
                 className={`p-2 rounded transition-colors ${!isGroupedView && !isStatsView
-                    ? "bg-black/10 text-black"
-                    : "text-black/40 hover:text-black/60 cursor-pointer"
+                    ? "bg-black/10 dark:bg-white/20 text-black dark:text-white"
+                    : "text-black/40 dark:text-dark-text-secondary hover:text-black/60 dark:hover:text-white cursor-pointer"
                     }`}
                 title={defaultViewLabel}
             >
@@ -68,8 +68,8 @@ export default function ViewModeToggle({
                         key={option.value}
                         onClick={() => handleGroupByClick(option.value)}
                         className={`p-2 rounded transition-colors ${isActive
-                            ? "bg-black/10 text-black"
-                            : "text-black/40 hover:text-black/60 cursor-pointer"
+                            ? "bg-black/10 dark:bg-white/20 text-black dark:text-white"
+                            : "text-black/40 dark:text-dark-text-secondary hover:text-black/60 dark:hover:text-white cursor-pointer"
                             }`}
                         title={`Group by ${option.label}`}
                     >
@@ -83,8 +83,8 @@ export default function ViewModeToggle({
                 <button
                     onClick={handleStatsClick}
                     className={`p-2 rounded transition-colors ${isStatsView
-                        ? "bg-black/10 text-black"
-                        : "text-black/40 hover:text-black/60 cursor-pointer"
+                        ? "bg-black/10 dark:bg-white/20 text-black dark:text-white"
+                        : "text-black/40 dark:text-dark-text-secondary hover:text-black/60 dark:hover:text-white cursor-pointer"
                         }`}
                     title="Statistics view"
                 >

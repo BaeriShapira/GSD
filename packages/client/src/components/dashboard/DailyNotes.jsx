@@ -28,9 +28,9 @@ export default function DailyNotes({ selectedDate }) {
     };
 
     return (
-        <div className="bg-white rounded-xl border border-black/10 p-6 shadow-sm">
+        <div className="bg-white dark:bg-dark-surface rounded-xl border border-black/10 dark:border-dark-border p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-                <FaNoteSticky className="text-xl" />
+                <FaNoteSticky className="text-xl dark:text-white" />
                 <h3>Notes</h3>
             </div>
             <NotesPanel

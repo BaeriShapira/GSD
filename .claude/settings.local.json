@@ -42,7 +42,8 @@
       "Bash(sqlite3:*)",
       "Bash(grep:*)",
       "Bash(npm uninstall:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

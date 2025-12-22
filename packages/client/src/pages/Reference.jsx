@@ -29,7 +29,7 @@ export default function Reference() {
             <section className="p-2">
                 <div className="px-4">
                     <h1>Reference</h1>
-                    <p> Keep important info organized and accessible.</p>
+                    <p className="dark:text-dark-text-secondary"> Keep important info organized and accessible.</p>
                 </div>
                 <FolderBoard />
             </section>
@@ -41,7 +41,7 @@ export default function Reference() {
         <section className="p-2">
             <div className="px-4">
                 <h1> Reference </h1>
-                <p> Keep important info organized and accessible. </p>
+                <p className="dark:text-dark-text-secondary"> Keep important info organized and accessible. </p>
             </div>
 
             <ReferenceBoard />

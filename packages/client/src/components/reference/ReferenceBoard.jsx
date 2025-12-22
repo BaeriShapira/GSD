@@ -69,7 +69,7 @@ export default function ReferenceBoard() {
     }
 
     return (
-        <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm ">
+        <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm ">
             <div className="flex items-center justify-between mb-6">
                 <div className="reference-search flex-1 mr-4">
                     <SearchInput
@@ -107,7 +107,7 @@ export default function ReferenceBoard() {
             {/* תוצאות חיפוש */}
             {isSearching ? (
                 <>
-                    <div className="mb-4 text-sm text-black/60">
+                    <div className="mb-4 text-sm text-black/60 dark:text-dark-text-secondary">
                         Found {filteredTasks.length} result{filteredTasks.length !== 1 ? 's' : ''}
                     </div>
 
@@ -126,8 +126,8 @@ export default function ReferenceBoard() {
                         </div>
                     ) : (
                         <div className="text-center py-16">
-                            <h3 className="text-lg text-gray-600">No results found</h3>
-                            <p className="text-sm text-gray-500 mt-2">Try a different search term</p>
+                            <h3 className="text-lg text-gray-600 dark:text-dark-text-secondary">No results found</h3>
+                            <p className="text-sm text-gray-500 dark:text-dark-text-secondary mt-2">Try a different search term</p>
                         </div>
                     )}
                 </>
@@ -150,14 +150,14 @@ export default function ReferenceBoard() {
                     {/* Empty State */}
                     {folders.length === 0 && (
                         <div className="text-center py-16">
-                            <div className="text-gray-400 mb-4">
+                            <div className="text-gray-400 dark:text-dark-text-secondary mb-4">
                                 <Plus size={64} className="mx-auto" />
                             </div>
-                            <h3 className="text-xl font-medium text-gray-600 mb-2">אין תיקיות עדיין</h3>
-                            <p className="text-gray-500 mb-6">צור תיקייה ראשונה כדי להתחיל לארגן את חומרי העזר שלך</p>
+                            <h3 className="text-xl font-medium text-gray-600 dark:text-dark-text-secondary mb-2">אין תיקיות עדיין</h3>
+                            <p className="text-gray-500 dark:text-dark-text-secondary mb-6">צור תיקייה ראשונה כדי להתחיל לארגן את חומרי העזר שלך</p>
                             <button
                                 onClick={() => setShowNewFolderModal(true)}
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                                className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-colors"
                             >
                                 <Plus size={20} />
                                 <span>צור תיקייה ראשונה</span>

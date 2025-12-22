@@ -43,7 +43,7 @@ export default function SomedayRow({
         <tr
             ref={dragRef}
             style={style}
-            className="group border-b border-black/10 hover:bg-gray-50 transition-colors cursor-grab active:cursor-grabbing"
+            className="group border-b border-black/10 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing"
             {...dragAttributes}
             {...dragListeners}
         >
@@ -60,8 +60,8 @@ export default function SomedayRow({
                     <div className="flex flex-col gap-1 flex-1">
                         {isEditingTask ? (
                             <textarea
-                                className="w-full px-2 py-1 font-medium text-black/90 rounded
-                                               focus:outline-none focus:ring focus:ring-black/10
+                                className="w-full px-2 py-1 font-medium text-black/90 dark:text-white rounded bg-white dark:bg-dark-bg
+                                               focus:outline-none focus:ring focus:ring-black/10 dark:focus:ring-white/10
                                                resize-none"
                                 value={taskDraft}
                                 autoFocus
@@ -76,14 +76,14 @@ export default function SomedayRow({
                             />
                         ) : (
                             <h4
-                                className="font-medium text-black/90 whitespace-pre-wrap break-words break-all"
+                                className="font-medium text-black/90 dark:text-white whitespace-pre-wrap break-words break-all"
                                 onDoubleClick={startTaskEdit}
                             >
                                 {task.text}
                             </h4>
                         )}
 
-                        <span className="text-xs text-black/40">
+                        <span className="text-xs text-black/40 dark:text-dark-text-secondary">
                             Created {createdAgo}
                         </span>
 

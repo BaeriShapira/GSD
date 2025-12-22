@@ -39,7 +39,7 @@ export default function ProcessBucketStep2({
 function Step2NotActionable({ step2Choice, onChange }) {
     return (
         <div className="mt-4">
-            <p className="mb-3">Step 2 – What should we do with it?</p>
+            <p className="mb-3 dark:text-white">Step 2 – What should we do with it?</p>
 
             <div className="grid gap-4 sm:grid-cols-3 max-w-lg mb-6">
                 <Card
@@ -68,7 +68,7 @@ function Step2NotActionable({ step2Choice, onChange }) {
 function Step2Actionable({ step2Choice, onChange }) {
     return (
         <div className="mt-4">
-            <p className="mb-3">Step 2 – What kind of action item is it?</p>
+            <p className="mb-3 dark:text-white">Step 2 – What kind of action item is it?</p>
 
             <div className="grid gap-4 sm:grid-cols-3 max-w-3xl">
                 <Card

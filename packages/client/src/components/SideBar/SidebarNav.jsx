@@ -134,8 +134,8 @@ export default function SidebarNav({ items, onItemClick }) {
                             type="button"
                             onClick={() => toggle(section)}
                             className={`w-full flex items-center justify-between px-4 py-2 rounded-xl transition cursor-pointer
-                                hover:bg-brand-secondary
-                                ${open === section.label || isSectionActive ? "bg-brand-secondary text-black/100" : "text-black/70"}
+                                hover:bg-brand-secondary dark:hover:bg-white/10
+                                ${open === section.label || isSectionActive ? "bg-brand-secondary dark:bg-white/10 text-black/100 dark:text-white/90" : "text-black/70 dark:text-white/70"}
                             `}
                         >
                             <div className="flex items-center gap-3 flex-1">
@@ -202,7 +202,7 @@ export default function SidebarNav({ items, onItemClick }) {
                             {/* הצג חץ רק אם יש יותר מפריט אחד */}
                             {section.children && section.children.length > 1 && (
                                 <ChevronDown
-                                    className={`w-4 h-4 text-black/70 transition-transform
+                                    className={`w-4 h-4 text-black/70 dark:text-white/70 transition-transform
                                         ${open === section.label ? "rotate-180" : ""}
                                     `}
                                 />
@@ -211,7 +211,7 @@ export default function SidebarNav({ items, onItemClick }) {
 
                         {/* תתי פריטים - הצג רק אם יש יותר מפריט אחד */}
                         {open === section.label && section.children && section.children.length > 1 && (
-                            <div className="mt-1 space-y-1 pl-7 border-l border-black/10">
+                            <div className="mt-1 space-y-1 pl-7 border-l border-black/10 dark:border-white/10">
                                 {section.children.map(child => (
                                     <NavLink
                                         key={child.to}
@@ -224,7 +224,7 @@ export default function SidebarNav({ items, onItemClick }) {
                                         }}
                                         className={({ isActive }) =>
                                             `flex items-center justify-between py-1 text-sm transition
-                                            ${isActive ? "text-black font-medium" : "text-black/70 hover:text-black"}
+                                            ${isActive ? "text-black dark:text-white font-medium" : "text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white"}
                                             `
                                         }
                                     >

@@ -45,22 +45,22 @@ export default function WaitingForTableView({
             collisionDetection={closestCenter}
             onDragEnd={onDragEnd}
         >
-            <div className="my-10 border border-black/10 rounded-xl bg-white shadow-sm max-w-full overflow-x-auto">
+            <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface shadow-sm max-w-full overflow-x-auto">
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-black/10 bg-gray-50">
+                        <tr className="border-b border-black/10 dark:border-dark-border bg-gray-50 dark:bg-dark-bg">
                             {/* TASK */}
-                            <th className="w-1/3 p-3 pl-6 text-left text-xs font-semibold text-black/60 tracking-wider">
+                            <th className="w-1/3 p-3 pl-6 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
                                 Task
                             </th>
 
                             {/* WAITING FOR + sort + filter */}
-                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60 tracking-wider">
+                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
                                 <div className="flex items-center gap-1">
                                     <button
                                         type="button"
                                         onClick={() => onSort("waitingFor")}
-                                        className="inline-flex items-center gap-1 hover:text-black/80"
+                                        className="inline-flex items-center gap-1 hover:text-black/80 dark:hover:text-white"
                                     >
                                         <span>Waiting For</span>
                                     </button>
@@ -78,12 +78,12 @@ export default function WaitingForTableView({
                             </th>
 
                             {/* PROJECT + sort + filter */}
-                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60  tracking-wider">
+                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
                                 <div className="flex items-center gap-1">
                                     <button
                                         type="button"
                                         onClick={() => onSort("project")}
-                                        className="inline-flex items-center gap-1 hover:text-black/80"
+                                        className="inline-flex items-center gap-1 hover:text-black/80 dark:hover:text-white"
                                     >
                                         <span>Project</span>
                                     </button>
@@ -101,26 +101,26 @@ export default function WaitingForTableView({
                             </th>
 
                             {/* EXPECTED + sort */}
-                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60  tracking-wider">
+                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
                                 <button
                                     type="button"
                                     onClick={() => onSort("expected")}
-                                    className="inline-flex items-center gap-1 hover:text-black/80"
+                                    className="inline-flex items-center gap-1 hover:text-black/80 dark:hover:text-white"
                                 >
                                     <span>Expected</span>
                                     <ArrowUpDown
                                         className={
                                             "cursor-pointer w-3 h-3 " +
                                             (sortBy === "expected"
-                                                ? "text-black/80"
-                                                : "text-black/40")
+                                                ? "text-black/80 dark:text-white"
+                                                : "text-black/40 dark:text-dark-text-secondary")
                                         }
                                     />
                                 </button>
                             </th>
 
                             {/* ACTIONS */}
-                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60 tracking-wider">
+                            <th className="w-1/6 p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
                                 Actions
                             </th>
                         </tr>
@@ -134,8 +134,8 @@ export default function WaitingForTableView({
                             {sortedTasks.length === 0 ? (
                                 <tr>
                                     <td colSpan={5} className="p-6 text-center">
-                                        <h2>No items in waiting for list</h2>
-                                        <p className="text-black/50 text-sm">
+                                        <h2 className="dark:text-white">No items in waiting for list</h2>
+                                        <p className="text-black/50 dark:text-dark-text-secondary text-sm">
                                             {searchQuery
                                                 ? "No items match your search."
                                                 : "Items you're waiting on from others will appear here."}

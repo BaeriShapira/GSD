@@ -19,7 +19,7 @@ export default function AttachmentList({ attachments = [], className = "" }) {
                     target="_blank"
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-1.5 rounded-full border border-black/10 px-2.5 py-1 text-[11px] text-black/70 hover:bg-black/5 transition-colors"
+                    className="flex items-center gap-1.5 rounded-full border border-black/10 dark:border-dark-border px-2.5 py-1 text-[11px] text-black/70 dark:text-dark-text-secondary hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                 >
                     {getFileIcon(att.originalName, 12)}
                     <span className="max-w-[140px] truncate">

@@ -408,7 +408,7 @@ export default function ProcessBucketBoard() {
     const validationMessage = getValidationMessage();
 
     return (
-        <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm">
+        <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm">
             <ProcessBucketHeader
                 currentIndex={currentIndex + 1}
                 total={total}
@@ -550,7 +550,7 @@ export default function ProcessBucketBoard() {
 
 function ProcessBucketBoardState({ isLoading, isError, error, isEmpty }) {
     let message = null;
-    let className = "text-sm text-black/50";
+    let className = "text-sm text-black/50 dark:text-dark-text-secondary";
 
     if (isLoading) {
         message = "Loading items...";
@@ -562,7 +562,7 @@ function ProcessBucketBoardState({ isLoading, isError, error, isEmpty }) {
     }
 
     return (
-        <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm max-w-5xl">
+        <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm max-w-5xl">
             <div className={className}>{message}</div>
         </div>
     );

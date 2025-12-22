@@ -57,35 +57,35 @@ export default function DashboardHeader({
 
     return (
         <>
-            <div className="flex flex-col gap-1 bg-white rounded-xl border border-black/10 p-6">
+            <div className="flex flex-col gap-1 bg-white dark:bg-dark-surface rounded-xl border border-black/10 dark:border-dark-border p-6">
                 {/* Top Row: Date Navigation and View Toggle */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     {/* Date Display with Navigation */}
                     <div className="flex items-center gap-3">
                         <button
                             onClick={onPreviousDay}
-                            className="p-2 hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
                             aria-label="Previous day"
                         >
-                            <ChevronLeft className="w-5 h-5 text-brand-primary" />
+                            <ChevronLeft className="w-5 h-5 text-brand-primary dark:text-white" />
                         </button>
 
-                        <h2 className="text-2xl font-bold text-brand-primary">
+                        <h2 className="text-2xl font-bold text-brand-primary dark:text-white">
                             {format(selectedDate, "EEEE, MMMM d, yyyy")}
                         </h2>
 
                         <button
                             onClick={onNextDay}
-                            className="p-2 hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
                             aria-label="Next day"
                         >
-                            <ChevronRight className="w-5 h-5 text-brand-primary" />
+                            <ChevronRight className="w-5 h-5 text-brand-primary dark:text-white" />
                         </button>
 
                         {/* Google Calendar Icon */}
                         <button
                             onClick={() => setShowSyncModal(true)}
-                            className="p-2 hover:bg-black/5 rounded-lg transition-colors cursor-pointer ml-2"
+                            className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors cursor-pointer ml-2"
                             aria-label="Google Calendar sync"
                         >
                             <div title="Google Calendar Sync">
@@ -100,12 +100,12 @@ export default function DashboardHeader({
                     </div>
 
                     {/* View Mode Toggle */}
-                    <div className="flex gap-2 bg-black/5 rounded-lg p-1">
+                    <div className="flex gap-2 bg-black/5 dark:bg-white/10 rounded-lg p-1">
                         <button
                             onClick={() => onViewModeChange("daily")}
                             className={`px-4 py-2 rounded-md text-sm font-medium transition-all cursor-pointer ${viewMode === "daily"
-                                ? "bg-white text-brand-primary shadow-sm"
-                                : "text-black/60 hover:text-black"
+                                ? "bg-white dark:bg-dark-bg text-brand-primary dark:text-white shadow-sm"
+                                : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
                                 }`}
                         >
                             Daily
@@ -113,8 +113,8 @@ export default function DashboardHeader({
                         <button
                             onClick={() => onViewModeChange("weekly")}
                             className={`px-4 py-2 rounded-md text-sm font-medium transition-all cursor-pointer ${viewMode === "weekly"
-                                ? "bg-white text-brand-primary shadow-sm"
-                                : "text-black/60 hover:text-black"
+                                ? "bg-white dark:bg-dark-bg text-brand-primary dark:text-white shadow-sm"
+                                : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
                                 }`}
                         >
                             Weekly

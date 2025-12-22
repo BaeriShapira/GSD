@@ -28,7 +28,7 @@ export default function Bucket() {
         <section className="p-2">
             <div className="px-4">
                 <h1> Bucket </h1>
-                <p> All unprocessed stuff that landed on your desk. </p>
+                <p className="dark:text-dark-text-secondary"> All unprocessed stuff that landed on your desk. </p>
             </div>
             <QuickCaptureBoard />
 

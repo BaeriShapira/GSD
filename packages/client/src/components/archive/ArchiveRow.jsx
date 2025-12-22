@@ -28,8 +28,8 @@ const ArchiveRow = forwardRef(({
             ref={ref}
             style={style}
             className={`
-                border-b border-black/10 hover:bg-gray-50 transition-colors cursor-grab active:cursor-grabbing
-                ${isCelebrating ? 'bg-green-50' : ''}
+                border-b border-black/10 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing
+                ${isCelebrating ? 'bg-green-50 dark:bg-green-900/30' : ''}
             `}
             {...dragHandleProps}
         >
@@ -43,12 +43,12 @@ const ArchiveRow = forwardRef(({
                     )}
 
                     <div className="flex flex-col gap-1 flex-1">
-                        <h4 className="font-medium text-black/90 whitespace-pre-wrap break-words break-all">
+                        <h4 className="font-medium text-black/90 dark:text-white whitespace-pre-wrap break-words break-all">
                             {task.text}
                         </h4>
 
                         {createdAgo && (
-                            <span className="text-xs text-black/40">
+                            <span className="text-xs text-black/40 dark:text-dark-text-secondary">
                                 Created {createdAgo}
                             </span>
                         )}
@@ -58,22 +58,22 @@ const ArchiveRow = forwardRef(({
 
             {/* Project */}
             <td className="p-3 align-top">
-                <span className="text-sm text-black/70">
+                <span className="text-sm text-black/70 dark:text-dark-text-secondary">
                     {project ? (
                         project.name
                     ) : (
-                        <span className="text-black/30">—</span>
+                        <span className="text-black/30 dark:text-dark-text-secondary/50">—</span>
                     )}
                 </span>
             </td>
 
             {/* Area of Life */}
             <td className="p-3 align-top">
-                <span className="text-sm text-black/70">
+                <span className="text-sm text-black/70 dark:text-dark-text-secondary">
                     {area ? (
                         area.name
                     ) : (
-                        <span className="text-black/30">—</span>
+                        <span className="text-black/30 dark:text-dark-text-secondary/50">—</span>
                     )}
                 </span>
             </td>

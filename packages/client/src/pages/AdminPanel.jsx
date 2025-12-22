@@ -30,7 +30,7 @@ export default function AdminPanel() {
     if (loading || !user) {
         return (
             <div className="p-6">
-                <p className="text-black/60">Loading...</p>
+                <p className="text-black/60 dark:text-dark-text-secondary">Loading...</p>
             </div>
         );
     }
@@ -45,10 +45,10 @@ export default function AdminPanel() {
             {/* Header */}
             <div className="mb-6">
                 <div className="flex items-center gap-3 mb-2">
-                    <Shield size={32} className="text-black/80" />
-                    <h1 className="text-3xl font-bold text-black/80">Admin Panel</h1>
+                    <Shield size={32} className="text-black/80 dark:text-white/80" />
+                    <h1 className="text-3xl font-bold text-black/80 dark:text-white">Admin Panel</h1>
                 </div>
-                <p className="text-black/60">
+                <p className="text-black/60 dark:text-dark-text-secondary">
                     Manage users, view statistics, and send broadcast emails.
                 </p>
             </div>

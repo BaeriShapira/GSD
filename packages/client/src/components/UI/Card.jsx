@@ -11,7 +11,7 @@ export default function Card({
 
     const baseClasses = `
         rounded-xl border px-4 py-4 transition cursor-pointer
-        ${selected ? "border-black/70 bg-black/90" : "border-black/10 bg-white hover:bg-black/5 hover:border-black/40"}
+        ${selected ? "border-black/70 dark:border-white/70 bg-black/90 dark:bg-white/90" : "border-black/10 dark:border-dark-border bg-white dark:bg-dark-surface hover:bg-black/5 dark:hover:bg-white/5 hover:border-black/40 dark:hover:border-white/40"}
         ${asButton ? "flex flex-col items-start w-full text-left" : ""}
         ${className}
     `;
@@ -21,12 +21,12 @@ export default function Card({
     ) : (
         <>
             {title && (
-                <div className={`text-sm font-semibold mb-1 ${selected ? "text-white" : "text-black/80"}`}>
+                <div className={`text-sm font-semibold mb-1 ${selected ? "text-white dark:text-black" : "text-black/80 dark:text-white"}`}>
                     {title}
                 </div>
             )}
             {description && (
-                <div className={`text-xs ${selected ? "text-white/80" : "text-black/60"}`}>
+                <div className={`text-xs ${selected ? "text-white/80 dark:text-black/80" : "text-black/60 dark:text-dark-text-secondary"}`}>
                     {description}
                 </div>
             )}
