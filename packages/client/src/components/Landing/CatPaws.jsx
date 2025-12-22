@@ -2,7 +2,7 @@ import CatHandsSvg from "../../assets/Cat_hands.svg";
 
 export default function CatPaws() {
     return (
-        <div className="relative">
+        <div className="relative z-0">
             <img
                 src={CatHandsSvg}
                 alt="Cat paws"

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import LandingHeader from "../components/Landing/LandingHeader";
 import HeroSection from "../components/Landing/HeroSection";
+import GTDSection from "../components/Landing/GTDSection";
 import FeatureList from "../components/Landing/FeatureList";
 import CTAButton from "../components/Landing/CTAButton";
 import CatPaws from "../components/Landing/CatPaws";
@@ -50,10 +51,13 @@ export default function LandingPage() {
                         </a>
                     </footer>
                 </div>
-            </div>
 
-            {/* Cat Paws at the bottom */}
-            <CatPaws />
+                {/* Cat Paws */}
+                <CatPaws />
+
+                {/* GTD Section - Full width at the bottom */}
+                <GTDSection />
+            </div>
         </div>
     );
 }
