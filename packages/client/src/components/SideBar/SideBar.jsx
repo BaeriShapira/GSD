@@ -1,7 +1,6 @@
 import UserMenuButton from "./UserMenuButton";
 import SidebarLogo from "./SideBarLogo";
 import SidebarNav from "./SidebarNav";
-import ThemeToggle from "./ThemeToggle";
 import { BsBucketFill, BsFolderFill } from "react-icons/bs";
 import { PiTargetBold } from "react-icons/pi";
 import { BsLightbulbFill } from "react-icons/bs";
@@ -95,7 +94,7 @@ export default function Sidebar({ isMobileMenuOpen, onCloseMobileMenu }) {
             {/* Mobile overlay backdrop */}
             {isMobileMenuOpen && (
                 <div
-                    className="lg:hidden fixed inset-0 bg-black/50 dark:bg-black/70 z-40"
+                    className="lg:hidden fixed inset-0 bg-black/50 z-40"
                     onClick={onCloseMobileMenu}
                 />
             )}
@@ -109,40 +108,37 @@ export default function Sidebar({ isMobileMenuOpen, onCloseMobileMenu }) {
                     ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
                 `}
             >
-                <div className="flex min-h-full w-[240px] flex-col justify-between border border-black/10 dark:border-dark-border bg-white/80 dark:bg-dark-bg p-3 backdrop-blur">
+                <div className="flex min-h-full w-[240px] flex-col justify-between border border-black/10 bg-white/80 p-3 backdrop-blur">
                     <div>
                         {/* Mobile close button */}
                         <div className="lg:hidden flex justify-end mb-2">
                             <button
                                 onClick={onCloseMobileMenu}
-                                className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                 aria-label="Close menu"
                             >
-                                <X size={20} className="text-black/60 dark:text-white/70" />
+                                <X size={20} className="text-black/60" />
                             </button>
                         </div>
 
                         <SidebarLogo />
-                        <div className="mt-2 mb-6 h-px w-full bg-black/10 dark:bg-white/10" />
+                        <div className="mt-2 mb-6 h-px w-full bg-black/10" />
                         <SidebarNav items={nav} onItemClick={onCloseMobileMenu} />
 
                         {/* Admin navigation - only for user.id === 1 */}
                         {isAdmin && (
                             <>
-                                <div className="my-4 h-px w-full bg-black/10 dark:bg-white/10" />
+                                <div className="my-4 h-px w-full bg-black/10" />
                                 <SidebarNav items={adminNav} onItemClick={onCloseMobileMenu} />
                             </>
                         )}
                     </div>
 
-                    <div className="space-y-2">
-                        <ThemeToggle />
-                        <UserMenuButton
-                            name="Baeri Shapira"
-                            email="baeri@gmail.com"
-                            avatar="https://i.pravatar.cc/64?img=5"
-                        />
-                    </div>
+                    <UserMenuButton
+                        name="Baeri Shapira"
+                        email="baeri@gmail.com"
+                        avatar="https://i.pravatar.cc/64?img=5"
+                    />
                 </div>
             </aside>
         </>
