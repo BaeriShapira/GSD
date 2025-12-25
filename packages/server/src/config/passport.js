@@ -22,9 +22,10 @@ passport.use('google-login',
             clientSecret: GOOGLE_CLIENT_SECRET || "dummy",
             callbackURL: GOOGLE_CALLBACK_URL || "http://localhost:8787/api/auth/google/callback",
             scope: [
+                'openid',
                 'profile',
                 'email',
-                'https://www.googleapis.com/auth/calendar'  // Request calendar access
+                'https://www.googleapis.com/auth/calendar.events.owned'  // Request calendar access (owned events only)
             ],
             accessType: 'offline',  // Request refresh token
             prompt: 'consent'       // Force consent screen to get refresh token
@@ -66,9 +67,10 @@ passport.use('google-calendar',
             clientSecret: GOOGLE_CLIENT_SECRET || "dummy",
             callbackURL: (GOOGLE_CALLBACK_URL || "http://localhost:8787/api/auth/google/callback").replace('/callback', '/calendar/callback'),
             scope: [
+                'openid',
                 'profile',
                 'email',
-                'https://www.googleapis.com/auth/calendar'  // Request calendar access
+                'https://www.googleapis.com/auth/calendar.events.owned'  // Request calendar access (owned events only)
             ],
             accessType: 'offline',  // Request refresh token
             prompt: 'consent'       // Force consent screen to get refresh token
