@@ -85,7 +85,7 @@ export default function UpdatesModal({ isOpen, onClose }) {
                                                 className="flex items-start gap-3 text-black/80"
                                             >
                                                 <span className="mt-2 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-black/90" />
-                                                <span className="flex-1">{item}</span>
+                                                <span className="flex-1 whitespace-pre-wrap">{item}</span>
                                             </li>
                                         ))}
                                     </ul>

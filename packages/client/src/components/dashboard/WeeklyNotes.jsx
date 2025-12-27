@@ -24,6 +24,13 @@ export default function WeeklyNotes({ selectedDate }) {
         await saveNotebook({ weeklyNotes: JSON.stringify(updatedNotes) });
     };
 
+    const handleEditNote = async (noteId, newContent) => {
+        const updatedNotes = notes.map((note) =>
+            note.id === noteId ? { ...note, content: newContent } : note
+        );
+        await saveNotebook({ weeklyNotes: JSON.stringify(updatedNotes) });
+    };
+
     const handleDeleteNote = async (noteId) => {
         const updatedNotes = notes.filter((note) => note.id !== noteId);
         await saveNotebook({ weeklyNotes: JSON.stringify(updatedNotes) });
@@ -40,6 +47,7 @@ export default function WeeklyNotes({ selectedDate }) {
                 isLoading={isLoading}
                 isSaving={isSaving}
                 onSaveNote={handleSaveNote}
+                onEditNote={handleEditNote}
                 onDeleteNote={handleDeleteNote}
                 placeholder="Write a weekly note... (Press Enter to save, Shift+Enter for new line)"
                 emptyStateText="No weekly notes yet. Add your first note above!"

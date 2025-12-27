@@ -31,6 +31,7 @@ import Onboarding from "../pages/Onboarding";
 import OnboardingMobile from "../pages/OnboardingMobile";
 import WeeklyReview from "../pages/WeeklyReview";
 import AdminPanel from "../pages/AdminPanel";
+import MoneyKeeper from "../pages/MoneyKeeper";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -43,6 +44,12 @@ export const router = createBrowserRouter([
     {
         path: "/privacy",
         element: <PrivacyPolicy />,
+    },
+
+    // Money Keeper - public
+    {
+        path: "/money-keeper",
+        element: <MoneyKeeper />,
     },
 
     // מסך הלוגין – פתוח בלי הגנה

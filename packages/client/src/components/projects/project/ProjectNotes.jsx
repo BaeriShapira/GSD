@@ -73,6 +73,38 @@ export default function ProjectNotes({ project }) {
         }
     }
 
+    async function handleEditNote(noteId, newContent) {
+        setIsSaving(true);
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+                `${VITE_API_BASE_URL}/notes/${noteId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ content: newContent }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to update note");
+            }
+
+            const updatedNote = await response.json();
+            setNotes((prev) =>
+                prev.map((note) => note.id === noteId ? updatedNote : note)
+            );
+        } catch (error) {
+            console.error("Error updating note:", error);
+            alert("Failed to update note. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
     async function handleDeleteNote(noteId) {
         if (!confirm("Are you sure you want to delete this note?")) return;
 
@@ -105,6 +137,7 @@ export default function ProjectNotes({ project }) {
             isLoading={isLoading}
             isSaving={isSaving}
             onSaveNote={handleSaveNote}
+            onEditNote={handleEditNote}
             onDeleteNote={handleDeleteNote}
             placeholder="Write a new project note... (Press Enter to save, Shift+Enter for new line)"
             emptyStateText="No notes for this project yet. Add your first note above!"

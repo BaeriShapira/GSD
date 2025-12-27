@@ -14,27 +14,50 @@
 
 export const systemUpdates = [
     {
-        id: "update-2025-12-19-1",
-        date: "2025-12-19",
-        version: "1.5.0",
-        title: "Weekly Review Feature",
+        id: "update-2025-12-27-1",
+        date: "2025-12-27",
+        version: "1.6.0",
+        title: "Edit Notes Feature",
         items: [
-            `New: Weekly Review is here! 
+            `New: You can now edit your notes!
 
-            Find it under Bucket → Weekly Review.
+Simply hover over any note and click the edit icon (pencil).
 
-            This guided 5-step process will help you:
-            • Review your Someday/Maybe items
-            • Go through all your projects
-            • Brain dump everything to Bucket
-            • Process your entire Bucket
-            • Plan your week with goals and time blocks
+This works for:
+• Daily Notes
+• Weekly Notes
+• Project Notes
 
-            GSD recommends doing this once a week to keep your system clean and your mind clear.
+Tips:
+• Press Enter to save
+• Press Esc to cancel
+• Or use the ✓ and ✗ buttons
 
-            We'd love to hear your feedback! Email us at gsd.app.dev@gmail.com`,
+We'd love to hear your feedback! Email us at gsd.app.dev@gmail.com`,
         ]
     },
+    // {
+    //     id: "update-2025-12-19-1",
+    //     date: "2025-12-19",
+    //     version: "1.5.0",
+    //     title: "Weekly Review Feature",
+    //     items: [
+    //         `New: Weekly Review is here!
+
+    //         Find it under Bucket → Weekly Review.
+
+    //         This guided 5-step process will help you:
+    //         • Review your Someday/Maybe items
+    //         • Go through all your projects
+    //         • Brain dump everything to Bucket
+    //         • Process your entire Bucket
+    //         • Plan your week with goals and time blocks
+
+    //         GSD recommends doing this once a week to keep your system clean and your mind clear.
+
+    //         We'd love to hear your feedback! Email us at gsd.app.dev@gmail.com`,
+    //     ]
+    // },
     // {
     //     id: "update-2025-12-18-1",
     //     date: "2025-12-18",

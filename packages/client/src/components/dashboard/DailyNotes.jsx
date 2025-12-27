@@ -22,15 +22,22 @@ export default function DailyNotes({ selectedDate }) {
         await saveNotebook({ dailyNotes: JSON.stringify(updatedNotes) });
     };
 
+    const handleEditNote = async (noteId, newContent) => {
+        const updatedNotes = notes.map((note) =>
+            note.id === noteId ? { ...note, content: newContent } : note
+        );
+        await saveNotebook({ dailyNotes: JSON.stringify(updatedNotes) });
+    };
+
     const handleDeleteNote = async (noteId) => {
         const updatedNotes = notes.filter((note) => note.id !== noteId);
         await saveNotebook({ dailyNotes: JSON.stringify(updatedNotes) });
     };
 
     return (
-        <div className="bg-white dark:bg-dark-surface rounded-xl border border-black/10 dark:border-dark-border p-6 shadow-sm">
+        <div className="bg-white rounded-xl border border-black/10 p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-                <FaNoteSticky className="text-xl dark:text-white" />
+                <FaNoteSticky className="text-xl" />
                 <h3>Notes</h3>
             </div>
             <NotesPanel
@@ -38,6 +45,7 @@ export default function DailyNotes({ selectedDate }) {
                 isLoading={isLoading}
                 isSaving={isSaving}
                 onSaveNote={handleSaveNote}
+                onEditNote={handleEditNote}
                 onDeleteNote={handleDeleteNote}
                 placeholder="Write a daily note... (Press Enter to save, Shift+Enter for new line)"
                 emptyStateText="No daily notes yet. Add your first note above!"
