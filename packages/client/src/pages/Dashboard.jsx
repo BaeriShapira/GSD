@@ -23,8 +23,8 @@ export default function Dashboard() {
     return (
         <section className="p-2">
             <div className="px-4">
-                <h1 className="dark:text-white">Dashboard</h1>
-                <p className="dark:text-dark-text-secondary">Your daily and weekly action items at a glance.</p>
+                <h1>Dashboard</h1>
+                <p>Your daily and weekly action items at a glance.</p>
             </div>
             <DashboardBoard />
 

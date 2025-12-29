@@ -43,7 +43,10 @@
       "Bash(grep:*)",
       "Bash(npm uninstall:*)",
       "Bash(git merge:*)",
-      "Bash(cat:*)"
+      "Bash(del /F packagesserverprismaprismadev.db)",
+      "Bash(git fetch:*)",
+      "Bash(cat:*)",
+      "Bash(npm run dev:side:*)"
     ],
     "deny": [],
     "ask": []

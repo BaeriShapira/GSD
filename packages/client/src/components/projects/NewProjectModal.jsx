@@ -50,7 +50,7 @@ export default function NewProjectModal({ isOpen, onClose, onSubmit, initialProj
         >
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                         Project name
                     </label>
                     <input
@@ -64,7 +64,7 @@ export default function NewProjectModal({ isOpen, onClose, onSubmit, initialProj
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                         Ideal outcome (optional)
                     </label>
                     <textarea

@@ -1,5 +1,4 @@
 import Hero from '../components/MoneyKeeper/Hero'
-import Features from '../components/MoneyKeeper/Features'
 import SignupButton from '../components/MoneyKeeper/SignupButton'
 import MoneyKeeperLogo from '../assets/MK_LOGO_WHITE.svg'
 
@@ -17,13 +16,8 @@ function MoneyKeeper() {
         <div className="flex items-center justify-center py-12 px-6">
           <div className="max-w-4xl w-full">
             <Hero />
+            <SignupButton />
           </div>
-        </div>
-      </div>
-      <div className="py-12 px-6">
-        <div className="max-w-4xl w-full mx-auto">
-          <Features />
-          <SignupButton />
         </div>
       </div>
     </div>

@@ -81,16 +81,16 @@ export default function NewNextActionModal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-            <div className="bg-white dark:bg-dark-surface rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
                 {/* Header */}
-                <div className="sticky top-0 bg-white dark:bg-dark-surface border-b border-black/10 dark:border-dark-border p-6 flex items-center justify-between">
-                    <h2 className="dark:text-white">Add Next Action</h2>
+                <div className="sticky top-0 bg-white border-b border-black/10 p-6 flex items-center justify-between">
+                    <h2>Add Next Action</h2>
                     <button
                         onClick={handleClose}
-                        className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                        className="p-2 hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
                     >
-                        <X size={20} className="dark:text-white" />
+                        <X size={20} />
                     </button>
                 </div>
 

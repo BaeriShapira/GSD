@@ -12,9 +12,9 @@ export default function ScheduledItemsSection({
     onRemoveTask
 }) {
     return (
-        <div className="bg-white dark:bg-dark-surface rounded-xl border border-black/10 dark:border-dark-border p-6">
+        <div className="bg-white rounded-xl border border-black/10 p-6">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-brand-primary dark:text-white">
+                <h3 className="text-xl font-bold text-brand-primary">
                     Scheduled tasks for today
                 </h3>
                 <button
@@ -54,7 +54,7 @@ export default function ScheduledItemsSection({
                         );
                     })
                 ) : (
-                    <p className="text-black/40 dark:text-white/40 text-center py-8">
+                    <p className="text-black/40 text-center py-8">
                         No scheduled tasks or time blocks
                     </p>
                 )}

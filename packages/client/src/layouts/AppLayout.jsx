@@ -12,14 +12,14 @@ export default function AppLayout() {
     usePageTracking();
 
     return (
-        <div className="min-h-screen w-full bg-brand-bg dark:bg-dark-surface-medium">
+        <div className="min-h-screen w-full bg-brand-bg">
             {/* Mobile menu button */}
             <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden fixed top-4 left-4 z-40 p-2 bg-white dark:bg-dark-surface rounded-lg shadow-md border border-black/10 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
+                className="lg:hidden fixed top-4 left-4 z-40 p-2 bg-white rounded-lg shadow-md border border-black/10 hover:bg-gray-50 transition-colors"
                 aria-label="Open menu"
             >
-                <Menu size={24} className="text-black/80 dark:text-white/80" />
+                <Menu size={24} className="text-black/80" />
             </button>
 
             {/* Sidebar - desktop always visible, mobile as overlay */}

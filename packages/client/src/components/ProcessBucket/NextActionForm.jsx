@@ -1,5 +1,6 @@
 import { useContexts } from "../../hooks/useContexts";
 import { useTasks } from "../../hooks/useTasks";
+import { getTodayUTC } from "../../utils/dateUtils";
 import { Star, X } from "lucide-react";
 
 export default function NextActionForm({
@@ -200,7 +201,7 @@ export default function NextActionForm({
                                 type="date"
                                 value={scheduledDate || ""}
                                 onChange={(e) => onScheduledDateChange(e.target.value)}
-                                min={new Date().toISOString().split('T')[0]}
+                                min={getTodayUTC().toISOString().split('T')[0]}
                                 className="input flex-1"
                                 lang="en-US"
                             />

@@ -120,13 +120,13 @@ export default function BroadcastEmailForm() {
     return (
         <div className="space-y-6">
             {/* Form Section */}
-            <div className="border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm">
+            <div className="border border-black/10 rounded-xl bg-white p-6 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
-                    <Mail size={24} className="text-black/60 dark:text-white/60" />
+                    <Mail size={24} className="text-black/60" />
                     <h2>Broadcast Email</h2>
                 </div>
 
-                <p className="text-black/60 dark:text-dark-text-secondary mb-6">
+                <p className="text-black/60 mb-6">
                     Send an email to all users, selected users, or most active users. Use the test
                     button to send a preview to yourself first.
                 </p>
@@ -136,8 +136,8 @@ export default function BroadcastEmailForm() {
                     <div
                         className={`mb-4 p-4 rounded-lg ${
                             message.type === "success"
-                                ? "bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 text-green-800 dark:text-green-300"
-                                : "bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-800 dark:text-red-300"
+                                ? "bg-green-50 border border-green-200 text-green-800"
+                                : "bg-red-50 border border-red-200 text-red-800"
                         }`}
                     >
                         {message.text}
@@ -146,7 +146,7 @@ export default function BroadcastEmailForm() {
 
                 {/* Recipient Type */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-black/80 dark:text-white mb-2">
+                    <label className="block text-sm font-medium text-black/80 mb-2">
                         Send To
                     </label>
                     <div className="space-y-2">
@@ -159,7 +159,7 @@ export default function BroadcastEmailForm() {
                                 onChange={(e) => setRecipientType(e.target.value)}
                                 className="w-4 h-4"
                             />
-                            <span className="text-sm text-black/80 dark:text-white">All Users</span>
+                            <span className="text-sm text-black/80">All Users</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -170,7 +170,7 @@ export default function BroadcastEmailForm() {
                                 onChange={(e) => setRecipientType(e.target.value)}
                                 className="w-4 h-4"
                             />
-                            <span className="text-sm text-black/80 dark:text-white">Selected Users</span>
+                            <span className="text-sm text-black/80">Selected Users</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -181,26 +181,26 @@ export default function BroadcastEmailForm() {
                                 onChange={(e) => setRecipientType(e.target.value)}
                                 className="w-4 h-4"
                             />
-                            <span className="text-sm text-black/80 dark:text-white">Most Active Users</span>
+                            <span className="text-sm text-black/80">Most Active Users</span>
                         </label>
                     </div>
                 </div>
 
                 {/* Selected Users */}
                 {recipientType === "selected" && (
-                    <div className="mb-4 border border-black/10 dark:border-dark-border rounded-lg p-4 bg-black/5 dark:bg-white/5">
+                    <div className="mb-4 border border-black/10 rounded-lg p-4 bg-black/5">
                         <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-medium text-black/80 dark:text-white">
+                            <p className="text-sm font-medium text-black/80">
                                 Select Users ({selectedUserIds.length} selected)
                             </p>
                             <button
                                 onClick={handleSelectAll}
-                                className="text-sm text-purple-950 dark:text-purple-300 hover:underline"
+                                className="text-sm text-purple-950 hover:underline"
                             >
                                 {selectedUserIds.length === allUsers.length ? "Deselect All" : "Select All"}
                             </button>
                         </div>
-                        {loadingUsers && <p className="text-sm text-black/60 dark:text-dark-text-secondary">Loading users...</p>}
+                        {loadingUsers && <p className="text-sm text-black/60">Loading users...</p>}
                         {!loadingUsers && allUsers.length > 0 && (
                             <div className="max-h-60 overflow-y-auto space-y-1">
                                 {allUsers.map((user) => (
@@ -211,7 +211,7 @@ export default function BroadcastEmailForm() {
                                             onChange={() => handleUserSelect(user.id)}
                                             className="w-4 h-4"
                                         />
-                                        <span className="text-sm text-black/80 dark:text-white">
+                                        <span className="text-sm text-black/80">
                                             {user.name || "N/A"} ({user.email})
                                         </span>
                                     </label>
@@ -224,7 +224,7 @@ export default function BroadcastEmailForm() {
                 {/* Top Active Count */}
                 {recipientType === "topActive" && (
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-black/80 dark:text-white mb-2">
+                        <label className="block text-sm font-medium text-black/80 mb-2">
                             Number of Most Active Users
                         </label>
                         <input
@@ -233,14 +233,14 @@ export default function BroadcastEmailForm() {
                             max="100"
                             value={topActiveCount}
                             onChange={(e) => setTopActiveCount(parseInt(e.target.value) || 10)}
-                            className="w-full px-4 py-2 border border-black/10 dark:border-dark-border rounded-lg bg-white dark:bg-dark-bg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20"
                         />
                     </div>
                 )}
 
                 {/* Subject */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-black/80 dark:text-white mb-2">
+                    <label className="block text-sm font-medium text-black/80 mb-2">
                         Subject
                     </label>
                     <input
@@ -248,13 +248,13 @@ export default function BroadcastEmailForm() {
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}
                         placeholder="Enter email subject"
-                        className="w-full px-4 py-2 border border-black/10 dark:border-dark-border rounded-lg bg-white dark:bg-dark-bg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+                        className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20"
                     />
                 </div>
 
                 {/* HTML Content */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-black/80 dark:text-white mb-2">
+                    <label className="block text-sm font-medium text-black/80 mb-2">
                         Email Content (HTML)
                     </label>
                     <textarea
@@ -262,9 +262,9 @@ export default function BroadcastEmailForm() {
                         onChange={(e) => setHtmlContent(e.target.value)}
                         placeholder="Enter HTML content for the email"
                         rows={12}
-                        className="w-full px-4 py-2 border border-black/10 dark:border-dark-border rounded-lg bg-white dark:bg-dark-bg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 font-mono text-sm"
+                        className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20 font-mono text-sm"
                     />
-                    <p className="text-xs text-black/60 dark:text-dark-text-secondary mt-2">
+                    <p className="text-xs text-black/60 mt-2">
                         You can use HTML tags for formatting. The email will be sent as-is.
                     </p>
                 </div>

@@ -24,7 +24,7 @@ export default function WaitingFor() {
         <section className="p-2">
             <div className="px-4">
                 <h1>Waiting For</h1>
-                <p className="dark:text-dark-text-secondary">Things you're waiting on from others.</p>
+                <p>Things you're waiting on from others.</p>
             </div>
             <WaitingForBoard />
 

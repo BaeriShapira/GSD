@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import LandingHeader from "../components/Landing/LandingHeader";
 import HeroSection from "../components/Landing/HeroSection";
-import InteractiveDemo from "../components/Landing/InteractiveDemo";
 import GTDSection from "../components/Landing/GTDSection";
 import FeatureList from "../components/Landing/FeatureList";
 import CTAButton from "../components/Landing/CTAButton";
@@ -58,9 +57,6 @@ export default function LandingPage() {
 
                 {/* GTD Section - Full width at the bottom */}
                 <GTDSection />
-
-                {/* Interactive Demo - At the very bottom */}
-                <InteractiveDemo />
             </div>
         </div>
     );

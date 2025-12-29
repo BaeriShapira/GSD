@@ -8,7 +8,7 @@ export default function QuickCaptureList({
 }) {
     if (!items.length) {
         return (
-            <p className="text-sm text-black/40 dark:text-dark-text-secondary mt-2">
+            <p className="text-sm text-black/40 mt-2">
                 No captured items yet. Start typing above ✍️
             </p>
         );

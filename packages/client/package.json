@@ -21,6 +21,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.552.0",
+    "pdfjs-dist": "^5.4.449",
     "react": "^19.1.1",
     "react-big-calendar": "^1.19.4",
     "react-confetti": "^6.4.0",

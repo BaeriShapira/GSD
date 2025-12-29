@@ -32,6 +32,7 @@ import OnboardingMobile from "../pages/OnboardingMobile";
 import WeeklyReview from "../pages/WeeklyReview";
 import AdminPanel from "../pages/AdminPanel";
 import MoneyKeeper from "../pages/MoneyKeeper";
+import MoneyKeeperApp from "../pages/MoneyKeeperApp";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -46,10 +47,16 @@ export const router = createBrowserRouter([
         element: <PrivacyPolicy />,
     },
 
-    // Money Keeper - public
+    // Money Keeper Landing - public
     {
         path: "/money-keeper",
         element: <MoneyKeeper />,
+    },
+
+    // Money Keeper App - public (for now)
+    {
+        path: "/money-keeper/app",
+        element: <MoneyKeeperApp />,
     },
 
     // מסך הלוגין – פתוח בלי הגנה

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useTasks } from "../../../hooks/useTasks";
 import { useProjects } from "../../../hooks/useProjects";
+import { useFolders } from "../../../hooks/useFolders";
 import ReferenceItemCard from "../../UI/ReferenceItemCard";
 import LoadingState from "../../UI/LoadingState";
 import ErrorState from "../../UI/ErrorState";
@@ -12,6 +13,7 @@ import { Plus } from "lucide-react";
 export default function ProjectReference({ projectId }) {
     const { tasks, isLoading, isError, error, updateTask, deleteTask, createTask } = useTasks("REFERENCE");
     const { projects, isLoading: projectsLoading } = useProjects();
+    const { folders, createFolderAsync } = useFolders();
 
     // Get current project details
     const currentProject = useMemo(() => {
@@ -58,9 +60,30 @@ export default function ProjectReference({ projectId }) {
         console.log("Move reference item:", item);
     }
 
-    function handleCreateReference(referenceData) {
-        createTask({ ...referenceData, status: "REFERENCE", projectId });
-        setShowAddFileModal(false);
+    async function handleCreateReference(referenceData) {
+        try {
+            // Check if folder with project name exists
+            const projectName = currentProject?.name;
+            let projectFolder = folders.find(f => f.name === projectName);
+
+            // If folder doesn't exist, create it
+            if (!projectFolder && projectName) {
+                projectFolder = await createFolderAsync(projectName);
+            }
+
+            // Create the reference with the folder ID
+            createTask({
+                ...referenceData,
+                status: "REFERENCE",
+                projectId,
+                folderId: projectFolder?.id || null
+            });
+
+            setShowAddFileModal(false);
+        } catch (error) {
+            console.error("Failed to create reference:", error);
+            alert("Failed to create reference. Please try again.");
+        }
     }
 
     if (isLoading || projectsLoading) {

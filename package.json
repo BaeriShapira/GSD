@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "concurrently --names \"client,server\" --prefix-colors \"blue,green\" \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "npm --workspace packages/client run dev",
-    "dev:server": "npm --workspace packages/server run dev"
+    "dev:server": "npm --workspace packages/server run dev",
+    "build": "npm --workspace packages/client run build"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.8",

@@ -29,7 +29,7 @@ export default function Projects() {
             <section className="p-2">
                 <div className="px-4">
                     <h1>Projects</h1>
-                    <p className="dark:text-dark-text-secondary">Manage your multi-step outcomes and track progress.</p>
+                    <p>Manage your multi-step outcomes and track progress.</p>
                 </div>
                 <ProjectBoard />
             </section>
@@ -41,7 +41,7 @@ export default function Projects() {
         <section className="p-2">
             <div className="px-4">
                 <h1>Projects</h1>
-                <p className="dark:text-dark-text-secondary">Manage your multi-step outcomes and track progress.</p>
+                <p>Manage your multi-step outcomes and track progress.</p>
             </div>
 
             <ProjectsBoard />

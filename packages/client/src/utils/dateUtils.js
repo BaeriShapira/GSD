@@ -80,3 +80,19 @@ export function extractTime(isoString) {
 export function hasTime(isoString) {
     return extractTime(isoString) !== null;
 }
+
+/**
+ * Get today's date normalized to UTC midnight
+ * This ensures consistent "today" across all timezones
+ *
+ * @returns {Date} Today's date at UTC midnight (00:00:00.000Z)
+ *
+ * @example
+ * // User in UTC+10 at 01:00 AM local time
+ * getTodayUTC() // Returns 2025-12-29T00:00:00.000Z (not 2025-12-28)
+ */
+export function getTodayUTC() {
+    const now = new Date();
+    // Create a new date at UTC midnight for today
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+}

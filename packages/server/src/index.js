@@ -4,11 +4,16 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import passport from "./config/passport.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import { ENV } from "./config/env.js";
 import router from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { validateEnv } from "./config/validateEnv.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Validate environment variables before starting the server
 validateEnv();
@@ -72,6 +77,15 @@ app.get('/health', (req, res) => {
 
 // Serve uploaded files
 app.use("/uploads", express.static("uploads"));
+
+// Serve side-project static files (production only - in dev, Vite serves it)
+const sideProjectPath = path.join(__dirname, '../../side-project/dist');
+app.use('/side-project', express.static(sideProjectPath));
+
+// SPA fallback for side-project (must be before API routes to avoid conflicts)
+app.get('/side-project/*', (req, res) => {
+  res.sendFile(path.join(sideProjectPath, 'index.html'));
+});
 
 // API routes
 app.use("/api", router);

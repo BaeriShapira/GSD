@@ -37,14 +37,14 @@ export default function ArchiveTableView({
             collisionDetection={closestCenter}
             onDragEnd={() => { }} // No reordering needed for archive
         >
-            <div className="my-6 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface shadow-sm max-w-full overflow-x-auto">
+            <div className="my-6 border border-black/10 rounded-xl bg-white shadow-sm max-w-full overflow-x-auto">
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-black/10 dark:border-dark-border bg-gray-50 dark:bg-dark-bg">
-                            <th className="w-1/2 p-3 pl-6 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
+                        <tr className="border-b border-black/10 bg-gray-50">
+                            <th className="w-1/2 p-3 pl-6 text-left text-xs font-semibold text-black/60 tracking-wider">
                                 <span>Task</span>
                             </th>
-                            <th className="w-[20%] p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
+                            <th className="w-[20%] p-3 text-left text-xs font-semibold text-black/60  tracking-wider">
                                 <div className="flex items-center gap-1">
                                     <span>Project</span>
                                     <ColumnFilterPopover
@@ -58,7 +58,7 @@ export default function ArchiveTableView({
                                     />
                                 </div>
                             </th>
-                            <th className="w-[20%] p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
+                            <th className="w-[20%] p-3 text-left text-xs font-semibold text-black/60  tracking-wider">
                                 <div className="flex items-center gap-1">
                                     <span>Area of Life</span>
                                     <ColumnFilterPopover
@@ -72,7 +72,7 @@ export default function ArchiveTableView({
                                     />
                                 </div>
                             </th>
-                            <th className="w-[10%] p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
+                            <th className="w-[10%] p-3 text-left text-xs font-semibold text-black/60  tracking-wider">
                                 Actions
                             </th>
                         </tr>
@@ -86,8 +86,8 @@ export default function ArchiveTableView({
                             {tasks.length === 0 ? (
                                 <tr>
                                     <td colSpan={4} className="p-6 text-center">
-                                        <h2 className="dark:text-white">No archived tasks</h2>
-                                        <p className="text-black/50 dark:text-dark-text-secondary text-sm">
+                                        <h2>No archived tasks</h2>
+                                        <p className="text-black/50 text-sm">
                                             {searchQuery
                                                 ? "No tasks match your filters."
                                                 : "Completed tasks will appear here."}

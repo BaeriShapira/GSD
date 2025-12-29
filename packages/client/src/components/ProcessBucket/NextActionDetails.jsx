@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { useProjects } from "../../hooks/useProjects";
 import { useContexts } from "../../hooks/useContexts";
 import { useTasks } from "../../hooks/useTasks";
+import { getTodayUTC } from "../../utils/dateUtils";
 import { Plus, X } from "lucide-react";
 
 
@@ -233,7 +234,7 @@ export default function NextActionDetails({
                                 type="date"
                                 value={scheduledDate || ""}
                                 onChange={(e) => onScheduledDateChange(e.target.value)}
-                                min={new Date().toISOString().split('T')[0]}
+                                min={getTodayUTC().toISOString().split('T')[0]}
                                 className="input flex-1"
                                 lang="en-US"
                             />

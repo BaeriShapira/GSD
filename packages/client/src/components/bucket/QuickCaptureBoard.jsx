@@ -48,7 +48,7 @@ export default function QuickCaptureBoard() {
 
     // QuickCaptureBoard.jsx
     return (
-        <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface p-6 shadow-sm">
+        <div className="my-10 border border-black/10 rounded-xl bg-white p-6 shadow-sm">
             {/* שורה עליונה – אינפוט + כפתורים */}
             <div className="flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:gap-6">
                 {/* כאן מגבילים רוחב רק ב-lg */}
@@ -66,9 +66,9 @@ export default function QuickCaptureBoard() {
             </div>
 
             {isLoading ? (
-                <div className="text-sm text-black/50 dark:text-white/50">Loading tasks...</div>
+                <div className="text-sm text-black/50">Loading tasks...</div>
             ) : isError ? (
-                <div className="text-sm text-red-500 dark:text-red-400">
+                <div className="text-sm text-red-500">
                     Error loading tasks... {error?.message}
                 </div>
             ) : (

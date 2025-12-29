@@ -7,6 +7,7 @@ import { useContexts } from "../../hooks/useContexts";
 import { format, parseISO, startOfWeek, endOfWeek, addDays, subDays, addWeeks, subWeeks, isSameDay } from "date-fns";
 import { arrayMove } from "@dnd-kit/sortable";
 import { bulkUpdateTasksOrder } from "../../api/tasksApi";
+import { getTodayUTC } from "../../utils/dateUtils";
 import DashboardHeader from "./DashboardHeader";
 import WeeklyHeader from "./WeeklyHeader";
 import DailyView from "./DailyView";
@@ -19,7 +20,7 @@ import Modal from "../UI/Modal";
 
 export default function DashboardBoard() {
     const [viewMode, setViewMode] = useState("daily");
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(getTodayUTC());
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
     const [showAddUnscheduledModal, setShowAddUnscheduledModal] = useState(false);

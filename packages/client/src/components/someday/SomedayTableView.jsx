@@ -32,16 +32,16 @@ export default function SomedayTableView({
             collisionDetection={closestCenter}
             onDragEnd={onDragEnd}
         >
-            <div className="my-10 border border-black/10 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface shadow-sm max-w-full reltive">
+            <div className="my-10 border border-black/10 rounded-xl bg-white shadow-sm max-w-full reltive">
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-black/10 dark:border-dark-border bg-gray-50 dark:bg-dark-bg">
+                        <tr className="border-b border-black/10 bg-gray-50">
 
-                            <th className="w-1/2 p-3 pl-6 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
+                            <th className="w-1/2 p-3 pl-6 text-left text-xs font-semibold text-black/60 tracking-wider">
                                 Item
                             </th>
 
-                            <th className="w-1/10 p-3 text-left text-xs font-semibold text-black/60 dark:text-dark-text-secondary tracking-wider">
+                            <th className="w-1/10 p-3 text-left text-xs font-semibold text-black/60 tracking-wider">
                                 Actions
                             </th>
                         </tr>
@@ -55,8 +55,8 @@ export default function SomedayTableView({
                             {sortedTasks.length === 0 ? (
                                 <tr>
                                     <td colSpan={2} className="p-6 text-center">
-                                        <h2 className="dark:text-white">No someday items</h2>
-                                        <p className="text-black/50 dark:text-dark-text-secondary text-sm">
+                                        <h2>No someday items</h2>
+                                        <p className="text-black/50 text-sm">
                                             {searchQuery
                                                 ? "No items match your search."
                                                 : "Items marked as 'Someday' will appear here."}

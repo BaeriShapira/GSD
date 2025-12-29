@@ -25,7 +25,7 @@ export default function ProcessBucket() {
         <section className="p-2">
             <div className="px-4">
                 <h1> Process bucket  </h1>
-                <p className="dark:text-dark-text-secondary"> Decide, for each item, whether it's actionable. If yes – define the next action. </p>
+                <p> Decide, for each item, whether it's actionable. If yes – define the next action. </p>
             </div>
             <ProcessBucketBoard />
 

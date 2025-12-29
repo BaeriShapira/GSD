@@ -14,12 +14,49 @@
 
 export const systemUpdates = [
     {
+        id: "update-2025-12-29-1",
+        date: "2025-12-29",
+        version: "1.7.0",
+        title: "Bug Fixes & Improvements",
+        items: [
+            `Fixed: Timezone issues when adding tasks
+
+• Tasks now correctly show "today" regardless of your timezone
+• Users in different time zones (like Australia, Asia, etc.) will no longer see tasks added to yesterday
+• The system now uses UTC midnight consistently across all timezones
+
+---
+
+Fixed: Missing text input in Someday modals
+
+• You can now properly enter and edit Someday item text
+• Fixed both "New Someday" and "Edit Someday" modals
+
+---
+
+Improved: Next Actions table
+
+• Added sort indicator (arrows) for Urgency column
+• Now consistent with other sortable columns
+
+---
+
+New: Auto-create Reference folders for Projects
+
+• When adding a Reference item from a Project, a folder with the project name is automatically created in the Reference page
+• All project references are now organized in their respective folders
+• Makes it easier to find project-related materials
+
+We'd love to hear your feedback! Email us at gsd.app.dev@gmail.com`,
+        ]
+    },
+    {
         id: "update-2025-12-27-1",
         date: "2025-12-27",
         version: "1.6.0",
         title: "Edit Notes Feature",
         items: [
-            `New: You can now edit your notes!
+            `New: You can now edit your notes
 
 Simply hover over any note and click the edit icon (pencil).
 
@@ -28,10 +65,6 @@ This works for:
 • Weekly Notes
 • Project Notes
 
-Tips:
-• Press Enter to save
-• Press Esc to cancel
-• Or use the ✓ and ✗ buttons
 
 We'd love to hear your feedback! Email us at gsd.app.dev@gmail.com`,
         ]
