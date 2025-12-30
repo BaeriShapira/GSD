@@ -49,7 +49,7 @@ export default function WeeklyNotes({ selectedDate }) {
                 onSaveNote={handleSaveNote}
                 onEditNote={handleEditNote}
                 onDeleteNote={handleDeleteNote}
-                placeholder="Write a weekly note... (Press Enter to save, Shift+Enter for new line)"
+                placeholder="Write a weekly note... (Press Ctrl+Enter to save)"
                 emptyStateText="No weekly notes yet. Add your first note above!"
             />
         </div>

@@ -9,6 +9,7 @@ import {
     updateUserGoogleInfo,
     updateUserGoogleTokens,
     linkGoogleAccountToUser,
+    updateLastLogin,
 } from "../repositories/userRepository.js";
 import { createDefaultAreas } from "../repositories/areaRepository.js";
 import { ensureDefaultContextsExist } from "../repositories/contextRepository.js";
@@ -58,6 +59,9 @@ export async function loginUser(email, password) {
 
     // Email verification check removed - allow login immediately
 
+    // Update last login timestamp
+    await updateLastLogin(user.id);
+
     const token = jwt.sign(
         { userId: user.id },
         ENV.JWT_SECRET,
@@ -81,6 +85,9 @@ export async function findOrCreateGoogleUser({ googleId, email, displayName, ava
         if (accessToken || refreshToken) {
             await saveGoogleTokens(user.id, { accessToken, refreshToken, expiryDate });
         }
+
+        // Update last login timestamp
+        await updateLastLogin(user.id);
 
         return user;
     }

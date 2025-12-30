@@ -86,6 +86,7 @@ export const getAllUsers = async (req, res) => {
                 email: true,
                 displayName: true,
                 createdAt: true,
+                lastLogin: true,
             },
             orderBy: {
                 createdAt: "desc",
@@ -98,6 +99,7 @@ export const getAllUsers = async (req, res) => {
             email: user.email,
             name: user.displayName,
             createdAt: user.createdAt,
+            lastLogin: user.lastLogin,
         }));
 
         res.json(formattedUsers);

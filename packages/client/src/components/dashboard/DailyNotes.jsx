@@ -47,7 +47,7 @@ export default function DailyNotes({ selectedDate }) {
                 onSaveNote={handleSaveNote}
                 onEditNote={handleEditNote}
                 onDeleteNote={handleDeleteNote}
-                placeholder="Write a daily note... (Press Enter to save, Shift+Enter for new line)"
+                placeholder="Write a daily note... (Press Ctrl+Enter to save)"
                 emptyStateText="No daily notes yet. Add your first note above!"
             />
         </div>

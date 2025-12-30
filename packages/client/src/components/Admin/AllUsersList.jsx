@@ -52,6 +52,7 @@ export default function AllUsersList() {
                                 <th className="text-left py-3 px-4 text-sm font-medium text-black/60">Name</th>
                                 <th className="text-left py-3 px-4 text-sm font-medium text-black/60">Email</th>
                                 <th className="text-left py-3 px-4 text-sm font-medium text-black/60">Created At</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-black/60">Last Login</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,6 +63,17 @@ export default function AllUsersList() {
                                     <td className="py-3 px-4 text-sm text-black/60">{user.email}</td>
                                     <td className="py-3 px-4 text-sm text-black/60">
                                         {new Date(user.createdAt).toLocaleDateString()}
+                                    </td>
+                                    <td className="py-3 px-4 text-sm text-black/60">
+                                        {user.lastLogin
+                                            ? new Date(user.lastLogin).toLocaleString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })
+                                            : "Never"}
                                     </td>
                                 </tr>
                             ))}

@@ -93,3 +93,10 @@ export async function updateUserTutorialStatus(userId, tutorialName) {
         data: { [fieldName]: true },
     });
 }
+
+export async function updateLastLogin(userId) {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { lastLogin: new Date() },
+    });
+}

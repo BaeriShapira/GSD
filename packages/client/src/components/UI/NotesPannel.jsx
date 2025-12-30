@@ -38,7 +38,7 @@ export default function NotesPanel({
     onSaveNote,
     onEditNote,
     onDeleteNote,
-    placeholder = "Write a new note... (Press Enter to save, Shift+Enter for new line)",
+    placeholder = "Write a new note... (Press Ctrl+Enter to save)",
     emptyStateText = "No notes yet. Add your first note above!",
 }) {
     const [newNote, setNewNote] = useState("");
@@ -54,7 +54,7 @@ export default function NotesPanel({
     }
 
     function handleKeyDown(e) {
-        if (e.key === "Enter" && !e.shiftKey) {
+        if (e.key === "Enter" && e.ctrlKey) {
             e.preventDefault();
             handleSubmit(e);
         }
@@ -79,7 +79,7 @@ export default function NotesPanel({
     }
 
     function handleEditKeyDown(e, noteId) {
-        if (e.key === "Enter" && !e.shiftKey) {
+        if (e.key === "Enter" && e.ctrlKey) {
             e.preventDefault();
             handleSaveEdit(noteId);
         } else if (e.key === "Escape") {
@@ -115,7 +115,7 @@ export default function NotesPanel({
                     className="cursor-pointer absolute bottom-3 right-3 p-2 rounded-lg bg-black text-white
                                hover:bg-black/80 disabled:opacity-40 disabled:cursor-not-allowed
                                transition-colors"
-                    title="Save note (Enter)"
+                    title="Save note (Ctrl+Enter)"
                 >
                     <Send size={16} />
                 </button>
@@ -158,7 +158,7 @@ export default function NotesPanel({
                                             disabled={!editContent.trim()}
                                             className="cursor-pointer p-2 rounded bg-black text-white hover:bg-black/80
                                                        disabled:opacity-40 disabled:cursor-not-allowed"
-                                            title="Save (Enter)"
+                                            title="Save (Ctrl+Enter)"
                                         >
                                             <Check size={16} />
                                         </button>

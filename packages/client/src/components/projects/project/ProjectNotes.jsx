@@ -139,7 +139,7 @@ export default function ProjectNotes({ project }) {
             onSaveNote={handleSaveNote}
             onEditNote={handleEditNote}
             onDeleteNote={handleDeleteNote}
-            placeholder="Write a new project note... (Press Enter to save, Shift+Enter for new line)"
+            placeholder="Write a new project note... (Press Ctrl+Enter to save)"
             emptyStateText="No notes for this project yet. Add your first note above!"
         />
     );
