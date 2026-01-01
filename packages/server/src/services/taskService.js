@@ -36,7 +36,7 @@ export async function addUserTask(userId, taskData, files = []) {
         storedName: file.filename,
         mimeType: file.mimetype,
         size: file.size,
-        url: `${ENV.SERVER_BASE_URL}/uploads/tasks/${file.filename}`,
+        url: `/uploads/tasks/${file.filename}`,
     }));
 
     // 👈 בשלב הבא נעביר את attachmentsData ל־repository
@@ -63,7 +63,7 @@ export async function editUserTask(userId, taskId, updates, files = []) {
         storedName: file.filename,
         mimeType: file.mimetype,
         size: file.size,
-        url: `${ENV.SERVER_BASE_URL}/uploads/tasks/${file.filename}`,
+        url: `/uploads/tasks/${file.filename}`,
     }));
 
     const updated = await updateTaskForUser(userId, taskId, updates, attachmentsData);
