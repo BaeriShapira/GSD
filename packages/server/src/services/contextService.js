@@ -9,7 +9,11 @@ import {
 } from "../repositories/contextRepository.js";
 
 const VALID_TYPES = ["tool", "location"];
-const VALID_ICONS = ["phone", "whatsapp", "email", "home", "printer", "office", "shopping", "settings", "tools", "chair", "lamp"];
+const VALID_ICONS = [
+    "phone", "whatsapp", "email", "home", "printer", "office",
+    "shopping", "settings", "tools", "chair", "lamp",
+    "car", "laptop", "star", "list", "crown", "triangle", "alert"
+];
 
 /**
  * Get all contexts for a user
