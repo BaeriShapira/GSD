@@ -10,22 +10,26 @@ export default function AttachmentList({ attachments = [], className = "" }) {
         return null;
     }
 
+    const handleClick = (e, url) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // Open in new tab using window.open to avoid React Router
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
     return (
         <div className={`flex flex-wrap gap-2 ${className}`}>
             {attachments.map(att => (
-                <a
+                <button
                     key={att.id || att.url}
-                    href={att.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-1.5 rounded-full border border-black/10 px-2.5 py-1 text-[11px] text-black/70 hover:bg-black/5 transition-colors"
+                    onClick={(e) => handleClick(e, att.url)}
+                    className="flex items-center gap-1.5 rounded-full border border-black/10 px-2.5 py-1 text-[11px] text-black/70 hover:bg-black/5 transition-colors cursor-pointer"
                 >
                     {getFileIcon(att.originalName, 12)}
                     <span className="max-w-[140px] truncate">
                         {att.originalName || "Attachment"}
                     </span>
-                </a>
+                </button>
             ))}
         </div>
     );
