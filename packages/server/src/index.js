@@ -76,7 +76,8 @@ app.get('/health', (req, res) => {
 });
 
 // Serve uploaded files
-app.use("/uploads", express.static("uploads"));
+const uploadsPath = path.join(__dirname, "../../uploads");
+app.use("/uploads", express.static(uploadsPath));
 
 // Serve side-project static files (production only - in dev, Vite serves it)
 const sideProjectPath = path.join(__dirname, '../../side-project/dist');

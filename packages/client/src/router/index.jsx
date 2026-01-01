@@ -33,6 +33,7 @@ import WeeklyReview from "../pages/WeeklyReview";
 import AdminPanel from "../pages/AdminPanel";
 import MoneyKeeper from "../pages/MoneyKeeper";
 import MoneyKeeperApp from "../pages/MoneyKeeperApp";
+import Playground from "../pages/Playground";
 
 export const router = createBrowserRouter([
     // Landing page - public
@@ -130,6 +131,8 @@ export const router = createBrowserRouter([
                             { path: "settings", element: <Settings /> },
                             { path: "weekly_review", element: <WeeklyReview /> },
                             { path: "admin", element: <AdminPanel /> },
+                            // DEV only route
+                            ...(import.meta.env.DEV ? [{ path: "playground", element: <Playground /> }] : []),
                         ],
                     },
                     // Mobile routes with MobileLayout (no sidebar, no header)
